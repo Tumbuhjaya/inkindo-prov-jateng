@@ -1,7 +1,4 @@
-var root ="http://survplus.id:8915"
-var root2 = "http://147.139.167.33:8848"
-// var root ="https://sijali.semarangkota.go.id/"
-// var root2 ="https://sijali.semarangkota.go.id/"
+var root ="http://survplus.id:8936"
    String.prototype.replaceAll = function(search, replacement) {
        var target = this;
        return target.split(search).join(replacement);

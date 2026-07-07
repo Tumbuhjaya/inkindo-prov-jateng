@@ -40,6 +40,7 @@ var manajemen_users = require('./isine/manajemen_users.js');
 var api = require('./isine/api.js');
 var user = require('./isine/user.js');
 var anggota = require('./isine/anggota.js');
+var master = require('./isine/master.js');
 
 var app = express();
 var connection = require('./database/index.js').connection;
@@ -106,9 +107,11 @@ app.use('/manajemen_basic', manajemen_basic);
 app.use('/manajemen_users', manajemen_users);
 
 // API
+app.use('/api', api);
 app.use('/user', user);
 app.use('/anggota', anggota);
-app.use('/api', api);
+app.use('/master', master);
+
 
 app.get('/backoffice', cek_login_all,async function (req, res) {
   res.render('content-backoffice/index',{user:req.user[0], });
@@ -127,8 +130,6 @@ app.use(function (req, res, next) {
   res.render('page_not_found');
 })
   
-
-
 // Pastikan baris ini ada di paling bawah file Anda
 server.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
