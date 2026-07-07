@@ -39,6 +39,7 @@ var manajemen_users = require('./isine/manajemen_users.js');
 // API
 var api = require('./isine/api.js');
 var user = require('./isine/user.js');
+var anggota = require('./isine/anggota.js');
 
 var app = express();
 var connection = require('./database/index.js').connection;
@@ -106,6 +107,7 @@ app.use('/manajemen_users', manajemen_users);
 
 // API
 app.use('/user', user);
+app.use('/anggota', anggota);
 app.use('/api', api);
 
 app.get('/backoffice', cek_login_all,async function (req, res) {
