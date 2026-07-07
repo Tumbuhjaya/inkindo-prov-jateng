@@ -18,6 +18,7 @@
             <div class="card">
               <div class="card-header">
                 <a href="/anggota/insert" class="btn btn-primary custom-btn-card-header"><i class="fas fa-plus"></i> Tambah Data</a>
+                <button class="btn btn-success custom-btn-card-header" data-toggle="modal" data-target=".modal-import-excel"><i class="fas fa-file-excel"></i> Import Excel</button>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -29,7 +30,8 @@
                       <th class="header">Nama Perusahaan</th>
                       <th class="header">Penanggung Jawab</th>
                       <th class="header">Kota</th>
-                      <th class="header">Status</th>
+                      <th class="header">Kode Etik</th>
+                      <th class="header">Tahun Masuk</th>
                       <th class="header">Option</th>
                     </tr>
                   </thead>
@@ -55,6 +57,33 @@
     </div>
   </footer>
 <% include ../../template-backoffice/footer.ejs %>
+
+<!-- Modal Import Excel -->
+<div class="modal fade modal-import-excel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Import Data Anggota dari Excel</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formImportExcel" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="file_excel">File Excel (.xlsx)</label>
+            <input type="file" class="form-control" id="file_excel" name="file_excel" accept=".xlsx, .xls" required>
+            <small class="form-text text-muted">Pastikan file Excel memiliki format yang sesuai dengan template.</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onclick="submitImportExcel()">Import</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
     var rooturl = ''
@@ -83,7 +112,8 @@
         { "data": "nama_perusahaan"},
         { "data": "penanggung_jawab"},
         { "data": "kota"},
-        { "data": "status_keanggotaan"},
+        { "data": "kode_etik"},
+        { "data": "tahun_masuk"},
         { "data": "id",render: function(data){
           let a = ''
           if (data) {
@@ -98,7 +128,7 @@
       ],
       "columnDefs": [
         { "width": "40px", "targets": 0},
-        { "width": "160px", "targets": 6}
+        { "width": "160px", "targets": 7}
       ],
     });
 
@@ -123,6 +153,48 @@
           swal({title:text_delete.title,text:text_delete.text, icon: text_delete.icon, type:text_delete.type})
           data_table.ajax.url(rooturl+"/anggota/list").load();
         })
+      }
+    }
+
+    async function submitImportExcel() {
+      const fileInput = $('#file_excel')[0];
+
+      if (!fileInput.files || !fileInput.files[0]) {
+        swal({title:"Error",text:"Pilih file Excel terlebih dahulu", icon:"error", type:"error"});
+        return;
+      }
+
+      const willImport = await swal({
+        title: "Import Data",
+        text: "Apakah anda akan import data dari Excel? Data yang sudah ada akan diupdate.",
+        icon: "warning",
+        dangerMode: true,
+        buttons: ["Tidak", "Ya"],
+      });
+
+      if (willImport) {
+        let formData = new FormData();
+        formData.append('file_excel', fileInput.files[0]);
+
+        $.ajax({
+          type: 'POST',
+          enctype: 'multipart/form-data',
+          url: rooturl + '/anggota/import',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            $('.modal-import-excel').modal('hide');
+            $('#formImportExcel')[0].reset();
+            swal({title:data.status == 200 ? "Sukses" : "Error", text:data.message, icon:data.status == 200 ? "success" : "error", type:data.status == 200 ? "success" : "error"});
+            if (data.status == 200) {
+              data_table.ajax.url(rooturl+"/anggota/list").load();
+            }
+          },
+          error: function(data) {
+            swal({title:"Error", text:"Terjadi kesalahan saat import data", icon:"error", type:"error"});
+          }
+        });
       }
     }
 </script>

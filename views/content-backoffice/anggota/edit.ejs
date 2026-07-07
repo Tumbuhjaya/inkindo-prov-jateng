@@ -39,7 +39,7 @@
             if (anggota[i]) {
               $('#lihat_'+i).append(`<a href="${rooturl}/foto/${anggota[i]}" target="_blank">Lihat Foto</a>`)
             }
-          }else if(i=='status_keanggotaan' || i=='disyahkan' || i=='kode_etik' || i=='memiliki_sertifikat_kode_etik' || i=='kta_2020' || i=='kualifikasi'){
+          }else if(i=='status_keanggotaan' || i=='disyahkan' || i=='kode_etik' || i=='memiliki_sertifikat_kode_etik' || i=='kta_2020' || i=='kualifikasi' || i=='tahun_masuk'){
             $('#'+i).val(anggota[i]).select2()
           }else{
             $('#'+i).val(anggota[i])
@@ -62,7 +62,7 @@
       $('#button_submit').append('<button class="btn btn-primary btn-embossed" disabled>Simpan</button>')
       let formData = new FormData();
       // nama kolom db
-      let arr = ['no_anggota', 'nama_perusahaan', 'penanggung_jawab', 'gelar_pjbu', 'tanggal_lahir', 'alamat', 'kota', 'kode_kota', 'korwil', 'telepon', 'fax', 'nomor_hp_pjbu', 'email_kta', 'status_keanggotaan', 'disyahkan', 'kode_etik', 'yang_hadir', 'di_undang', 'pelantikan', 'no_sertifikat', 'waktu_penataran', 'memiliki_sertifikat_kode_etik', 'kta_2020', 'kualifikasi', 'jumlah_tunggakan', 'ket_tunggakan', 'foto']
+      let arr = ['no_anggota', 'nama_perusahaan', 'penanggung_jawab', 'gelar_pjbu', 'tanggal_lahir', 'alamat', 'kota', 'kode_kota', 'korwil', 'telepon', 'fax', 'nomor_hp_pjbu', 'email_kta', 'status_keanggotaan', 'disyahkan', 'kode_etik', 'tahun_masuk', 'yang_hadir', 'di_undang', 'pelantikan', 'no_sertifikat', 'waktu_penataran', 'memiliki_sertifikat_kode_etik', 'kta_2020', 'kualifikasi', 'jumlah_tunggakan', 'ket_tunggakan', 'foto']
 
       formData.append('id', anggota.id);
 
