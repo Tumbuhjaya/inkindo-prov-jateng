@@ -6,8 +6,9 @@
         <div class="section-header">
           <h1>Data Master Retribusi</h1>
           <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-            <div class="breadcrumb-item">Data</div>
+            <div class="breadcrumb-item active"><a href="/backoffice">Dashboard</a></div>
+            <div class="breadcrumb-item">Master</div>
+            <div class="breadcrumb-item">Retribusi</div>
           </div>
         </div>
       </div>
@@ -21,30 +22,21 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table table-bordered" id="list-data">
-                    <thead>                                 
-                      <tr>
-                        <th class="text-center">No.</th>
-                        <th>Kualifikasi</th>
-                        <th>Retribusi</th>
-                        <th>Option</th>
-                      </tr>
-                    </thead>
-                    <tbody>                                 
-                      <tr>
-                        <td class="text-center">1.</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>
-                          <div class="w-100-flex" style="justify-content: center;">
-                            <ul class="list-inline mb-0">
-                              <li class="list-inline-item"><a href="/master/retribusi/edit/1" class="btn btn-warning"><i class="fas fa-edit"></i></a></li>
-                              <li class="list-inline-item"><button class=" btn btn-danger"><i class="fas fa-trash"></i></button></li>
-                            </ul> 
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
+                  <table class="table table-bordered table-striped table-hover" id="list-data">
+                    <thead>
+                    <tr>
+                      <th class="header">No.</th>
+                      <th class="header">Nama Retribusi</th>
+                      <th class="header">Jumlah</th>
+                      <th class="header">Periode</th>
+                      <th class="header">Status</th>
+                      <th class="header">Option</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                  </tbody>
                   </table>
                 </div>
               </div>
@@ -84,30 +76,33 @@
           }
       },
       "processing": true,
-      // "ajax":  `${rooturl}/api_basic/list`,
-      // "columns": [
-      //   { "data": null},
-      //   { "data": null},
-      //   { "data": null,render: function(data){
-      //     let a = ''
-      //           if (data) {
-      //             a = `
-      //             <ul class="list-inline mb-0">
-      //               <li class="list-inline-item"><a href="${rooturl}/manajemen_basic/edit/${data}" class="btn btn-warning"><i class="fas fa-edit"></i></a></li>
-      //               <li class="list-inline-item"><button onclick="hapus(${data})" class="btn btn-danger"><i class="fa fa-trash"></i></button></li>
-      //             </ul></ul>`
-      //           }
-      //           return `<td><center>${a}</center></td>`
-      //   }},
-      // ],
+      "ajax":  `${rooturl}/master/retribusi/list`,
+      "columns": [
+        { "data": null},
+        { "data": "nama_retribusi"},
+        { "data": "jumlah"},
+        { "data": "periode"},
+        { "data": "status"},
+        { "data": "id",render: function(data){
+          let a = ''
+          if (data) {
+            a = `
+                <ul class="list-inline mb-0" style="text-align:center">
+                  <li class="list-inline-item"><a href="${rooturl}/master/retribusi/edit/${data}" class="btn btn-warning"><i class="fas fa-edit"></i></a></li>
+                  <li class="list-inline-item"><button  onclick="hapus(${data})"  class="btn btn-danger"><i class="fa fa-trash"></i></button></li>
+                </ul>`
+          }
+          return `<td><center>${a}</center></td>`
+        }},
+      ],
       "columnDefs": [
-        { "width": "30px", "targets": 0},
-        { "width": "100px", "targets": 3}
+        { "width": "40px", "targets": 0},
+        { "width": "160px", "targets": 5}
       ],
     });
 
     data_table.on( 'draw.dt', function () {
-      let PageInfo = $('#data').DataTable().page.info();
+      let PageInfo = $('#list-data').DataTable().page.info();
       data_table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
         cell.innerHTML = i + 1 + PageInfo.start;
       });
@@ -121,9 +116,9 @@
         dangerMode: true,
         buttons: ["Tidak", "Ya"],
       });
-            
+
       if ( willDelete) {
-        $.get(rooturl+"/manajemen_basic/hapus/"+id).then(function (hsl) {
+        $.get(rooturl+"/master/retribusi/hapus/"+id).then(function (hsl) {
           swal({title:text_delete.title,text:text_delete.text, icon: text_delete.icon, type:text_delete.type})
           data_table.ajax.url(rooturl+"/master/retribusi/list").load();
         })
