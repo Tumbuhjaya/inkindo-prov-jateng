@@ -21,7 +21,7 @@ var email = require('./helpper/email.js').email;
 
 var rooturl = ''
 var login = require('./isine/login.js').router;
-var peta = require('./isine/topojson.js');
+var peta = require('./isine/topojson_.js');
 var upload = require('./isine/upload_file.js');
 // var upload_shp = require('./isine/upload_shp.js');
 var fn = require('./isine/ckeditor-upload-image.js');

@@ -11,7 +11,17 @@
           <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
             <div class="card">
               <div class="card-header">
-
+                <div class="card-title">
+                  <h4>Peta Anggota INKINDO Jawa Tengah</h4>
+                </div>
+                <div class="card-tools">
+                  <button id="toggleLabels" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-tag"></i> Toggle Labels
+                  </button>
+                  <button id="resetView" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-sync"></i> Reset View
+                  </button>
+                </div>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -36,6 +46,61 @@
     </div>
   </footer>
 <% include ../template-backoffice/footer.ejs %>
+
+<style>
+  .city-label {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #333;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .leaflet-tooltip-left.city-label::before {
+    border-left-color: #333;
+  }
+
+  .leaflet-tooltip-right.city-label::before {
+    border-right-color: #333;
+  }
+
+  .leaflet-tooltip-top.city-label::before {
+    border-top-color: #333;
+  }
+
+  .leaflet-tooltip-bottom.city-label::before {
+    border-bottom-color: #333;
+  }
+
+  /* Custom scrollbar untuk popup */
+  .leaflet-popup-content {
+    max-height: 400px !important;
+    overflow-y: auto;
+  }
+
+  .leaflet-popup-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .leaflet-popup-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .leaflet-popup-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  .leaflet-popup-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+</style>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -140,6 +205,7 @@ $(document).ready(function() {
   var inovasi = new L.TopoJSON();
   var inovasi_markers = L.markerClusterGroup();
   var popup = new L.popup();
+  var cityLabels = []; // Array untuk menyimpan referensi ke label kota
 
   // Fungsi untuk load GeoJSON inovasi
   function loadGeoJsoninovasi(data) {
@@ -185,6 +251,22 @@ $(document).ready(function() {
     }
   }
 
+  // Fungsi untuk generate warna berdasarkan string (kdpkab)
+  function getColorFromString(str) {
+    // Buat hash dari string
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    // Generate warna HSL yang pleasant
+    const hue = Math.abs(hash % 360);
+    const saturation = 60 + (Math.abs(hash >> 8) % 20); // 60-80% untuk tidak terlalu saturated
+    const lightness = 45 + (Math.abs(hash >> 16) % 15); // 45-60% untuk good contrast
+
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  }
+
   // Fungsi untuk load GeoJSON jateng_kemendagri
   function loadGeoJsonjateng_kemendagri(data) {
     try {
@@ -197,26 +279,40 @@ $(document).ready(function() {
       jateng_kemendagri_layer.addData(data);
       jateng_kemendagri_layer.addTo(map);
 
-      var style_jateng = {
-        color: "#0066cc",
-        weight: 2,
-        opacity: 0.8,
-        fillColor: "#0066cc",
-        fillOpacity: 0.1
-      };
-
       jateng_kemendagri_layer.eachLayer(function (layer) {
         try {
+          // Generate warna unik berdasarkan kdpkab
+          var kdpkab = layer.feature.properties.kdpkab;
+          var cityColor = getColorFromString(kdpkab || 'unknown');
+
+          var style_jateng = {
+            color: cityColor,
+            weight: 2,
+            opacity: 0.8,
+            fillColor: cityColor,
+            fillOpacity: 0.3
+          };
+
           layer.setStyle(style_jateng);
+
+          // Simpan warna asli untuk reset saat mouseout
+          layer.originalStyle = {
+            color: cityColor,
+            weight: 2,
+            opacity: 0.8,
+            fillColor: cityColor,
+            fillOpacity: 0.3
+          };
 
           // Event listener untuk hover
           layer.on('mouseover', function (e) {
             try {
+              var currentStyle = layer.options;
               this.setStyle({
-                weight: 3,
+                weight: 4,
                 color: "#ff6600",
                 fillColor: "#ff6600",
-                fillOpacity: 0.3
+                fillOpacity: 0.5
               });
 
               // Ambil data anggota berdasarkan kdpkab
@@ -278,8 +374,33 @@ $(document).ready(function() {
 
           // Event listener untuk mouseout (reset style)
           layer.on('mouseout', function (e) {
-            this.setStyle(style_jateng);
+            if (this.originalStyle) {
+              this.setStyle(this.originalStyle);
+            }
           });
+
+          // Tambahkan label nama kota di tengah polygon
+          if (layer.feature.properties && layer.feature.properties.wadmkk) {
+            var center = layer.getBounds().getCenter();
+            var cityName = layer.feature.properties.wadmkk;
+
+            var cityLabel = L.tooltip({
+              permanent: true,
+              direction: 'center',
+              className: 'city-label',
+              opacity: 0.8
+            });
+
+            cityLabel.setContent(cityName);
+            cityLabel.setLatLng(center);
+            cityLabel.addTo(map);
+
+            // Simpan referensi ke label untuk toggle function
+            cityLabels.push({
+              label: cityLabel,
+              layer: layer
+            });
+          }
 
           // Event listener untuk click
           layer.on('click', function (e) {
@@ -372,8 +493,8 @@ $(document).ready(function() {
   get_peta();
 
   // Load data jateng_kemendagri setelah map siap
-  setTimeout(loadJatengKemendagri, 1000);
-
+  // setTimeout(loadJatengKemendagri, 1000);
+loadJatengKemendagri()
   // Base layers - hanya tambahkan layer yang tidak null
   var baseLayers = {
     "Open Street Map": osm,
@@ -457,6 +578,32 @@ $(document).ready(function() {
   } catch(e) {
     console.log("Locate control not available:", e.message);
   }
+
+  // Kontrol untuk toggle labels
+  var labelsVisible = true;
+
+  $('#toggleLabels').click(function() {
+    labelsVisible = !labelsVisible;
+
+    // Toggle visibility untuk semua label kota
+    cityLabels.forEach(function(cityData) {
+      if (labelsVisible) {
+        cityData.label.setOpacity(0.8);
+      } else {
+        cityData.label.setOpacity(0);
+      }
+    });
+
+    // Update button text
+    $(this).html(labelsVisible ?
+      '<i class="fas fa-tag"></i> Hide Labels' :
+      '<i class="fas fa-tag"></i> Show Labels');
+  });
+
+  // Kontrol untuk reset view
+  $('#resetView').click(function() {
+    map.setView([-6.966667, 110.416664], 8);
+  });
 
 });
 </script>

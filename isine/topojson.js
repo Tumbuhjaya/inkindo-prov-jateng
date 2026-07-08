@@ -667,37 +667,68 @@ if (err) throw err;
 
   //connection.end();
 })
-router.get('/json_wadmkk',async function (req, res) {
-  let str = ``
+router.get('/json_wadmkk', function (req, res) {
+  let str = ''
   let val = []
   if (req.query.id_wadmkk) {
     str += ' and id_wadmkk=?'
     val.push(req.query.id_wadmkk)
   }
-  console.log(str);
-  
-  let rows =  await sql_enak.raw(`SELECT a.*,asWkt(a.SHAPE) as geometry FROM jateng_kemendagri a where  deleted = 0 `+str,val)
-  dbgeo.parse({
-    "data": rows[0],
-    "outputFormat": "geojson",
-    "geometryColumn": "geometry",
-    "geometryType": "wkt"
-  }, function (error, result) {
-    if (error) {
-      return console.log(error);
-    }
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader(
-      'Content-Disposition',
-      'attachment; filename="data.geojson"'
-    );
+  console.log('Fetching wadmkk data...');
 
-    // Mengirimkan JSON sebagai file yang dapat diunduh
-    res.send(JSON.stringify(result, null, 2));
+  connection.query({
+    sql: `SELECT a.*,asWkt(a.SHAPE) as geometry FROM jateng_kemendagri a where deleted = 0 ` + str,
+    values: val,
+    timeout: 60000
+  }, function (err, rows, fields) {
+    if (err) {
+      console.log('Database query error:', err);
+      return res.status(500).json({
+        status: 500,
+        message: "Database query error",
+        error: err.message
+      });
+    }
+
+    if (!rows || rows.length === 0) {
+      console.log('No wadmkk data found');
+      return res.status(404).json({
+        status: 404,
+        message: "No data found"
+      });
+    }
+
+    console.log('Found ' + rows.length + ' wadmkk rows, parsing to GeoJSON...');
+
+    dbgeo.parse({
+      "data": rows,
+      "outputFormat": "geojson",
+      "geometryColumn": "geometry",
+      "geometryType": "wkt"
+    }, function (error, result) {
+      if (error) {
+        console.log('GeoJSON parsing error:', error);
+        return res.status(500).json({
+          status: 500,
+          message: "Error parsing geojson",
+          error: error.message
+        });
+      }
+
+      console.log('Successfully parsed wadmkk to GeoJSON');
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader(
+        'Content-Disposition',
+        'attachment; filename="data.geojson"'
+      );
+
+      // Mengirimkan JSON sebagai file yang dapat diunduh
+      res.send(JSON.stringify(result, null, 2));
+    });
   });
 })
-router.get('/json_kelurahan',async function (req, res) {
-  let str = ``
+router.get('/json_kelurahan', function (req, res) {
+  let str = ''
   let val = []
   if (req.query.id_wadmkk) {
     str += ' and id_wadmkk=?'
@@ -708,33 +739,63 @@ router.get('/json_kelurahan',async function (req, res) {
     val.push(req.query.id_kelurahan)
   }
 
-  
-  console.log(str);
-  
-  let rows =  await sql_enak.raw(`SELECT a.*,asWkt(a.SHAPE) as geometry FROM kelurahan a where deleted = 0 `+str,val)
-  dbgeo.parse({
-    "data": rows[0],
-    "outputFormat": "geojson",
-    "geometryColumn": "geometry",
-    "geometryType": "wkt"
-  }, function (error, result) {
-    if (error) {
-      return console.log(error);
-    }
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader(
-      'Content-Disposition',
-      'attachment; filename="data.geojson"'
-    );
+  console.log('Fetching kelurahan data...');
 
-    // Mengirimkan JSON sebagai file yang dapat diunduh
-    res.send(JSON.stringify(result, null, 2));
+  connection.query({
+    sql: `SELECT a.*,asWkt(a.SHAPE) as geometry FROM kelurahan a where deleted = 0 ` + str,
+    values: val,
+    timeout: 60000
+  }, function (err, rows, fields) {
+    if (err) {
+      console.log('Database query error:', err);
+      return res.status(500).json({
+        status: 500,
+        message: "Database query error",
+        error: err.message
+      });
+    }
+
+    if (!rows || rows.length === 0) {
+      console.log('No kelurahan data found');
+      return res.status(404).json({
+        status: 404,
+        message: "No data found"
+      });
+    }
+
+    console.log('Found ' + rows.length + ' kelurahan rows, parsing to GeoJSON...');
+
+    dbgeo.parse({
+      "data": rows,
+      "outputFormat": "geojson",
+      "geometryColumn": "geometry",
+      "geometryType": "wkt"
+    }, function (error, result) {
+      if (error) {
+        console.log('GeoJSON parsing error:', error);
+        return res.status(500).json({
+          status: 500,
+          message: "Error parsing geojson",
+          error: error.message
+        });
+      }
+
+      console.log('Successfully parsed kelurahan to GeoJSON');
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader(
+        'Content-Disposition',
+        'attachment; filename="data.geojson"'
+      );
+
+      // Mengirimkan JSON sebagai file yang dapat diunduh
+      res.send(JSON.stringify(result, null, 2));
+    });
   });
 })
 
 // Endpoint untuk mengambil data jateng_kemendagri dalam format GeoJSON
-router.get('/json_jateng_kemendagri', async function (req, res) {
-  let str = ``
+router.get('/json_jateng_kemendagri', function (req, res) {
+  let str = ''
   let val = []
 
   if (req.query.kdpkab) {
@@ -742,46 +803,97 @@ router.get('/json_jateng_kemendagri', async function (req, res) {
     val.push(req.query.kdpkab)
   }
 
-  console.log(str);
+  console.log('Fetching jateng_kemendagri data...');
 
-  try {
-    let rows = await sql_enak.raw(`SELECT OGR_FID, asWkt(SHAPE) as geometry, objectid, kdpkab, wadmkk, shape_leng, shape_area FROM jateng_kemendagri WHERE 1=1 `+str, val)
+  // Use connection with proper timeout
+  connection.query({
+    sql: `SELECT OGR_FID, asWkt(SHAPE) as geometry, objectid, kdpkab, wadmkk, shape_leng, shape_area FROM jateng_kemendagri WHERE 1=1 ` + str,
+    values: val,
+    timeout: 60000 // 60 seconds timeout
+  }, function (err, rows, fields) {
+    if (err) {
+      console.log('Database query error:', err);
+      return res.status(500).json({
+        status: 500,
+        message: "Database query error",
+        error: err.message
+      });
+    }
+
+    if (!rows || rows.length === 0) {
+      console.log('No data found');
+      return res.status(404).json({
+        status: 404,
+        message: "No data found"
+      });
+    }
+
+    console.log('Found ' + rows.length + ' rows, parsing to GeoJSON...');
 
     dbgeo.parse({
-      "data": rows[0],
+      "data": rows,
       "outputFormat": "geojson",
       "geometryColumn": "geometry",
       "geometryType": "wkt"
     }, function (error, result) {
       if (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: "Error parsing geojson", error: error });
+        console.log('GeoJSON parsing error:', error);
+        return res.status(500).json({
+          status: 500,
+          message: "Error parsing geojson",
+          error: error.message
+        });
       }
 
+      console.log('Successfully parsed to GeoJSON');
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify(result));
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, message: "Error fetching data", error: error });
-  }
+  });
 })
 
 // Endpoint untuk mengambil data anggota berdasarkan kode kota (kdpkab)
-router.get('/anggota_by_kota', async function (req, res) {
+router.get('/anggota_by_kota', function (req, res) {
   let kode_kota = req.query.kode_kota;
 
   if (!kode_kota) {
     return res.status(400).json({ status: 400, message: "kode_kota parameter is required" });
   }
 
-  try {
-    let anggota = await sql_enak.raw(`
-      SELECT no_anggota, nama_perusahaan, penanggung_jawab, kualifikasi, kode_kota, kota,
+  console.log('Fetching anggota data for kode_kota:', kode_kota);
+
+  connection.query({
+    sql: `SELECT no_anggota, nama_perusahaan, penanggung_jawab, kualifikasi, kode_kota, kota,
              telepon, nomor_hp_pjbu, email_kta
       FROM anggota
-      WHERE kode_kota = ? AND deleted_at IS NULL
-    `, [kode_kota]);
+      WHERE kode_kota = ? AND deleted_at IS NULL`,
+    values: [kode_kota],
+    timeout: 30000 // 30 seconds timeout
+  }, function (err, anggota) {
+    if (err) {
+      console.log('Database query error for anggota:', err);
+      return res.status(500).json({
+        status: 500,
+        message: "Database query error",
+        error: err.message
+      });
+    }
+
+    if (!anggota || anggota.length === 0) {
+      console.log('No anggota found for kode_kota:', kode_kota);
+      return res.status(200).json({
+        status: 200,
+        message: "No anggota found",
+        data: {
+          'Kualifikasi A': [],
+          'Kualifikasi B': [],
+          'Kualifikasi C': []
+        },
+        total: 0
+      });
+    }
+
+    console.log('Found ' + anggota.length + ' anggota for kode_kota:', kode_kota);
 
     // Group by kualifikasi untuk memudahkan display
     let kualifikasi_groups = {
@@ -790,7 +902,7 @@ router.get('/anggota_by_kota', async function (req, res) {
       'Kualifikasi C': []
     };
 
-    anggota[0].forEach(function(item) {
+    anggota.forEach(function(item) {
       let kualifikasi = item.kualifikasi || ' lainnya';
       if (kualifikasi_groups['Kualifikasi ' + kualifikasi]) {
         kualifikasi_groups['Kualifikasi ' + kualifikasi].push(item);
@@ -803,16 +915,15 @@ router.get('/anggota_by_kota', async function (req, res) {
       }
     });
 
+    console.log('Successfully grouped anggota by kualifikasi');
+
     res.status(200).json({
       status: 200,
       message: "sukses",
       data: kualifikasi_groups,
-      total: anggota[0].length
+      total: anggota.length
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, message: "Error fetching anggota data", error: error });
-  }
+  });
 })
 
 module.exports = router;
