@@ -29,18 +29,14 @@
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
   var rooturl = ''
-  let retribusi = {}
+  let spesialisasi = {}
   window.onload =async function (params) {
     await $.get(rooturl+'/master/spesialisasi/list?id=<%=id%>').then(function (data) {
-      retribusi = data.data[0]
-      console.log(retribusi);
-      for (const i in retribusi) {
-        if (Object.hasOwnProperty.call(retribusi, i)) {
-          if(i=='periode' || i=='status'){
-            $('#'+i).val(retribusi[i]).select2()
-          }else{
-            $('#'+i).val(retribusi[i])
-          }
+      spesialisasi = data.data[0]
+      console.log(spesialisasi);
+      for (const i in spesialisasi) {
+        if (Object.hasOwnProperty.call(spesialisasi, i)) {
+            $('#'+i).val(spesialisasi[i])
         }
       }
     })
@@ -61,9 +57,9 @@
     
       let formData = new FormData();
       // nama kolom db
-      let arr = ['nama_retribusi', 'jumlah', 'periode', 'status', 'keterangan']
+      let arr = ['nama_spesialisasi']
 
-      formData.append('id', retribusi.id);
+      formData.append('id', spesialisasi.id);
 
       for (let i = 0; i < arr.length; i++) {
         if ($('#'+arr[i]).val()) {

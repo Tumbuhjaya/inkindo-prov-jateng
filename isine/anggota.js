@@ -189,6 +189,69 @@ router.get('/edit/:id', cek_login, function(req, res) {
         res.status(500).json({ status: 500, message: "gagal", data: err})
      })
   })
+  router.get('/statistics/simple', async function(req, res) {
+    try {
+        // Query 1: Total, Aktif, Nonaktif
+        const statsSql = `
+            SELECT 
+                COUNT(*) as total_anggota,
+                SUM(CASE WHEN status = 'Aktif' THEN 1 ELSE 0 END) as aktif,
+                SUM(CASE WHEN status = 'Non Aktif' THEN 1 ELSE 0 END) as non_aktif
+            FROM (
+                SELECT 
+                    a.id,
+                    CASE 
+                        WHEN YEAR(CURRENT_DATE()) - MAX(p.tahun) >= 5 THEN 'Non Aktif'
+                        ELSE 'Aktif' 
+                    END as status
+                FROM anggota a
+                LEFT JOIN pembayaran p ON a.id = p.anggota_id 
+                    AND p.deleted_at IS NULL 
+                    AND p.status != '-'
+                    AND p.status IS NOT NULL
+                WHERE a.deleted_at IS NULL 
+                GROUP BY a.id
+            ) a
+        `;
+        
+        // Query 2: Kualifikasi
+        const kualifikasiSql = `
+            SELECT 
+                kualifikasi,
+                COUNT(*) as jumlah
+            FROM anggota 
+            WHERE deleted_at IS NULL 
+            GROUP BY kualifikasi
+        `;
+        
+        const [statsResult, kualifikasiResult] = await Promise.all([
+            sql_enak.raw(statsSql),
+            sql_enak.raw(kualifikasiSql)
+        ]);
+        
+        const stats = statsResult[0][0];
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: {
+                total_anggota: stats.total_anggota || 0,
+                aktif: stats.aktif || 0,
+                non_aktif: stats.non_aktif || 0,
+                berdasarkan_kualifikasi: kualifikasiResult[0]
+            }
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
 router.post('/import', upload.fields([{ name: 'file_excel', maxCount: 1 }]), async function (req, res) {
 
     try {

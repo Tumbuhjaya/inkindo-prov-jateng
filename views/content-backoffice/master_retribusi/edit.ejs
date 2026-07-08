@@ -36,7 +36,7 @@
       console.log(retribusi);
       for (const i in retribusi) {
         if (Object.hasOwnProperty.call(retribusi, i)) {
-          if(i=='periode' || i=='status'){
+          if(i=='kualifikasi'){
             $('#'+i).val(retribusi[i]).select2()
           }else{
             $('#'+i).val(retribusi[i])
@@ -61,7 +61,7 @@
     
       let formData = new FormData();
       // nama kolom db
-      let arr = ['nama_retribusi', 'jumlah', 'periode', 'status', 'keterangan']
+      let arr = ['kualifikasi', 'nominal']
 
       formData.append('id', retribusi.id);
 

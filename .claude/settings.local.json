@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm list *)"
+      "Bash(npm list *)",
+      "Bash(mysql -h 147.139.167.33 -u root -pGrafika9 -D 2026_inkindo_prov_jateng)",
+      "Bash(node run_migrations.js)"
     ]
   }
 }

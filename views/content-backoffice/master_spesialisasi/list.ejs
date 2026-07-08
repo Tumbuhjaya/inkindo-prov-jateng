@@ -72,25 +72,22 @@
           }
       },
       "processing": true,
-      // "ajax":  `${rooturl}/master/retribusi/list`,
-      // "columns": [
-      //   { "data": null},
-      //   { "data": "nama_retribusi"},
-      //   { "data": "jumlah"},
-      //   { "data": "periode"},
-      //   { "data": "status"},
-      //   { "data": "id",render: function(data){
-      //     let a = ''
-      //     if (data) {
-      //       a = `
-      //           <ul class="list-inline mb-0" style="text-align:center">
-      //             <li class="list-inline-item"><a href="${rooturl}/master/spesialisasi/edit/${data}" class="btn btn-warning"><i class="fas fa-edit"></i></a></li>
-      //             <li class="list-inline-item"><button  onclick="hapus(${data})"  class="btn btn-danger"><i class="fa fa-trash"></i></button></li>
-      //           </ul>`
-      //     }
-      //     return `<td><center>${a}</center></td>`
-      //   }},
-      // ],
+      "ajax":  `${rooturl}/master/spesialisasi/list`,
+      "columns": [
+        { "data": null},
+        { "data": "nama_spesialisasi"},
+        { "data": "id",render: function(data){
+          let a = ''
+          if (data) {
+            a = `
+                <ul class="list-inline mb-0" style="text-align:center">
+                  <li class="list-inline-item"><a href="${rooturl}/master/spesialisasi/edit/${data}" class="btn btn-warning"><i class="fas fa-edit"></i></a></li>
+                  <li class="list-inline-item"><button  onclick="hapus(${data})"  class="btn btn-danger"><i class="fa fa-trash"></i></button></li>
+                </ul>`
+          }
+          return `<td><center>${a}</center></td>`
+        }},
+      ],
       "columnDefs": [
         { "width": "40px", "targets": 0},
         { "width": "160px", "targets": 2}

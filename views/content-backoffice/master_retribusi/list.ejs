@@ -25,10 +25,8 @@
                     <thead>
                     <tr>
                       <th class="header">No.</th>
-                      <th class="header">Nama Retribusi</th>
-                      <th class="header">Jumlah</th>
-                      <th class="header">Periode</th>
-                      <th class="header">Status</th>
+                      <th class="header">Kualifikasi</th>
+                      <th class="header">Nominal</th>
                       <th class="header">Option</th>
                     </tr>
                   </thead>
@@ -78,10 +76,8 @@
       "ajax":  `${rooturl}/master/retribusi/list`,
       "columns": [
         { "data": null},
-        { "data": "nama_retribusi"},
-        { "data": "jumlah"},
-        { "data": "periode"},
-        { "data": "status"},
+        { "data": "kualifikasi"},
+        { "data": "nominal"},
         { "data": "id",render: function(data){
           let a = ''
           if (data) {
@@ -96,7 +92,7 @@
       ],
       "columnDefs": [
         { "width": "40px", "targets": 0},
-        { "width": "160px", "targets": 5}
+        { "width": "160px", "targets": 3}
       ],
     });
 
