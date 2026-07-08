@@ -75,7 +75,7 @@ function toWKT (layer) {
                         //   type : "GET", 
                         //   async : false, 
                         //   global : false, 
-                        //   url : root + "peta/json_kec", 
+                        //   url : rooturl + "peta/json_kec", 
                         //   dataType : 'json', 
                         //   success: function (data) { 
                         //    $("#kabupaten").empty(); 
@@ -384,7 +384,7 @@ function toWKT (layer) {
                         type : "GET", 
                         async : false, 
                         global : false, 
-                        url : root + "peta/list_polaruang?x="+e.latlng.lng+"&y="+e.latlng.lat, 
+                        url : rooturl + "peta/list_polaruang?x="+e.latlng.lng+"&y="+e.latlng.lat, 
                         dataType : 'json', 
                         success: function (data) { 
                        // console.log(data) 
@@ -632,7 +632,7 @@ function toWKT (layer) {
                             shape: 'square' 
                         }); 
          
-                        // $.getJSON( root + "index.php/kabupaten", function( json ) { 
+                        // $.getJSON( rooturl + "index.php/kabupaten", function( json ) { 
                         //   $.each(json, function( i, item ) { 
                         //     $('#kabupaten').append('<option value="'+item.id_kabupaten+'">'+item.nama_kabupaten+'</option>'); 
                         //   }) 
@@ -656,11 +656,12 @@ function toWKT (layer) {
                                   } 
                                 }   
                               }); 
-                              //topojson 
-                        var wellmaxzoom = 13;        
-                      var polaruang_layer = new L.GeoJSON(); 
-                      var kabupaten_layer = new L.TopoJSON(); 
-                      var desa_layer = new L.TopoJSON(); 
+                              //topojson
+                        var wellmaxzoom = 13;
+                      var polaruang_layer = new L.GeoJSON();
+                      var kabupaten_layer = new L.TopoJSON();
+                      var desa_layer = new L.TopoJSON();
+                      var jateng_kemendagri_layer = new L.GeoJSON(); 
                
                    
                  
@@ -918,16 +919,17 @@ function toWKT (layer) {
                       
                       //ambil kec 
                      async function get_peta(params) {
+                        console.log('get_peta');
                         
-                        var geoJsonUrl =root+"peta/topojson_kec";  
+                        var geoJsonUrl =rooturl+"peta/topojson_kec";  
                        await   $.getJSON(geoJsonUrl) 
                             .done(loadGeoJsonkec); 
                             //ambil polaruang 
-                            var geoJsonUrl =root+"peta/inovasi";  
+                            var geoJsonUrl =rooturl+"peta/inovasi";  
                             await  $.getJSON(geoJsonUrl) 
                             .done(loadGeoJsoninovasi); 
                              
-                            var geoJsonUrl2 =root+"peta/infrastruktur_penelitian"; 
+                            var geoJsonUrl2 =rooturl+"peta/infrastruktur_penelitian"; 
                             console.log(geoJsonUrl2);
                                                          
                         //    await  $.getJSON(geoJsonUrl2) 
@@ -944,7 +946,7 @@ function toWKT (layer) {
                                         type : "GET", 
                                         async : false, 
                                         global : false, 
-                                        url : root + "peta/desa?kecamatan="+$('#kecamatan').val(), 
+                                        url : rooturl + "peta/desa?kecamatan="+$('#kecamatan').val(), 
                                         dataType : 'json', 
                                         success: function (data) { 
                                        $('#desa').empty() 
@@ -998,8 +1000,8 @@ function toWKT (layer) {
                         var kiri_atas_lat  = map.getBounds().getSouthWest().lat; 
                         var kanan_bawah_lng = map.getBounds().getNorthEast().lng; 
                         var kanan_bawah_lat = map.getBounds().getNorthEast().lat; 
-                       //   var geoJsonUrl =root + "index.php/peta/geo_kec_bound/"+kiri_atas_lng+"/"+kiri_atas_lat+"/"+kanan_bawah_lng+"/"+kanan_bawah_lat;  
-                          var geoJsonUrl =root+"peta/topojson_desa?kiri_lng="+kiri_atas_lng+"&kiri_lat="+kiri_atas_lat+"&kanan_lng="+kanan_bawah_lng+"&kanan_lat="+kanan_bawah_lat;  
+                       //   var geoJsonUrl =rooturl + "index.php/peta/geo_kec_bound/"+kiri_atas_lng+"/"+kiri_atas_lat+"/"+kanan_bawah_lng+"/"+kanan_bawah_lat;  
+                          var geoJsonUrl =rooturl+"peta/topojson_desa?kiri_lng="+kiri_atas_lng+"&kiri_lat="+kiri_atas_lat+"&kanan_lng="+kanan_bawah_lng+"&kanan_lat="+kanan_bawah_lat;  
                          // console.log(geoJsonUrl); 
                         // console.log(map.getBounds().toBBoxString()); 
                         // console.log(map.getBounds().getSouthWest().lng + ';' + map.getBounds().getSouthWest().lat + ';' + map.getBounds().getNorthEast().lng + ';' + map.getBounds().getNorthEast().lat); 
@@ -1069,15 +1071,16 @@ function toWKT (layer) {
                         //   position : 'topright' 
                         // }, {'drawlayer':drawnItems}, { position: 'topleft', collapsed: false }).addTo(map); 
          
-                                        var groupedOverlays = { 
-                                             "Administrasi": { 
-                               "&nbsp;&nbsp;&nbsp;&nbsp;Kabupaten": kabupaten_layer
-                               }, 
-                               "Layer": { 
-                                
-                                "<span>Inovasi</span>&nbsp;&nbsp;<span style=';padding:2px 8px 2px 8px;'></span>": inovasi_markers 
-                         
-                        } 
+                                        var groupedOverlays = {
+                                             "Administrasi": {
+                               "&nbsp;&nbsp;&nbsp;&nbsp;Kabupaten": kabupaten_layer,
+                               "&nbsp;&nbsp;&nbsp;&nbsp;Jateng Kemendagri": jateng_kemendagri_layer
+                               },
+                               "Layer": {
+
+                                "<span>Inovasi</span>&nbsp;&nbsp;<span style=';padding:2px 8px 2px 8px;'></span>": inovasi_markers
+
+                        }
                              }; 
                                    var options = { 
                      // Make the "Landmarks" group exclusive (use radio inputs) 
@@ -1186,12 +1189,159 @@ function toWKT (layer) {
                       } 
                         map.on('click', function(e) { 
          
-                      console.log(e.latlng.lat+' '+e.latlng.lng); 
-                    // var xe = e.latlng.lat; 
-                    // var ye = e.latlng.lng; 
-                      
-                    // panorama(xe,ye) 
-                    
-                            
+                      console.log(e.latlng.lat+' '+e.latlng.lng);
+                    // var xe = e.latlng.lat;
+                    // var ye = e.latlng.lng;
+
+                    // panorama(xe,ye)
+
+
                   });
+
+                  // Fungsi untuk load GeoJSON jateng_kemendagri
+                  function loadGeoJonejateng_kemendagri(data) {
+                    jateng_kemendagri_layer.clearLayers();
+                    jateng_kemendagri_layer.addData(data);
+                    jateng_kemendagri_layer.addTo(map);
+
+                    var style_jateng = {
+                      color: "#0066cc",
+                      weight: 2,
+                      opacity: 0.8,
+                      fillColor: "#0066cc",
+                      fillOpacity: 0.1
+                    };
+
+                    jateng_kemendagri_layer.eachLayer(function (layer) {
+                      layer.setStyle(style_jateng);
+
+                      // Event listener untuk hover
+                      layer.on('mouseover', function (e) {
+                        this.setStyle({
+                          weight: 3,
+                          color: "#ff6600",
+                          fillColor: "#ff6600",
+                          fillOpacity: 0.3
+                        });
+
+                        // Ambil data anggota berdasarkan kdpkab
+                        var kdpkab = layer.feature.properties.kdpkab;
+
+                        if (kdpkab) {
+                          $.ajax({
+                            type: "GET",
+                            url: rooturl + "/peta/anggota_by_kota?kode_kota=" + kdpkab,
+                            dataType: 'json',
+                            success: function (anggotaData) {
+                              if (anggotaData.status === 200) {
+                                var popupContent = "<div style='max-height:300px; overflow-y:auto;'>";
+                                popupContent += "<strong>" + layer.feature.properties.wadmkk + "</strong><br/>";
+                                popupContent += "Kode Kota: " + kdpkab + "<br/><br/>";
+
+                                // Tampilkan anggota per kualifikasi
+                                for (var kualifikasi in anggotaData.data) {
+                                  var anggotas = anggotaData.data[kualifikasi];
+                                  if (anggotas.length > 0) {
+                                    popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
+
+                                    // Tampilkan maksimal 5 anggota per kualifikasi
+                                    anggotas.slice(0, 5).forEach(function(anggota) {
+                                      popupContent += "• " + anggota.nama_perusahaan;
+                                      if (anggota.penanggung_jawab) {
+                                        popupContent += " (" + anggota.penanggung_jawab + ")";
+                                      }
+                                      popupContent += "<br/>";
+                                    });
+
+                                    if (anggotas.length > 5) {
+                                      popupContent += "... dan " + (anggotas.length - 5) + " lainnya<br/>";
+                                    }
+                                    popupContent += "<br/>";
+                                  }
+                                }
+
+                                popupContent += "Total: " + anggotaData.total + " anggota";
+                                popupContent += "</div>";
+
+                                layer.bindPopup(popupContent, {
+                                  maxWidth: 350,
+                                  maxHeight: 400
+                                }).openPopup();
+                              }
+                            },
+                            error: function (error) {
+                              console.log("Error fetching anggota data:", error);
+                            }
+                          });
+                        }
+                      });
+
+                      // Event listener untuk mouseout (reset style)
+                      layer.on('mouseout', function (e) {
+                        this.setStyle(style_jateng);
+                      });
+
+                      // Event listener untuk click
+                      layer.on('click', function (e) {
+                        var kdpkab = layer.feature.properties.kdpkab;
+
+                        if (kdpkab) {
+                          $.ajax({
+                            type: "GET",
+                            url: rooturl + "/peta/anggota_by_kota?kode_kota=" + kdpkab,
+                            dataType: 'json',
+                            success: function (anggotaData) {
+                              if (anggotaData.status === 200) {
+                                var popupContent = "<div style='max-height:400px; overflow-y:auto;'>";
+                                popupContent += "<strong>" + layer.feature.properties.wadmkk + "</strong><br/>";
+                                popupContent += "Kode Kota: " + kdpkab + "<br/><br/>";
+
+                                // Tampilkan anggota per kualifikasi
+                                for (var kualifikasi in anggotaData.data) {
+                                  var anggotas = anggotaData.data[kualifikasi];
+                                  if (anggotas.length > 0) {
+                                    popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
+
+                                    anggotas.forEach(function(anggota) {
+                                      popupContent += "• " + anggota.nama_perusahaan;
+                                      if (anggota.penanggung_jawab) {
+                                        popupContent += " (" + anggota.penanggung_jawab + ")";
+                                      }
+                                      if (anggota.nomor_hp_pjbu) {
+                                        popupContent += " - " + anggota.nomor_hp_pjbu;
+                                      }
+                                      popupContent += "<br/>";
+                                    });
+                                    popupContent += "<br/>";
+                                  }
+                                }
+
+                                popupContent += "Total: " + anggotaData.total + " anggota";
+                                popupContent += "</div>";
+
+                                layer.bindPopup(popupContent, {
+                                  maxWidth: 400,
+                                  maxHeight: 450
+                                }).openPopup();
+                              }
+                            }
+                          });
+                        }
+                      });
+                    });
+                  }
+
+                  // Fungsi untuk load data jateng_kemendagri saat map siap
+                  function loadJatengKemendagri() {
+                    var geoJsonUrl = rooturl + "/peta/json_jateng_kemendagri";
+
+                    $.getJSON(geoJsonUrl)
+                      .done(loadGeoJonejateng_kemendagri)
+                      .fail(function(error) {
+                        console.log("Error loading jateng_kemendagri:", error);
+                      });
+                  }
+
+                  // Load data jateng_kemendagri setelah map siap
+                  setTimeout(loadJatengKemendagri, 2000);
 </script>

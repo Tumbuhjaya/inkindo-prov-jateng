@@ -59,18 +59,18 @@ var upload = multer({ storage: storage })
 //start-------------------------------------
 // Retribusi
 router.get('/retribusi', cek_login, function(req, res) {
-  res.render('content-backoffice/master/retribusi/list', {user:req.user[0]});
+  res.render('content-backoffice/master_retribusi/list', {user:req.user[0]});
 });
 
 router.get('/retribusi/insert', cek_login, function(req, res) {
-  res.render('content-backoffice/master/retribusi/insert', {user:req.user[0]});
+  res.render('content-backoffice/master_retribusi/insert', {user:req.user[0]});
 });
 
 router.get('/retribusi/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/master/retribusi/edit', {id : req.params.id, user:req.user[0]});
+  res.render('content-backoffice/master_retribusi/edit', {id : req.params.id, user:req.user[0]});
 });
 
-router.post('/retribusi/insert', async function(req, res) {
+router.post('/retribusi/insert', upload.fields([{ name: 'foto_1', maxCount: 1 }]), async function(req, res) {
 
   let post = req.body
   console.log(post);
@@ -108,7 +108,7 @@ router.post('/retribusi/insert', async function(req, res) {
 }
 });
 
-router.post('/retribusi/edit', async function(req, res) {
+router.post('/retribusi/edit', upload.fields([{ name: 'foto_1', maxCount: 1 }]), async function(req, res) {
 
   let post = req.body
 
