@@ -177,4 +177,17 @@ router.get('/retribusi/list',async function(req, res) {
    })
 })
 
+// Spesialisasi
+router.get('/spesialisasi', cek_login, function(req, res) {
+  res.render('content-backoffice/master_spesialisasi/list', {user:req.user[0]});
+});
+
+router.get('/spesialisasi/insert', cek_login, function(req, res) {
+  res.render('content-backoffice/master_spesialisasi/insert', {user:req.user[0]});
+});
+
+router.get('/spesialisasi/edit/:id', cek_login, function(req, res) {
+  res.render('content-backoffice/master_spesialisasi/edit', {id : req.params.id, user:req.user[0]});
+});
+
 module.exports = router;

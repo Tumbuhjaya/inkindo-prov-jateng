@@ -71,6 +71,10 @@ router.get('/edit/:id', cek_login, function(req, res) {
      res.render('content-backoffice/anggota/edit', {id : req.params.id,user:req.user[0]});
   })
 
+  router.get('/spesialisasi/:id', cek_login, function(req, res) {
+     res.render('content-backoffice/anggota/spesialisasi', {id : req.params.id,user:req.user[0]});
+  })
+
   router.post('/insert', upload.fields([{ name: 'foto', maxCount: 1 }]),async function(req, res) {
 
     let post = req.body

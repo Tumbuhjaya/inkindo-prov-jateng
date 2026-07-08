@@ -17,7 +17,7 @@
           <div class="col-lg-12 col-xl-12">
             <div class="card">
               <div class="card-header">
-                <a href="/anggota/insert" class="btn btn-primary custom-btn-card-header"><i class="fas fa-plus"></i> Tambah Data</a>
+                <a href="/anggota/insert" class="btn btn-primary custom-btn-card-header mr-3"><i class="fas fa-plus"></i> Tambah Data</a>
                 <button class="btn btn-success custom-btn-card-header" data-toggle="modal" data-target=".modal-import-excel"><i class="fas fa-file-excel"></i> Import Excel</button>
               </div>
               <div class="card-body">
@@ -118,9 +118,13 @@
           let a = ''
           if (data) {
             a = `
-                <ul class="list-inline mb-0" style="text-align:center">
+                <ul class="list-inline" style="text-align:center;margin-bottom:5px">
                   <li class="list-inline-item"><a href="${rooturl}/anggota/edit/${data}" class="btn btn-warning"><i class="fas fa-edit"></i></a></li>
                   <li class="list-inline-item"><button  onclick="hapus(${data})"  class="btn btn-danger"><i class="fa fa-trash"></i></button></li>
+                  
+                </ul>
+                <ul class="list-inline mb-0" style="text-align:center">
+                  <li class="list-inline-item"><a href="${rooturl}/anggota/spesialisasi/${data}" class="btn btn-dark"><i class="fas fa-plus"></i> Spesialisasi</a></li>  
                 </ul>`
           }
           return `<td><center>${a}</center></td>`
