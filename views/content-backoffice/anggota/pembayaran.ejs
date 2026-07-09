@@ -1,0 +1,187 @@
+<% include ../../template-backoffice/header.ejs %>
+	  <div class="main-content">
+	    <section class="section">
+	      <div class="w-100" style="padding: 0 30px;">
+	        <div class="section-header" style="border-radius: 0.25rem;">
+	          <h1 style="line-height: 25px;">Pembayaran Iuran <br/><small><%= (typeof anggota !== 'undefined' && anggota) ? anggota.nama_perusahaan : 'Nama Perusahaan' %></small></h1>
+	          <div class="section-header-breadcrumb">
+	            <div class="breadcrumb-item active"><a href="/backoffice">Dashboard</a></div>
+	            <div class="breadcrumb-item active"><a href="/anggota">Data</a></div>
+	            <div class="breadcrumb-item">Pembayaran Iuran</div>
+	          </div>
+	        </div>
+	      </div>
+
+	      <div class="section-body">
+	        <div class="row">
+	          <div class="col-12 col-lg-12 col-xl-12">
+	            <div class="card">
+	              <div class="card-body">
+					<div class="row">
+						<div class="col-12">
+							<button class="btn btn-primary" data-toggle="modal" data-target="#modalPembayaran"><i class="fas fa-plus"></i> Tambah Data Pembayaran Iuran</button>
+							<hr>
+						</div>
+					</div>
+	                <div class="row">
+	                  	<div class="col-12">
+							
+							<table class="table table-bordered table-striped mb-0" style="background-color: #fff;">
+								<thead>
+									<tr>
+										<th style="width: 40px;">No.</th>
+										<th>Tanggal Pembayaran</th>
+										<th>Nominal</th>
+										<th>Status Pembayaran</th>
+										<th style="width: 80px;">Option</th>
+									</tr>
+								</thead>
+
+								<tbody id="">
+									<!-- kondisional jika status pembayaran luas -> badge-success (lunas) -> tombol lihat bukti bayar muncul -->
+									<tr>
+										<td>1.</td>
+										<td>00/00/0000</td>
+										<td>Rp 1.500.000,-</td>
+										<td>
+											<div style="width: 100%;display: flex;flex-direction: column;align-items: center;">
+												<span class="badge badge-success">Luas</span>
+											</div>
+										</td>
+										<td>
+											<ul class="list-inline mb-0">
+												<li class="list-inline-item"><a href="#" target="_blank" class="btn btn-warning"><i class="fas fa-receipt"></i></a></li>
+											</ul>
+										</td>
+									</tr>
+									<!-- end kondisional jika status pembayaran luas -> badge-success (lunas) -> hanya ada tombol lihat bukti bayar -->
+
+									<!-- kondisional jika status pembayaran luas -> badge-danger (belum lunas) -> hanya ada tombol bayar -->
+									<tr>
+										<td>1.</td>
+										<td>00/00/0000</td>
+										<td>Rp 1.500.000,-</td>
+										<td>
+											<div style="width: 100%;display: flex;flex-direction: column;align-items: center;">
+												<span class="badge badge-danger">Belum Luas</span>
+											</div>
+										</td>
+										<td>
+											<ul class="list-inline mb-0">
+												<li class="list-inline-item"><button class="btn btn-success" data-toggle="modal" data-target="#modalPembayaran"><i class="fas fa-money-bill-wave-alt"></i></button></li>
+											</ul>
+										</td>
+									</tr>
+									<!-- end kondisional jika status pembayaran luas -> badge-danger (belum lunas) -> hanya ada tombol bayar -->
+								</tbody>
+							</table>
+	                  	</div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+
+	    </section>
+	  </div>
+
+	  <footer class="main-footer">
+	    <div class="footer-left">
+	      <% include ../../template-backoffice/copyright-left.ejs %>
+	    </div>
+	    <div class="footer-right">
+	      <% include ../../template-backoffice/copyright-right.ejs %>
+	    </div>
+	  </footer>
+
+	  <!-- Modal -->
+		<div class="modal fade" id="modalPembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Pembayaran Iuran</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<div class="form-group row mb-0">
+	                      <label class="col-sm-3 col-form-label">Tanggal Pembayaran</label>
+	                      <div class="col-sm-9">
+	                        <input type="date" class="form-control" name="" id="">
+	                      </div>
+	                    </div>
+
+						<hr>
+
+						<div class="form-group row mb-0">
+	                      <label class="col-sm-3 col-form-label">Upload Bukti Pembayaran</label>
+	                      <div class="col-sm-9">
+	                        <input type="file" class="form-control" name="" id="">
+	                      </div>
+	                    </div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-dark" data-dismiss="modal">Tutup</button>
+				<button type="button" class="btn btn-primary">Simpan</button>
+			</div>
+			</div>
+		</div>
+		</div>
+	<% include ../../template-backoffice/footer.ejs %>
+
+	<script type="text/javascript">
+		var rooturl = ''
+
+  async function submit() {
+    const will_insert = await swal({
+      title: "Tambah Data",
+      text: "Apakah anda akan menambahkan data ini?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: ["Tidak", "Ya"],
+    });
+
+    if ( will_insert) {
+      $('#button_submit').empty()
+      $('#button_submit').append('<button class="btn btn-primary btn-embossed" disabled>Simpan</button>')
+      
+      let formData = new FormData();    
+      // nama kolom db
+      let arr = ['NamaKolomDb1', 'NamaKolomDb2', 'NamaKolomDb3']
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].substring(0,4)=='foto') {
+          if ( $(`#`+arr[i])[0].files[0]){
+            formData.append(arr[i], $(`#`+arr[i])[0].files[0]);
+          } 
+        }
+        // else if (arr[i].substring(0,3)=='ket'){        
+        //   formData.append(arr[i] ,CKEDITOR.instances[arr[i]].getData())
+        // }
+        else{
+          formData.append(arr[i],$('#'+arr[i]).val())
+        }
+      }
+
+      $.ajax({
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        url: rooturl+'/api_basic/insert',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          swal({title:text_insert.title,text:text_insert.text, icon: text_insert.icon, type:text_insert.type})
+          window.location.href = rooturl+'/manajemen_basic';
+        },error: function(data) {
+          swal({title:text_error.title,text:text_error.text, icon: text_error.icon, type:text_error.type})
+        }
+      })      
+    } 
+  }
+	</script>
