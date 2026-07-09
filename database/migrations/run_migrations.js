@@ -55,6 +55,28 @@ async function runMigrations() {
     `);
     console.log('master_spesialisasi migration completed.');
 
+    // Run spesialisasi_anggota migration
+    console.log('Running spesialisasi_anggota migration...');
+
+    // Drop and recreate spesialisasi_anggota table
+    await sql_enak.raw('DROP TABLE IF EXISTS spesialisasi_anggota');
+    await sql_enak.raw(`
+      CREATE TABLE spesialisasi_anggota (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        anggota_id INT NOT NULL,
+        spesialisasi_id INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        deleted_at TIMESTAMP NULL,
+        FOREIGN KEY (anggota_id) REFERENCES anggota(id) ON DELETE CASCADE,
+        FOREIGN KEY (spesialisasi_id) REFERENCES master_spesialisasi(id) ON DELETE CASCADE,
+        INDEX idx_anggota_id (anggota_id),
+        INDEX idx_spesialisasi_id (spesialisasi_id),
+        UNIQUE KEY unique_anggota_spesialisasi (anggota_id, spesialisasi_id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+    console.log('spesialisasi_anggota migration completed.');
+
     console.log('All migrations completed successfully!');
     process.exit(0);
   } catch (error) {

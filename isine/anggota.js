@@ -71,9 +71,6 @@ router.get('/edit/:id', cek_login, function(req, res) {
      res.render('content-backoffice/anggota/edit', {id : req.params.id,user:req.user[0]});
   })
 
-  router.get('/spesialisasi/:id', cek_login, function(req, res) {
-     res.render('content-backoffice/anggota/spesialisasi', {id : req.params.id,user:req.user[0]});
-  })
 
   router.post('/insert', upload.fields([{ name: 'foto', maxCount: 1 }]),async function(req, res) {
 
@@ -566,4 +563,139 @@ let tahun = i+2020
     }
 
 });
+
+// ==================== SPESIALISASI ANGGOTA CRUD ====================
+
+// Route untuk menampilkan halaman spesialisasi anggota
+router.get('/spesialisasi/:id', cek_login, async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+        console.log('Loading spesialisasi for anggota ID:', anggotaId);
+
+        // Get data anggota
+        const anggota = await sql_enak('anggota')
+            .where('id', anggotaId)
+            .where('deleted_at', null)
+            .first();
+
+        console.log('Anggota data:', anggota);
+
+        if (!anggota) {
+            console.log('Anggota not found');
+            return res.status(404).render('error', { message: 'Anggota not found' });
+        }
+
+        res.render('content-backoffice/anggota/spesialisasi', {
+            user: req.user[0],
+            anggota: anggota,
+            anggotaId: anggotaId
+        });
+    } catch (err) {
+        console.error('Error in spesialisasi route:', err);
+        res.status(500).render('error', { message: err.message });
+    }
+});
+
+// API untuk get list spesialisasi anggota
+router.get('/spesialisasi/:id/list', cek_login, async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+
+        const data = await sql_enak('spesialisasi_anggota as sa')
+            .join('master_spesialisasi as ms', 'sa.spesialisasi_id', 'ms.id')
+            .select(
+                'sa.id',
+                'ms.nama_spesialisasi',
+                'sa.spesialisasi_id'
+            )
+            .where('sa.anggota_id', anggotaId)
+            .where('sa.deleted_at', null);
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: data
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// API untuk insert spesialisasi anggota
+router.post('/spesialisasi/:id/save', cek_login, async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+        const { spesialisasi_id } = req.body;
+
+        if (!spesialisasi_id) {
+            return res.status(400).json({
+                status: 400,
+                message: "Spesialisasi ID is required"
+            });
+        }
+
+        // Check if already exists
+        const exists = await sql_enak('spesialisasi_anggota')
+            .where('anggota_id', anggotaId)
+            .where('spesialisasi_id', spesialisasi_id)
+            .where('deleted_at', null)
+            .first();
+
+        if (exists) {
+            return res.status(201).json({
+                status: 201,
+                message: "Spesialisasi already exists for this anggota"
+            });
+        }
+
+        // Insert spesialisasi anggota
+        await sql_enak('spesialisasi_anggota').insert({
+            anggota_id: anggotaId,
+            spesialisasi_id: spesialisasi_id
+        });
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: "Spesialisasi berhasil ditambahkan"
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// API untuk delete spesialisasi anggota
+router.get('/spesialisasi/:anggota_id/hapus/:id', cek_login, async function(req, res) {
+    try {
+        const id = req.params.id;
+
+        await sql_enak('spesialisasi_anggota')
+            .where('id', id)
+            .update({ deleted_at: new Date() });
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: "Spesialisasi berhasil dihapus"
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
 module.exports = router;

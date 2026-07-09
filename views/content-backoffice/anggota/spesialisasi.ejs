@@ -1,140 +1,254 @@
 <% include ../../template-backoffice/header.ejs %>
-  <div class="main-content">
-    <section class="section">
-      <div class="w-100" style="padding: 0 30px;">
-        <div class="section-header" style="border-radius: 0.25rem;">
-          <h1 style="line-height: 25px;">Spesialisasi <br/><small>Nama Perusahaan</small></h1>
-          <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="/backoffice">Dashboard</a></div>
-            <div class="breadcrumb-item active"><a href="/anggota">Data</a></div>
-            <div class="breadcrumb-item">Spesialisasi</div>
-          </div>
-        </div>
-      </div>
+	  <div class="main-content">
+	    <section class="section">
+	      <div class="w-100" style="padding: 0 30px;">
+	        <div class="section-header" style="border-radius: 0.25rem;">
+	          <h1 style="line-height: 25px;">Spesialisasi <br/><small><%= (typeof anggota !== 'undefined' && anggota) ? anggota.nama_perusahaan : 'Nama Perusahaan' %></small></h1>
+	          <div class="section-header-breadcrumb">
+	            <div class="breadcrumb-item active"><a href="/backoffice">Dashboard</a></div>
+	            <div class="breadcrumb-item active"><a href="/anggota">Data</a></div>
+	            <div class="breadcrumb-item">Spesialisasi</div>
+	          </div>
+	        </div>
+	      </div>
 
-      <div class="section-body">
-        <div class="row">
-          <div class="col-12 col-lg-12 col-xl-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group row mb-0">
-                      <label class="col-sm-3 col-form-label">Spesialisasi</label>
-                      <div class="col-sm-9">
-                        <select name="" class="form-control select2" id="">
-                          <option value="">-- Pilih --</option>
-                        </select>
-                      </div>
-                    </div>
+	      <div class="section-body">
+	        <div class="row">
+	          <div class="col-12 col-lg-12 col-xl-12">
+	            <div class="card">
+	              <div class="card-body">
+	                <div class="row">
+	                  <div class="col-12">
+	                    <div class="form-group row mb-0">
+	                      <label class="col-sm-3 col-form-label">Spesialisasi</label>
+	                      <div class="col-sm-9">
+	                        <select name="spesialisasi_id" class="form-control select2" id="spesialisasi_id">
+	                          <option value="">-- Pilih --</option>
+	                        </select>
+	                      </div>
+	                    </div>
 
-                    <div class="form-group row mt-3 mb-0">
-                      <div class="col-sm-9 offset-sm-3">
-                        <div id="button_submit">
-                          <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+	                    <div class="form-group row mt-3 mb-0">
+	                      <div class="col-sm-9 offset-sm-3">
+	                        <div id="button_submit">
+	                          <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>
+	                        </div>
+	                      </div>
+	                    </div>
+	                  </div>
+	                </div>
 
-                <div class="row">
-                  <div class="col-12">
-                    <hr>
-                  </div>
-                </div>
-                
-                <div class="row">
-                  <div class="col-12">
-                    <table class="table table-bordered table-striped">
-                      <thead>
-                        <tr>
-                          <th>No.</th>
-                          <th>Spesialisasi</th>
-                          <th>Option</th>
-                        </tr>
-                      </thead>
+	                <div class="row">
+	                  <div class="col-12">
+	                    <hr>
+	                  </div>
+	                </div>
 
-                      <tbody>
-                        <tr>
-                          <td style="width: 40px;">1.</td>
-                          <td>-</td>
-                          <td style="width: 100px;"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+	                <div class="row">
+	                  <div class="col-12">
+	                    <table class="table table-bordered table-striped">
+	                      <thead>
+	                        <tr>
+	                          <th>No.</th>
+	                          <th>Spesialisasi</th>
+	                          <th>Option</th>
+	                        </tr>
+	                      </thead>
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+	                      <tbody id="spesialisasi_list">
+	                        <!-- Data will be loaded here -->
+	                      </tbody>
+	                    </table>
+	                  </div>
+	                </div>
 
-    </section>
-  </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
 
-  <footer class="main-footer">
-    <div class="footer-left">
-      <% include ../../template-backoffice/copyright-left.ejs %>
-    </div>
-    <div class="footer-right">
-      <% include ../../template-backoffice/copyright-right.ejs %>
-    </div>
-  </footer>
+	    </section>
+	  </div>
 
-<% include ../../template-backoffice/footer.ejs %>
+	  <footer class="main-footer">
+	    <div class="footer-left">
+	      <% include ../../template-backoffice/copyright-left.ejs %>
+	    </div>
+	    <div class="footer-right">
+	      <% include ../../template-backoffice/copyright-right.ejs %>
+	    </div>
+	  </footer>
 
-<script type="text/javascript">
-  async function submit() {
-    const will_insert = await swal({
-      title: "Tambah Data",
-      text: "Apakah anda akan menambah data ini?",
-      icon: "warning",
-      dangerMode: true,
-      buttons: ["Tidak", "Ya"],
-    });
+	<% include ../../template-backoffice/footer.ejs %>
 
-    if ( will_insert) {
-      $('#button_submit').empty()
-      $('#button_submit').append('<button class="btn btn-primary btn-embossed" disabled>Simpan</button>')
+	<script type="text/javascript">
+	  const anggotaId = <%= anggotaId %>;
+	  var rooturl = ''
 
-      let formData = new FormData();
-      // nama kolom db
-      let arr = ['no_anggota', 'nama_perusahaan', 'penanggung_jawab', 'gelar_pjbu', 'tanggal_lahir', 'alamat', 'kota', 'kode_kota', 'korwil', 'telepon', 'fax', 'nomor_hp_pjbu', 'email_kta', 'status_keanggotaan', 'disyahkan', 'kode_etik', 'tahun_masuk', 'yang_hadir', 'di_undang', 'pelantikan', 'no_sertifikat', 'waktu_penataran', 'memiliki_sertifikat_kode_etik', 'kta_2020', 'kualifikasi', 'jumlah_tunggakan', 'ket_tunggakan', 'foto']
+	  // Load spesialisasi options on page load
+	  $(document).ready(function() {
+	    loadSpesialisasiOptions();
+	    loadSpesialisasiList();
 
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].substring(0,4)=='foto') {
-          if ( $(`#`+arr[i])[0].files[0]){
-            formData.append(arr[i], $(`#`+arr[i])[0].files[0]);
-          }
-        }else{
-          if ($('#'+arr[i]).val()) {
-            formData.append(arr[i],$('#'+arr[i]).val())
-          }
-        }
-      }
+	    // Initialize select2
+	    $('.select2').select2({
+	      dropdownParent: $('.card-body'),
+	      width: '100%'
+	    });
+	  });
 
-      $.ajax({
-        type: 'POST',
-        enctype: 'multipart/form-data',
-        url: rooturl+'/anggota/insert',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(data) {
-          if (data.status == 201) {
-            swal({title:text_error.title,text:data.data, icon: text_error.icon, type:text_error.type})
-          }else{
-            swal({title:text_insert.title,text:text_insert.text, icon: text_insert.icon, type:text_insert.type})
-            window.location.href = rooturl+'/anggota';
-          }
-        },error: function(data) {
-          swal({title:text_error.title,text:text_error.text, icon: text_error.icon, type:text_error.type})
-        }
-      })
-    }
-  }
-</script>
+	  // Load spesialisasi options from master_spesialisasi
+	  function loadSpesialisasiOptions() {
+	    $.get(rooturl + '/master/spesialisasi/list')
+	      .then(function(data) {
+	        if (data.status === 200 && data.data) {
+	          $('#spesialisasi_id').empty().append('<option value="">-- Pilih --</option>');
+	          data.data.forEach(function(item) {
+	            $('#spesialisasi_id').append('<option value="' + item.id + '">' + item.nama_spesialisasi + '</option>');
+	          });
+	        }
+	      })
+	      .fail(function(error) {
+	        console.log('Error loading spesialisasi options:', error);
+	      });
+	  }
 
+	  // Load spesialisasi anggota list
+	  function loadSpesialisasiList() {
+	    $.get(rooturl + '/anggota/spesialisasi/' + anggotaId + '/list')
+	      .then(function(data) {
+	        if (data.status === 200 && data.data) {
+	          $('#spesialisasi_list').empty();
+	          data.data.forEach(function(item, index) {
+	            $('#spesialisasi_list').append(`
+	              <tr>
+	                <td style="width: 40px;">${index + 1}.</td>
+	                <td>${item.nama_spesialisasi}</td>
+	                <td style="width: 100px;">
+	                  <button class="btn btn-danger" onclick="hapus(${item.id})">
+	                    <i class="fa fa-trash"></i>
+	                  </button>
+	                </td>
+	              </tr>
+	            `);
+	          });
+	        }
+	      })
+	      .fail(function(error) {
+	        console.log('Error loading spesialisasi list:', error);
+	      });
+	  }
+
+	  // Submit function
+	  async function submit() {
+	    const spesialisasiId = $('#spesialisasi_id').val();
+
+	    if (!spesialisasiId) {
+	      swal({
+	        title: "Error",
+	        text: "Pilih spesialisasi terlebih dahulu!",
+	        icon: "error",
+	        button: "OK"
+	      });
+	      return;
+	    }
+
+	    const will_insert = await swal({
+	      title: "Tambah Data",
+	      text: "Apakah anda akan menambah data ini?",
+	      icon: "warning",
+	      dangerMode: true,
+	      buttons: ["Tidak", "Ya"],
+	    });
+
+	    if (will_insert) {
+	      $('#button_submit').empty();
+	      $('#button_submit').append('<button class="btn btn-primary btn-embossed" disabled>Simpan</button>');
+
+	      $.ajax({
+	        type: 'POST',
+	        url: rooturl + '/anggota/spesialisasi/' + anggotaId + '/save',
+	        data: {
+	          spesialisasi_id: spesialisasiId
+	        },
+	        success: function(data) {
+	          if (data.status === 201) {
+	            swal({
+	              title: "Error",
+	              text: data.data,
+	              icon: "error",
+	              button: "OK"
+	            });
+	            $('#button_submit').empty();
+	            $('#button_submit').append('<button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>');
+	          } else if (data.status === 200) {
+	            swal({
+	              title: "Sukses",
+	              text: "Spesialisasi berhasil ditambahkan",
+	              icon: "success",
+	              button: "OK"
+	            });
+	            $('#spesialisasi_id').val('').trigger('change');
+	            loadSpesialisasiList();
+	            $('#button_submit').empty();
+	            $('#button_submit').append('<button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>');
+	          } else {
+	            swal({
+	              title: "Error",
+	              text: "Terjadi kesalahan",
+	              icon: "error",
+	              button: "OK"
+	            });
+	            $('#button_submit').empty();
+	            $('#button_submit').append('<button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>');
+	          }
+	        },
+	        error: function(data) {
+	          swal({
+	            title: "Error",
+	            text: "Terjadi kesalahan pada server",
+	            icon: "error",
+	            button: "OK"
+	          });
+	          $('#button_submit').empty();
+	          $('#button_submit').append('<button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>');
+	        }
+	      });
+	    }
+	  }
+
+	  // Hapus function
+	  async function hapus(id) {
+	    const willDelete = await swal({
+	      title: "Hapus Data",
+	      text: "Apakah anda akan menghapus data ini?",
+	      icon: "warning",
+	      dangerMode: true,
+	      buttons: ["Tidak", "Ya"],
+	    });
+
+	    if (willDelete) {
+	      $.get(rooturl + '/anggota/spesialisasi/' + anggotaId + '/hapus/' + id)
+	        .then(function(data) {
+	          if (data.status === 200) {
+	            swal({
+	              title: "Sukses",
+	              text: "Data berhasil dihapus",
+	              icon: "success",
+	              button: "OK"
+	            });
+	            loadSpesialisasiList();
+	          }
+	        })
+	        .fail(function(error) {
+	          swal({
+	            title: "Error",
+	            text: "Gagal menghapus data",
+	            icon: "error",
+	            button: "OK"
+	          });
+	        });
+	    }
+	  }
+	</script>
