@@ -141,7 +141,7 @@
                               <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <h5 style="color: #fff;" class="m-0">Target Iuran</h5>
                                 <h6 style="color: #fff;font-weight: 300;font-size: 14px;" class="m-0">Tahun 2026</h6>
-                                <h5 class="mt-2 mb-0" style="color: #fff;" ><strong>Rp 100.000.000,-</strong></h5>
+                                <h5 class="mt-2 mb-0" style="color: #fff;" ><strong id="data_target">Rp 100.000.000,-</strong></h5>
                               </div>
                             </div>
                           </div>
@@ -155,7 +155,7 @@
                               <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <h5 style="color: #333;" class="m-0">Realisasi Iuran</h5>
                                 <h6 style="color: #333;font-weight: 300;font-size: 14px;" class="m-0">Tahun 2026</h6>
-                                <h5 class="mt-2 mb-0" style="color: #333;" ><strong>Rp 100.000.000,-</strong></h5>
+                                <h5 class="mt-2 mb-0" style="color: #333;" ><strong id="data_realisasi">Rp 100.000.000,-</strong></h5>
                               </div>
                             </div>
                           </div>
@@ -169,7 +169,7 @@
                               <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <h5 style="color: #fff;" class="m-0">Tunggakan Iuran</h5>
                                 <h6 style="color: #fff;font-weight: 300;font-size: 14px;" class="m-0">Tahun 2026</h6>
-                                <h5 class="mt-2 mb-0" style="color: #fff;"><strong>Rp 100.000.000,-</strong></h5>
+                                <h5 class="mt-2 mb-0" style="color: #fff;"><strong id="data_tunggakan">Rp 100.000.000,-</strong></h5>
                               </div>
                             </div>
                           </div>
@@ -295,6 +295,20 @@
 </style>
 
 <script type="text/javascript">
+  function formatRupiah(amount) {
+    // Handle null, undefined, or non-number inputs
+    if (amount === null || amount === undefined || isNaN(amount)) {
+        return 'Rp 0,-';
+    }
+    
+    // Ensure it's a number
+    const num = Number(amount);
+    
+    // Format with dots
+    const formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    
+    return `Rp ${formatted},-`;
+}
 $(document).ready(function() {
 
   var iht_layer = null;
@@ -851,10 +865,16 @@ loadJatengKemendagri()
 // chart
 window.onload =async function () {
 let data = await $.get('/anggota/statistics/simple')
-console.log(data);
+let data2 = await $.get('/anggota/statistics/retribusi/'+new Date().getFullYear())
+let data3 = await $.get('/anggota/statistics/chart')
+
+console.log(data,data2,data3);
 $('#total_anggota').html(data.data.total_anggota)
 $('#aktif').html(data.data.aktif)
 $('#non_aktif').html(data.data.non_aktif)
+$('#data_realisasi').html(formatRupiah(data2.data.data_realisasi.jumlah))
+$('#data_target').html(formatRupiah(data2.data.data_target.jumlah))
+$('#data_tunggakan').html(formatRupiah(data2.data.data_tunggakan.jumlah))
 for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
   let a = data.data.berdasarkan_kualifikasi[i]
   $('#kualifikasi_'+a.kualifikasi).html(a.jumlah)
@@ -882,24 +902,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	data: [{
 		type: "spline",
     // color: "#ffff",
-		dataPoints: [
-			{x: new Date(2002, 0), y: 2506000},
-			{x: new Date(2003, 0), y: 2798000},
-			{x: new Date(2004, 0), y: 3386000},
-			{x: new Date(2005, 0), y: 6944000},
-			{x: new Date(2006, 0), y: 6026000},
-			{x: new Date(2007, 0), y: 2394000},
-			{x: new Date(2008, 0), y: 1872000},
-			{x: new Date(2009, 0), y: 2140000},
-			{x: new Date(2010, 0), y: 7289000},
-			{x: new Date(2011, 0), y: 4830000},
-			{x: new Date(2012, 0), y: 2009000},
-			{x: new Date(2013, 0), y: 2840000},
-			{x: new Date(2014, 0), y: 2396000},
-			{x: new Date(2015, 0), y: 1613000},
-			{x: new Date(2016, 0), y: 2821000},
-			{x: new Date(2017, 0), y: 2000000}
-		]
+		dataPoints: data3.data
 	}]
 });
 chart.render();

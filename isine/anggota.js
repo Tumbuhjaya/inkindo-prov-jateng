@@ -168,7 +168,6 @@ router.get('/edit/:id', cek_login, function(req, res) {
         str += ' and p.id = ?'
         value.push(req.query.id)
     }
-      str+='  ORDER BY p.id DESC '
 
     if (req.query.limit) {
       str += ` limit ? `
@@ -180,7 +179,21 @@ router.get('/edit/:id', cek_login, function(req, res) {
       value.push(req.query.offset)
     }
 
-    let sql = `SELECT  ${a}  FROM anggota p WHERE p.deleted_at is null  `+str
+    let sql = `SELECT 
+                    a.*,
+                    CASE 
+                        WHEN YEAR(CURRENT_DATE()) - MAX(p.tahun) >= 5 THEN 'Non Aktif'
+                        ELSE 'Aktif' 
+                    END as status
+                FROM anggota a
+                LEFT JOIN pembayaran p ON a.id = p.anggota_id 
+                    AND p.deleted_at IS NULL 
+                    AND p.status != '-'
+                    AND p.status IS NOT NULL
+                WHERE a.deleted_at IS NULL  ${str}
+                GROUP BY a.id `
+                console.log(sql);
+                
     await sql_enak.raw(sql,value).then(data=>{
         res.status(200).json({ status: 200, message: "sukses", data: data[0]})
      })
@@ -240,6 +253,80 @@ router.get('/edit/:id', cek_login, function(req, res) {
                 non_aktif: stats.non_aktif || 0,
                 berdasarkan_kualifikasi: kualifikasiResult[0]
             }
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+  router.get('/statistics/retribusi/:tahun', async function(req, res) {
+    try {
+        let tahun = new Date().getFullYear()
+        console.log(tahun);
+        if (req.params.tahun!='undefined') {
+            tahun = req.params.tahun
+        }
+        console.log(tahun,'tahun');
+        
+        const target = `select sum(mr.nominal ) as jumlah from anggota a left join master_retribusi mr on mr.kualifikasi = a.kualifikasi and mr.deleted_at is null where a.deleted_at  is null
+        `;
+        
+        const realisasi = `
+           select sum(mr.nominal ) as jumlah from anggota a 
+left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null
+left join master_retribusi mr on mr.kualifikasi = p.status and mr.deleted_at is null and p.tahun = ? where a.deleted_at  is null
+        `;
+        const tunggakan = `select sum(mr.nominal ) as jumlah from anggota a 
+left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null 
+left join master_retribusi mr on mr.kualifikasi = a.kualifikasi and mr.deleted_at is null and p.tahun = ? 
+where a.deleted_at  is null and p.status ='-'`
+        const [hasil_target, hasil_realisasi , hasil_tunggakan] = await Promise.all([
+            sql_enak.raw(target),
+            sql_enak.raw(realisasi,[tahun]),
+            sql_enak.raw(tunggakan,[tahun])
+
+        ]);
+        
+        const data_target = hasil_target[0][0];
+        const data_realisasi = hasil_realisasi[0][0];
+        const data_tunggakan = hasil_tunggakan[0][0];
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: {
+               data_target, data_realisasi, data_tunggakan
+            }
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+  router.get('/statistics/chart',  async function(req, res) {
+    let sql = ` select sum(mr.nominal ) as y , p.tahun label from anggota a 
+left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null
+left join master_retribusi mr on mr.kualifikasi = p.status and mr.deleted_at is null 
+where a.deleted_at  is null and p.tahun is not null
+group by p.tahun 
+  `
+  try {
+      let data = await sql_enak.raw(sql)
+
+    res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: data [0]
         });
 
     } catch (err) {

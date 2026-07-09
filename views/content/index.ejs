@@ -213,7 +213,7 @@
 
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;">
                                             <h6>Total Anggota</h6>
-                                            <h4><strong>0000</strong></h4>
+                                            <h4><strong id="total_anggota">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +229,7 @@
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;">
                                             <h6 style="font-size: 12px;">Jumlah Anggota</h6>
                                             <h6>Aktif</h6>
-                                            <h4><strong>0000</strong></h4>
+                                            <h4><strong id="aktif">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -245,7 +245,7 @@
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;">
                                             <h6 style="font-size: 12px;">Jumlah Anggota</h6>
                                             <h6>Non Aktif</h6>
-                                            <h4><strong>0000</strong></h4>
+                                            <h4><strong id="non_aktif">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -280,7 +280,7 @@
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;">
                                             <h6 style="font-size: 12px;">Kualifikasi</h6>
                                             <h6>Perusahaan Kecil</h6>
-                                            <h4><strong>0000</strong></h4>
+                                            <h4><strong id="kualifikasi_K">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -296,7 +296,7 @@
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;">
                                             <h6 style="font-size: 12px;">Kualifikasi</h6>
                                             <h6>Perusahaan Menengah</h6>
-                                            <h4><strong>0000</strong></h4>
+                                            <h4><strong id="kualifikasi_M">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -312,7 +312,7 @@
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;">
                                             <h6 style="font-size: 12px;">Kualifikasi</h6>
                                             <h6>Perusahaan Besar</h6>
-                                            <h4><strong>0000</strong></h4>
+                                            <h4><strong id="kualifikasi_B">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -356,6 +356,39 @@
     <script src="<%= rooturl %>/plugins/slick/slick.min.js"></script>
     <!-- End Plugins This Page -->
     <script type="text/javascript">
+        function formatRupiah(amount) {
+    // Handle null, undefined, or non-number inputs
+    if (amount === null || amount === undefined || isNaN(amount)) {
+        return 'Rp 0,-';
+    }
+    
+    // Ensure it's a number
+    const num = Number(amount);
+    
+    // Format with dots
+    const formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    
+    return `Rp ${formatted},-`;
+}
+
+      window.onload =async function () {
+let data = await $.get('/anggota/statistics/simple')
+let data2 = await $.get('/anggota/statistics/retribusi/'+new Date().getFullYear())
+let data3 = await $.get('/anggota/statistics/chart')
+
+console.log(data,data2,data3);
+$('#total_anggota').html(data.data.total_anggota)
+$('#aktif').html(data.data.aktif)
+$('#non_aktif').html(data.data.non_aktif)
+$('#data_realisasi').html(formatRupiah(data2.data.data_realisasi.jumlah))
+$('#data_target').html(formatRupiah(data2.data.data_target.jumlah))
+$('#data_tunggakan').html(formatRupiah(data2.data.data_tunggakan.jumlah))
+for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
+  let a = data.data.berdasarkan_kualifikasi[i]
+  $('#kualifikasi_'+a.kualifikasi).html(a.jumlah)
+  
+}
+      }
          var rooturl = ''
         let data_table =   $('#data').DataTable({    
         "language": {    
@@ -383,7 +416,7 @@
             { "data": "telepon"},
             { "data": "kualifikasi"},
             { "data": null},
-            { "data": null}
+            { "data": "status"}
         ],
         // "columnDefs": [
         //   { "width": "35px", "targets": 0},
