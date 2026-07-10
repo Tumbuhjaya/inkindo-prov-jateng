@@ -31,6 +31,7 @@ var cek_login_all = require('./isine/login.js').cek_login_all;
 
 // FE
 var basic = require('./isine/basic.js');
+var data = require('./isine/data.js');
 
 // BO
 var manajemen_basic = require('./isine/manajemen_basic.js');
@@ -101,6 +102,7 @@ app.use('/uploadckeditor', fn);
 app.use('/upload_excel', upload_excel);
 // FE
 app.use('/basic', basic);
+app.use('/data', data);
 
 // BO
 app.use('/manajemen_basic', manajemen_basic);
