@@ -58,6 +58,40 @@ var upload = multer({ storage: storage })
 
 //start-------------------------------------
 router.get('/', function(req, res) {
-  res.render('content/data_anggota'); 
+  res.render('content/data_anggota');
 });
+
+// Company detail page
+router.get('/anggota/:id', async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+
+        // Get data anggota
+        const anggota = await sql_enak('anggota')
+            .where('id', anggotaId)
+            .where('deleted_at', null)
+            .first();
+
+        if (!anggota) {
+            return res.status(404).render('error', { message: 'Anggota not found' });
+        }
+
+        res.render('content/detail_anggota', {
+            anggota: anggota,
+            anggotaId: anggotaId
+        });
+    } catch (err) {
+        console.error('Error in anggota detail route:', err);
+        res.status(500).render('error', { message: err.message });
+    }
+});
+
+// Search page
+router.get('/search', function(req, res) {
+    const searchQuery = req.query.q || '';
+    res.render('content/search_results', {
+        searchQuery: searchQuery
+    });
+});
+
 module.exports = router;

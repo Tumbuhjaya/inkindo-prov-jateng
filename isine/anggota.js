@@ -71,9 +71,271 @@ router.get('/edit/:id', cek_login, function(req, res) {
      res.render('content-backoffice/anggota/edit', {id : req.params.id,user:req.user[0]});
   })
 
-router.get('/pembayaran/:id', cek_login, function(req, res) {
-    res.render('content-backoffice/anggota/pembayaran');
+router.get('/pembayaran/:id', cek_login, async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+
+        // Get data anggota
+        const anggota = await sql_enak('anggota')
+            .where('id', anggotaId)
+            .where('deleted_at', null)
+            .first();
+
+        if (!anggota) {
+            return res.status(404).render('error', { message: 'Anggota not found' });
+        }
+
+        res.render('content-backoffice/anggota/pembayaran', {
+            user: req.user[0],
+            anggota: anggota,
+            anggotaId: anggotaId
+        });
+    } catch (err) {
+        console.error('Error in pembayaran route:', err);
+        res.status(500).render('error', { message: err.message });
+    }
 })
+
+// ==================== ANGGOTA DETAIL API (Frontend) ====================
+
+// API untuk search anggota by nama perusahaan (untutk frontend)
+router.get('/search', async function(req, res) {
+    try {
+        const searchQuery = req.query.q;
+
+        if (!searchQuery) {
+            return res.status(400).json({
+                status: 400,
+                message: "Search query is required",
+                data: []
+            });
+        }
+
+        const data = await sql_enak('anggota')
+            .where('deleted_at', null)
+            .where('nama_perusahaan', 'like', '%' + searchQuery + '%')
+            .orderBy('nama_perusahaan', 'asc')
+            .limit(20); // Limit results for better performance
+
+        if (data.length === 0) {
+            return res.status(200).json({
+                status: 200,
+                message: "sukses",
+                data: []
+            });
+        }
+
+        // Get spesialisasi for each anggota
+        for (let anggota of data) {
+            const spesialisasi = await sql_enak('spesialisasi_anggota as sa')
+                .join('master_spesialisasi as ms', 'sa.spesialisasi_id', 'ms.id')
+                .select('ms.nama_spesialisasi')
+                .where('sa.anggota_id', anggota.id)
+                .where('sa.deleted_at', null);
+
+            // Format spesialisasi
+            if (spesialisasi.length > 0) {
+                anggota.spesialisasi = spesialisasi.map(s => s.nama_spesialisasi).join(', ');
+            } else {
+                anggota.spesialisasi = '-';
+            }
+        }
+
+        // Calculate status for each anggota
+        for (let anggota of data) {
+            const lastPaymentYearResult = await sql_enak.raw(
+                'SELECT MAX(tahun) as max_year FROM pembayaran WHERE anggota_id = ? AND status = 1 AND deleted_at IS NULL',
+                [anggota.id]
+            );
+
+            const lastPaymentYear = lastPaymentYearResult[0][0]?.max_year;
+
+            if (lastPaymentYear) {
+                const currentYear = new Date().getFullYear();
+                const yearsSinceLastPayment = currentYear - lastPaymentYear;
+                anggota.status = yearsSinceLastPayment >= 5 ? 'Non Aktif' : 'Aktif';
+            } else {
+                anggota.status = 'Pending';
+            }
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: data
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// ==================== PEMBAYARAN CRUD ====================
+
+// API untuk get list pembayaran anggota
+router.get('/pembayaran/:id/list', async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+
+        const data = await sql_enak('pembayaran')
+            .where('anggota_id', anggotaId)
+            .where('deleted_at', null)
+            .orderBy('tahun', 'desc');
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: data
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// API untuk get detail pembayaran by ID
+router.get('/pembayaran-detail/:id', async function(req, res) {
+    try {
+        const id = req.params.id;
+
+        const pembayaran = await sql_enak('pembayaran')
+            .where('id', id)
+            .where('deleted_at', null)
+            .first();
+
+        if (!pembayaran) {
+            return res.status(404).json({
+                status: 404,
+                message: "Pembayaran not found",
+                data: null
+            });
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: pembayaran
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// API untuk insert pembayaran
+router.post('/pembayaran/:id/save', upload.fields([{ name: 'foto_1', maxCount: 1 }]), async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+        let post = req.body;
+
+        // Check if pembayaran for this year already exists
+        const exists = await sql_enak('pembayaran')
+            .where('anggota_id', anggotaId)
+            .where('tahun', post.tahun)
+            .where('deleted_at', null)
+            .first();
+
+        if (exists) {
+            return res.status(201).json({
+                status: 201,
+                message: "Pembayaran untuk tahun ini sudah ada",
+                data: exists
+            });
+        }
+
+        // Handle file upload
+        if (req.files && req.files['foto_1']) {
+            post['foto_1'] = req.files['foto_1'][0].filename;
+        }
+
+        // Set default values
+        post.anggota_id = anggotaId;
+        post.created_at = new Date();
+
+        // Insert pembayaran
+        const result = await sql_enak('pembayaran').insert(post);
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: result
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// API untuk update pembayaran
+router.post('/pembayaran/:id/update', upload.fields([{ name: 'foto_1', maxCount: 1 }]), async function(req, res) {
+    try {
+        const id = req.params.id;
+        let post = req.body;
+
+        // Handle file upload
+        if (req.files && req.files['foto_1']) {
+            post['foto_1'] = req.files['foto_1'][0].filename;
+        }
+
+        // Update pembayaran
+        await sql_enak('pembayaran')
+            .where('id', id)
+            .update(post);
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: "Pembayaran berhasil diupdate"
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// API untuk delete pembayaran (soft delete)
+router.get('/pembayaran/hapus/:id', async function(req, res) {
+    try {
+        const id = req.params.id;
+
+        await sql_enak('pembayaran')
+            .where('id', id)
+            .update({ deleted_at: new Date() });
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: "Pembayaran berhasil dihapus"
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
 
   
 
@@ -168,8 +430,44 @@ router.get('/pembayaran/:id', cek_login, function(req, res) {
     let str =''
     let a = `  *   `
     if (req.query.id) {
-        str += ' and p.id = ?'
+        str += ' and a.id = ?'
         value.push(req.query.id)
+    }
+
+    // Filter parameters for advance search
+    if (req.query.nama_perusahaan) {
+        str += ' and a.nama_perusahaan LIKE ?'
+        value.push('%' + req.query.nama_perusahaan + '%')
+    }
+
+    if (req.query.kota) {
+        str += ' and a.kota = ?'
+        value.push(req.query.kota)
+    }
+
+    if (req.query.kualifikasi) {
+        str += ' and a.kualifikasi = ?'
+        value.push(req.query.kualifikasi)
+    }
+let str2 = ''
+    if (req.query.status) {
+        str2 += ' HAVING status = ?'
+        value.push(req.query.status)
+    }
+
+    if (req.query.spesialisasi) {
+        if (Array.isArray(req.query.spesialisasi)) {
+            // Multiple spesialisasi (OR logic)
+            let spesialisasiConditions = req.query.spesialisasi.map(() => 'EXISTS (SELECT 1 FROM spesialisasi_anggota sa2 LEFT JOIN master_spesialisasi ms2 ON ms2.id = sa2.spesialisasi_id WHERE sa2.anggota_id = a.id AND sa2.deleted_at IS NULL AND ms2.deleted_at IS NULL AND ms2.id = ?)').join(' OR ');
+            str += ' AND (' + spesialisasiConditions + ')';
+            req.query.spesialisasi.forEach(spes => {
+                value.push(spes);
+            });
+        } else {
+            // Single spesialisasi
+            str += ' AND EXISTS (SELECT 1 FROM spesialisasi_anggota sa2 LEFT JOIN master_spesialisasi ms2 ON ms2.id = sa2.spesialisasi_id WHERE sa2.anggota_id = a.id AND sa2.deleted_at IS NULL AND ms2.deleted_at IS NULL AND ms2.id = ?)';
+            value.push(req.query.spesialisasi);
+        }
     }
 
     if (req.query.limit) {
@@ -182,19 +480,21 @@ router.get('/pembayaran/:id', cek_login, function(req, res) {
       value.push(req.query.offset)
     }
 
-    let sql = `SELECT 
-                    a.*,
-                    CASE 
-                        WHEN YEAR(CURRENT_DATE()) - MAX(p.tahun) >= 5 THEN 'Non Aktif'
-                        ELSE 'Aktif' 
+    let sql = `SELECT
+                    a.*,b.spesialisasi,c.tunggakan,
+                    CASE
+                        WHEN YEAR(CURRENT_DATE()) - COALESCE(d.max_tahun, 0) >= 5 THEN 'Non Aktif'
+                        ELSE 'Aktif'
                     END as status
                 FROM anggota a
-                LEFT JOIN pembayaran p ON a.id = p.anggota_id 
-                    AND p.deleted_at IS NULL 
-                    AND p.status != '-'
-                    AND p.status IS NOT NULL
+                left join (select GROUP_CONCAT(ms.nama_spesialisasi ) as spesialisasi  , sa.anggota_id  from spesialisasi_anggota sa left join master_spesialisasi ms on ms.id = sa.spesialisasi_id and ms.deleted_at is null where sa.deleted_at is null GROUP  by sa.anggota_id )
+               b on b.anggota_id = a.id
+               left join (select SUM(p.retribusi ) as tunggakan ,p.anggota_id  from pembayaran p where p.deleted_at  is null and p.status = 0 group by p.anggota_id ) c
+               on c.anggota_id = a.id
+               left join (select MAX(p.tahun) as max_tahun, p.anggota_id from pembayaran p where p.deleted_at is null and p.status = 1 group by p.anggota_id) d
+               on d.anggota_id = a.id
                 WHERE a.deleted_at IS NULL  ${str}
-                GROUP BY a.id `
+                GROUP BY a.id ${str2} `
                 console.log(sql);
                 
     await sql_enak.raw(sql,value).then(data=>{
@@ -209,23 +509,26 @@ router.get('/pembayaran/:id', cek_login, function(req, res) {
     try {
         // Query 1: Total, Aktif, Nonaktif
         const statsSql = `
-            SELECT 
+            SELECT
                 COUNT(*) as total_anggota,
                 SUM(CASE WHEN status = 'Aktif' THEN 1 ELSE 0 END) as aktif,
                 SUM(CASE WHEN status = 'Non Aktif' THEN 1 ELSE 0 END) as non_aktif
             FROM (
-                SELECT 
+                SELECT
                     a.id,
-                    CASE 
-                        WHEN YEAR(CURRENT_DATE()) - MAX(p.tahun) >= 5 THEN 'Non Aktif'
-                        ELSE 'Aktif' 
+                    CASE
+                        WHEN YEAR(CURRENT_DATE()) - COALESCE(MAX_YEAR.max_tahun, 0) >= 5 THEN 'Non Aktif'
+                        ELSE 'Aktif'
                     END as status
                 FROM anggota a
-                LEFT JOIN pembayaran p ON a.id = p.anggota_id 
-                    AND p.deleted_at IS NULL 
-                    AND p.status != '-'
-                    AND p.status IS NOT NULL
-                WHERE a.deleted_at IS NULL 
+                LEFT JOIN (
+                    SELECT MAX(p.tahun) as max_tahun, p.anggota_id
+                    FROM pembayaran p
+                    WHERE p.deleted_at IS NULL
+                    AND p.status = 1
+                    GROUP BY p.anggota_id
+                ) MAX_YEAR ON MAX_YEAR.anggota_id = a.id
+                WHERE a.deleted_at IS NULL
                 GROUP BY a.id
             ) a
         `;
@@ -280,14 +583,12 @@ router.get('/pembayaran/:id', cek_login, function(req, res) {
         `;
         
         const realisasi = `
-           select sum(mr.nominal ) as jumlah from anggota a 
-left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null
-left join master_retribusi mr on mr.kualifikasi = p.status and mr.deleted_at is null and p.tahun = ? where a.deleted_at  is null
-        `;
-        const tunggakan = `select sum(mr.nominal ) as jumlah from anggota a 
+           select sum(p.retribusi ) as jumlah from anggota a 
+left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null and status = 1
+where a.deleted_at  is null and p.tahun =?  `;
+        const tunggakan = `select sum(p.retribusi ) as jumlah from anggota a 
 left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null 
-left join master_retribusi mr on mr.kualifikasi = a.kualifikasi and mr.deleted_at is null and p.tahun = ? 
-where a.deleted_at  is null and p.status ='-'`
+where a.deleted_at  is null and p.status =0 and p.tahun = ?`
         const [hasil_target, hasil_realisasi , hasil_tunggakan] = await Promise.all([
             sql_enak.raw(target),
             sql_enak.raw(realisasi,[tahun]),
@@ -317,19 +618,24 @@ where a.deleted_at  is null and p.status ='-'`
     }
 });
   router.get('/statistics/chart',  async function(req, res) {
-    let sql = ` select sum(mr.nominal ) as y , p.tahun label from anggota a 
+    let sql = ` select sum(p.retribusi ) as y , p.tahun label from anggota a 
 left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null
-left join master_retribusi mr on mr.kualifikasi = p.status and mr.deleted_at is null 
-where a.deleted_at  is null and p.tahun is not null
+where a.deleted_at  is null and p.tahun is not null and status = 1
+group by p.tahun 
+  `
+      let sql2 = ` select sum(p.retribusi ) as y , p.tahun label from anggota a 
+left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null
+where a.deleted_at  is null and p.tahun is not null 
 group by p.tahun 
   `
   try {
       let data = await sql_enak.raw(sql)
+      let data2 = await sql_enak.raw(sql2)
 
     res.status(200).json({
             status: 200,
             message: "sukses",
-            data: data [0]
+            data: data [0], data2: data2 [0]
         });
 
     } catch (err) {
@@ -693,6 +999,73 @@ router.get('/spesialisasi/:anggota_id/hapus/:id', cek_login, async function(req,
             status: 200,
             message: "sukses",
             data: "Spesialisasi berhasil dihapus"
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// ==================== ANGGOTA DETAIL API (Frontend) ====================
+
+// API untuk get detail anggota by ID (untuk frontend) - ROUTE INI DITEMPATKAN PALING AKHIR UNTUK MENGHINDARI KONFLIK
+router.get('/:id', async function(req, res) {
+    try {
+        const id = req.params.id;
+
+        // Cek jika ID adalah path yang sudah didefinisikan
+        if (isNaN(id)) {
+            return res.status(404).json({
+                status: 404,
+                message: "Not found",
+                data: null
+            });
+        }
+
+        const anggota = await sql_enak('anggota')
+            .where('id', id)
+            .where('deleted_at', null)
+            .first();
+
+        if (!anggota) {
+            return res.status(404).json({
+                status: 404,
+                message: "Anggota not found",
+                data: null
+            });
+        }
+
+        // Get spesialisasi
+        const spesialisasi = await sql_enak('spesialisasi_anggota as sa')
+            .join('master_spesialisasi as ms', 'sa.spesialisasi_id', 'ms.id')
+            .select('ms.nama_spesialisasi')
+            .where('sa.anggota_id', id)
+            .where('sa.deleted_at', null);
+
+        // Get tunggakan using raw query
+        const tunggakanResult = await sql_enak.raw(
+            'SELECT COALESCE(SUM(retribusi), 0) as total FROM pembayaran WHERE anggota_id = ? AND status = 0 AND deleted_at IS NULL',
+            [id]
+        );
+
+        // Format spesialisasi
+        if (spesialisasi.length > 0) {
+            anggota.spesialisasi = spesialisasi.map(s => s.nama_spesialisasi).join(', ');
+        } else {
+            anggota.spesialisasi = '-';
+        }
+
+        // Add tunggakan to anggota object
+        anggota.tunggakan = tunggakanResult[0][0]?.total || 0;
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: anggota
         });
     } catch (err) {
         console.error(err);

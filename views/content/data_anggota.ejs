@@ -257,56 +257,73 @@
               <div class="col-12">
                 <hr>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                  Advance Search
+                  <i class="fas fa-search"></i> Advance Search
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="resetAdvanceFilters()">
+                  <i class="fas fa-redo"></i> Reset Filters
                 </button>
 
-                <div class="collapse" id="collapseExample">
+                <div class="collapse mt-3" id="collapseExample">
                   <div class="card card-body">
                     <div class="row">
                       <div class="col-12 col-lg-4 col-lx-4">
                         <div class="form-group">
-                          <label for="">Kabupaten/Kota</label>
-                          <select name="" id="" class="form-control autocomplete">
-                            <option value="">-- Pilih --</option>
+                          <label for="searchKota">Kabupaten/Kota</label>
+                          <select name="searchKota" id="searchKota" class="form-control select2">
+                            <option value="">-- Semua Kota --</option>
+                            <option value="Semarang">Semarang</option>
+                            <option value="Solo">Solo</option>
+                            <option value="Magelang">Magelang</option>
+                            <option value="Pekalongan">Pekalongan</option>
+                            <option value="Tegal">Tegal</option>
+                            <option value="Kudus">Kudus</option>
+                            <option value="Salatiga">Salatiga</option>
                           </select>
                         </div>
                       </div>
 
                       <div class="col-12 col-lg-4 col-lx-4">
                         <div class="form-group">
-                          <label for="">Kualifikasi</label>
-                          <select name="" id="" class="form-control">
-                            <option value="">-- Pilih --</option>
-                            <option value="">Kecil</option>
-                            <option value="">Menengah</option>
-                            <option value="">Besar</option>
+                          <label for="searchKualifikasi">Kualifikasi</label>
+                          <select name="searchKualifikasi" id="searchKualifikasi" class="form-control select2">
+                            <option value="">-- Semua Kualifikasi --</option>
+                            <option value="A">A - Besar</option>
+                            <option value="B">B - Menengah</option>
+                            <option value="C">C - Kecil</option>
+                            <option value="D">D - Perorangan</option>
                           </select>
                         </div>
                       </div>
 
                       <div class="col-12 col-lg-4 col-lx-4">
                         <div class="form-group">
-                          <label for="">Status Keanggotaan</label>
-                          <select name="" id="" class="form-control ">
-                            <option value="">-- Pilih --</option>
-                            <option value="">Aktif</option>
-                            <option value="">Non Aktif</option>
+                          <label for="searchStatus">Status Keanggotaan</label>
+                          <select name="searchStatus" id="searchStatus" class="form-control select2">
+                            <option value="">-- Semua Status --</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Non Aktif">Non Aktif</option>
+                            <option value="Pending">Pending</option>
                           </select>
                         </div>
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-12 col-lg-12 col-lx-4">
-                        <div class="form-group">
-                          <label for="">Spesialisasi</label>
-                          <select name="" id="" class="form-control autocomplete" multiple="multiple">
-                            <option value="">-- Pilih --</option>
-                            <option value="">Spesial 1</option>
-                            <option value="">Spesial 2</option>
-                            <option value="">Spesial 3</option>
-                          </select>
-                        </div>
+  <div class="col-12">
+    <div class="form-group">
+      <label for="searchSpesialisasi">Spesialisasi</label>
+      <select name="searchSpesialisasi" id="searchSpesialisasi" class="form-control select2" multiple="multiple">
+      </select>
+      <small class="form-text text-muted">Pilih salah satu atau beberapa spesialisasi (OR logic)</small>
+    </div>
+  </div>
+</div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <button class="btn btn-success" type="button" onclick="applyAdvanceFilters()">
+                          <i class="fas fa-filter"></i> Terapkan Filter
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -362,12 +379,26 @@
 
         // Menambahkan event listener saat tombol diklik
         searchBtn.addEventListener('click', () => {
-            // Mengubah status class 'active' (tambah jika belum ada, hapus jika sudah ada)
-            searchContainer.classList.toggle('active');
-            
-            // Jika container terbuka, fokuskan kursor ke dalam input secara otomatis
-            if (searchContainer.classList.contains('active')) {
-                searchInput.focus();
+            const searchValue = searchInput.value.trim();
+
+            if (searchValue && searchContainer.classList.contains('active')) {
+                // Jika ada nilai pencarian dan container aktif, redirect ke halaman detail dengan pencarian
+                window.location.href = rooturl + '/data/search?q=' + encodeURIComponent(searchValue);
+            } else {
+                // Mengubah status class 'active' (tambah jika belum ada, hapus jika sudah ada)
+                searchContainer.classList.toggle('active');
+
+                // Jika container terbuka, fokuskan kursor ke dalam input secara otomatis
+                if (searchContainer.classList.contains('active')) {
+                    searchInput.focus();
+                }
+            }
+        });
+
+        // Event listener untuk Enter key di search input
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && searchInput.value.trim()) {
+                window.location.href = rooturl + '/data/search?q=' + encodeURIComponent(searchInput.value.trim());
             }
         });
 
@@ -426,11 +457,16 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
         "ajax":  `${rooturl}/anggota/list`,
         "columns": [
             { "data": null},
-            { "data": "nama_perusahaan"},
+            {
+                "data": "nama_perusahaan",
+                "render": function(data, type, row) {
+                    return '<a href="/data/anggota/' + row.id + '" style="text-decoration: none; font-weight: bold;">' + data + '</a>';
+                }
+            },
             { "data": "penanggung_jawab"},
             { "data": "telepon"},
             { "data": "kualifikasi"},
-            { "data": null},
+            { "data": "spesialisasi"},
             { "data": "status"}
         ],
         // "columnDefs": [
@@ -438,6 +474,83 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
         //   { "width": "100px", "targets": 2}
         // ],
       });
+
+      // Advance filter functions
+      function applyAdvanceFilters() {
+          const kota = $('#searchKota').val();
+          const kualifikasi = $('#searchKualifikasi').val();
+          const status = $('#searchStatus').val();
+          const spesialisasi = $('#searchSpesialisasi').val();
+
+          // Build URL with filter parameters
+          let url = rooturl + '/anggota/list?';
+
+          if (kota) {
+              url += 'kota=' + encodeURIComponent(kota) + '&';
+          }
+          if (kualifikasi) {
+              url += 'kualifikasi=' + encodeURIComponent(kualifikasi) + '&';
+          }
+          if (status) {
+              url += 'status=' + encodeURIComponent(status) + '&';
+          }
+          if (spesialisasi && spesialisasi.length > 0) {
+              spesialisasi.forEach(function(spes) {
+                  url += 'spesialisasi=' + encodeURIComponent(spes) + '&';
+              });
+          }
+
+          // Remove trailing '&'
+          url = url.replace(/&$/, '');
+
+          // Reload table with new URL
+          data_table.ajax.url(url).load();
+      }
+
+      function resetAdvanceFilters() {
+          $('#searchKota').val('').trigger('change');
+          $('#searchKualifikasi').val('').trigger('change');
+          $('#searchStatus').val('').trigger('change');
+          $('#searchSpesialisasi').val('').trigger('change');
+
+          // Reload table without filters
+          data_table.ajax.url(rooturl + '/anggota/list').load();
+      }
+
+      // Load master spesialisasi data
+     async function loadSpesialisasi() {
+    try {
+        const response = await $.get('/master/spesialisasi/list');
+        if (response.status === 200 && response.data) {
+            const select = $('#searchSpesialisasi');
+            select.empty();
+            
+            // Catatan: Untuk multiple select dengan Select2, sebaiknya tidak pakai placeholder berbentuk <option> kosong statis.
+            // Kita akan mengatur placeholder langsung lewat konfigurasi Select2 di bawah.
+
+            response.data.forEach(function(item) {
+                select.append('<option value="' + item.id + '">' + item.nama_spesialisasi + '</option>');
+            });
+
+            // --- INI KUNCI PERBAIKANNYA ---
+            // Inisialisasi Select2 setelah data selesai dimasukkan
+            select.select2({
+                placeholder: "-- Pilih Spesialisasi --",
+                allowClear: true,
+                width: '100%' // Memastikan lebar dropdown mengikuti pembungkus Bootstrap
+            });
+        }
+    } catch (error) {
+        console.log('Error loading spesialisasi:', error);
+    }
+}
+
+// Pastikan fungsi ini dipanggil saat dokumen siap
+$(document).ready(function() {
+    loadSpesialisasi();
+});
+      // Load spesialisasi data on page load
+      loadSpesialisasi();
 
       data_table.on( 'draw.dt', function () {
         let PageInfo = $('#data').DataTable().page.info();

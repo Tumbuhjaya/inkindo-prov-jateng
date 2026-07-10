@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<% let rooturl = ''; %>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="<%= rooturl %>/images/template/shortcut_icon.ico">
+    <title>Detail Anggota - Database Inkindo Provinsi Jawa Tengah</title>
+
+    <link href="<%= rooturl %>/stylesheets/template/css/bootstrap.css" rel="stylesheet">
+    <link href="<%= rooturl %>/stylesheets/template/css/style.css" rel="stylesheet">
+
+    <!-- Plugin This Page -->
+    <link rel="stylesheet" href="<%= rooturl %>/plugins/fontawesome-5/css/all.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <script src="<%= rooturl %>/javascripts/template/jquery.min.js"></script>
+
+    <!-- End Plugins This Page -->
+
+    <style type="text/css">
+        .w-100{
+            width: 100%;
+        }
+
+        .w-100-flex{
+            width: 100%;
+            display: flex;
+        }
+
+        h1,h2,h3,h4,h4,h5,h6{
+            margin: 0;
+        }
+
+        .detail-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3571D5;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3571D5;
+            padding-bottom: 10px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            width: 200px;
+            color: #555;
+        }
+
+        .detail-value {
+            flex: 1;
+            color: #333;
+        }
+
+        .badge-status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .badge-active {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge-inactive {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .badge-pending {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .payment-table th,
+        .payment-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .payment-table th {
+            background-color: #3571D5;
+            color: white;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3571D5;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #2851a3;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <% include ../template/header.ejs %>
+    <header class="shadow-lg" style="background-color: #3571D5;
+    background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-5 col-lg-5">
+                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;">
+                        <h5><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-7 col-lg-7">
+                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;justify-content: flex-end;">
+                        <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="shadow">
+                          <a href="/" style="text-decoration: none;">
+                            <h6 style="color: #212529;"><strong>BERANDA</strong></h6>
+                          </a>
+                        </span>
+
+                        <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="ml-3 mr-3 shadow">
+                          <a href="/data" style="text-decoration: none;">
+                          <h6 style="color: #212529;"><strong>DATA ANGGOTA</strong></h6>
+                          </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <a href="/data" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Data Anggota
+                    </a>
+                </div>
+            </div>
+
+            <!-- Loading indicator -->
+            <div id="loadingIndicator" class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <p>Memuat data anggota...</p>
+            </div>
+
+            <!-- Error message -->
+            <div id="errorMessage" class="alert alert-danger" style="display: none;">
+                <p>Data anggota tidak ditemukan atau terjadi kesalahan.</p>
+                <a href="/data" class="btn btn-secondary">Kembali ke Data Anggota</a>
+            </div>
+
+            <!-- Detail content -->
+            <div id="detailContent" style="display: none;">
+                <!-- Company Info Section -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <i class="fas fa-building"></i> Informasi Perusahaan
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">No. Anggota:</div>
+                        <div class="detail-value" id="no_anggota"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Nama Perusahaan:</div>
+                        <div class="detail-value" id="nama_perusahaan"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Penanggung Jawab:</div>
+                        <div class="detail-value" id="penanggung_jawab"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Gelar PJBU:</div>
+                        <div class="detail-value" id="gelar_pjbu"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Tanggal Lahir:</div>
+                        <div class="detail-value" id="tanggal_lahir"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Alamat:</div>
+                        <div class="detail-value" id="alamat"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Kota:</div>
+                        <div class="detail-value" id="kota"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Korwil:</div>
+                        <div class="detail-value" id="korwil"></div>
+                    </div>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <i class="fas fa-phone"></i> Informasi Kontak
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Telepon:</div>
+                        <div class="detail-value" id="telepon"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Fax:</div>
+                        <div class="detail-value" id="fax"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">No. HP PJBU:</div>
+                        <div class="detail-value" id="nomor_hp_pjbu"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Email:</div>
+                        <div class="detail-value" id="email_kta"></div>
+                    </div>
+                </div>
+
+                <!-- Membership Info Section -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <i class="fas fa-user-tie"></i> Informasi Keanggotaan
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Status Keanggotaan:</div>
+                        <div class="detail-value" id="status_keanggotaan"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Kualifikasi:</div>
+                        <div class="detail-value" id="kualifikasi"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Tahun Masuk:</div>
+                        <div class="detail-value" id="tahun_masuk"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Spesialisasi:</div>
+                        <div class="detail-value" id="spesialisasi"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Jumlah Tunggakan:</div>
+                        <div class="detail-value" id="jumlah_tunggakan"></div>
+                    </div>
+                </div>
+
+                <!-- Payment History Section -->
+                <div class="detail-section">
+                    <div class="detail-title">
+                        <i class="fas fa-history"></i> Riwayat Pembayaran
+                    </div>
+                    <div id="paymentHistory">
+                        <table class="payment-table" id="paymentTable">
+                            <thead>
+                                <tr>
+                                    <th>Tahun</th>
+                                    <th>Tanggal Pembayaran</th>
+                                    <th>Nominal</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <% include ../template/footer.ejs %>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="<%= rooturl %>/javascripts/template/bootstrap.bundle.js"></script>
+    <!-- Plugins This Page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <!-- End Plugins This Page -->
+    <script type="text/javascript">
+        var rooturl = '';
+        var anggotaId = <%= (typeof anggotaId !== 'undefined') ? anggotaId : 'null' %>;
+
+        function formatRupiah(amount) {
+            if (amount === null || amount === undefined || isNaN(amount)) {
+                return 'Rp 0,-';
+            }
+            const num = Number(amount);
+            const formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return `Rp ${formatted},-`;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function getKualifikasiText(kualifikasi) {
+            const kualifikasiMap = {
+                'A': 'A - Besar',
+                'B': 'B - Menengah',
+                'C': 'C - Kecil',
+                'D': 'D - Perorangan'
+            };
+            return kualifikasiMap[kualifikasi] || kualifikasi || '-';
+        }
+
+        function getStatusBadge(status) {
+            if (status === 'Aktif') {
+                return '<span class="badge-status badge-active">Aktif</span>';
+            } else if (status === 'Non Aktif') {
+                return '<span class="badge-status badge-inactive">Non Aktif</span>';
+            } else if (status === 'Pending') {
+                return '<span class="badge-status badge-pending">Pending</span>';
+            }
+            return status || '-';
+        }
+
+        async function loadAnggotaDetail() {
+            if (!anggotaId) {
+                $('#loadingIndicator').hide();
+                $('#errorMessage').show();
+                return;
+            }
+
+            try {
+                // Load anggota data
+                const anggotaResponse = await $.get(rooturl + '/anggota/' + anggotaId);
+
+                if (anggotaResponse.status !== 200 || !anggotaResponse.data) {
+                    $('#loadingIndicator').hide();
+                    $('#errorMessage').show();
+                    return;
+                }
+
+                const anggota = anggotaResponse.data;
+
+                // Populate company info
+                $('#no_anggota').text(anggota.no_anggota || '-');
+                $('#nama_perusahaan').text(anggota.nama_perusahaan || '-');
+                $('#penanggung_jawab').text(anggota.penanggung_jawab || '-');
+                $('#gelar_pjbu').text(anggota.gelar_pjbu || '-');
+                $('#tanggal_lahir').text(formatDate(anggota.tanggal_lahir));
+                $('#alamat').text(anggota.alamat || '-');
+                $('#kota').text(anggota.kota || '-');
+                $('#korwil').text(anggota.korwil || '-');
+
+                // Populate contact info
+                $('#telepon').text(anggota.telepon || '-');
+                $('#fax').text(anggota.fax || '-');
+                $('#nomor_hp_pjbu').text(anggota.nomor_hp_pjbu || '-');
+                $('#email_kta').text(anggota.email_kta || '-');
+
+                // Populate membership info
+                $('#status_keanggotaan').html(getStatusBadge(anggota.status_keanggotaan));
+                $('#kualifikasi').text(getKualifikasiText(anggota.kualifikasi));
+                $('#tahun_masuk').text(anggota.tahun_masuk || '-');
+                $('#spesialisasi').text(anggota.spesialisasi || '-');
+                $('#jumlah_tunggakan').text(formatRupiah(anggota.tunggakan));
+
+                // Load payment history
+                const paymentResponse = await $.get(rooturl + '/anggota/pembayaran/' + anggotaId + '/list');
+
+                if (paymentResponse.status === 200 && paymentResponse.data) {
+                    const paymentTableBody = $('#paymentTableBody');
+                    paymentTableBody.empty();
+
+                    paymentResponse.data.forEach(function(payment) {
+                        const statusBadge = payment.status == 1
+                            ? '<span class="badge-status badge-active">Lunas</span>'
+                            : '<span class="badge-status badge-inactive">Belum Lunas</span>';
+
+                        paymentTableBody.append(`
+                            <tr>
+                                <td>${payment.tahun || '-'}</td>
+                                <td>${formatDate(payment.tanggal_pembayaran)}</td>
+                                <td>${formatRupiah(payment.retribusi)}</td>
+                                <td>${statusBadge}</td>
+                            </tr>
+                        `);
+                    });
+
+                    if (paymentResponse.data.length === 0) {
+                        paymentTableBody.append('<tr><td colspan="4" class="text-center">Tidak ada data pembayaran</td></tr>');
+                    }
+                }
+
+                // Hide loading, show content
+                $('#loadingIndicator').hide();
+                $('#detailContent').fadeIn();
+
+            } catch (error) {
+                console.log('Error loading anggota detail:', error);
+                $('#loadingIndicator').hide();
+                $('#errorMessage').show();
+            }
+        }
+
+        // Load data on page ready
+        $(document).ready(function() {
+            loadAnggotaDetail();
+        });
+    </script>
+</body>
+</html>

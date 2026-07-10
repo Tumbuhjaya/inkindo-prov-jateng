@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<% let rooturl = ''; %>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="<%= rooturl %>/images/template/shortcut_icon.ico">
+    <title>Hasil Pencarian - Database Inkindo Provinsi Jawa Tengah</title>
+
+    <link href="<%= rooturl %>/stylesheets/template/css/bootstrap.css" rel="stylesheet">
+    <link href="<%= rooturl %>/stylesheets/template/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="<%= rooturl %>/plugins/fontawesome-5/css/all.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <script src="<%= rooturl %>/javascripts/template/jquery.min.js"></script>
+
+    <style type="text/css">
+        .w-100{
+            width: 100%;
+        }
+
+        .w-100-flex{
+            width: 100%;
+            display: flex;
+        }
+
+        h1,h2,h3,h4,h4,h5,h6{
+            margin: 0;
+        }
+
+        .search-result-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .search-result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3571D5;
+            margin-bottom: 10px;
+        }
+
+        .result-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .result-title a:hover {
+            text-decoration: underline;
+        }
+
+        .result-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .badge-kualifikasi {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .badge-status {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge-status-inactive {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .search-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3571D5;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .no-results i {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #3571D5;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #2851a3;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="hidden" id="hiddenSearchQuery" value="<%= (typeof searchQuery !== 'undefined' && searchQuery) ? searchQuery : '' %>">
+
+    <% include ../template/header.ejs %>
+    <header class="shadow-lg" style="background-color: #3571D5;
+    background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-5 col-lg-5">
+                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;">
+                        <h5><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-7 col-lg-7">
+                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;justify-content: flex-end;">
+                        <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="shadow">
+                          <a href="/" style="text-decoration: none;">
+                            <h6 style="color: #212529;"><strong>BERANDA</strong></h6>
+                          </a>
+                        </span>
+
+                        <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="ml-3 mr-3 shadow">
+                          <a href="/data" style="text-decoration: none;">
+                          <h6 style="color: #212529;"><strong>DATA ANGGOTA</strong></h6>
+                          </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <a href="/data" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Data Anggota
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="text-center mb-4"><strong>Hasil Pencarian</strong></h4>
+
+                    <div class="search-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Kata Kunci:</strong> <%= (typeof searchQuery !== 'undefined' && searchQuery) ? searchQuery : '-' %>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong>Ditemukan:</strong> <span id="resultCount">0</span> hasil
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="searchResults">
+                        <div class="no-results">
+                            <i class="fas fa-search"></i>
+                            <p>Mencari hasil...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <% include ../template/footer.ejs %>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="<%= rooturl %>/javascripts/template/bootstrap.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        var rooturl = '';
+        // Mengambil nilai search query dari hidden input HTML secara aman
+        var searchQuery = $('#hiddenSearchQuery').val();
+
+        function getKualifikasiText(kualifikasi) {
+            const kualifikasiMap = {
+                'A': 'A - Besar',
+                'B': 'B - Menengah',
+                'C': 'C - Kecil',
+                'D': 'D - Perorangan'
+            };
+            return kualifikasiMap[kualifikasi] || kualifikasi || '-';
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '-';
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.toString().replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        function getStatusBadge(status) {
+            if (status === 'Aktif') {
+                return '<span class="result-badge badge-status">Aktif</span>';
+            } else if (status === 'Non Aktif') {
+                return '<span class="result-badge badge-status-inactive">Non Aktif</span>';
+            } else if (status === 'Pending') {
+                return '<span class="result-badge" style="background-color: #ffc107; color: #333;">Pending</span>';
+            }
+            return status || '-';
+        }
+
+        async function performSearch() {
+            try {
+                if (!searchQuery) {
+                    $('#searchResults').html(`
+                        <div class="no-results">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <p>Masukkan kata kunci pencarian</p>
+                            <a href="/data" class="btn btn-primary">Kembali ke Pencarian</a>
+                        </div>
+                    `);
+                    return;
+                }
+
+                // Perform search via API
+                const response = await $.get(rooturl + '/anggota/search?q=' + encodeURIComponent(searchQuery));
+
+                if (response.status === 200 && response.data) {
+                    const results = response.data;
+                    $('#resultCount').text(results.length);
+
+                    const searchResultsDiv = $('#searchResults');
+
+                    if (results.length === 0) {
+                        searchResultsDiv.html(`
+                            <div class="no-results">
+                                <i class="fas fa-search"></i>
+                                <p>Tidak ditemukan hasil untuk "<strong>${escapeHtml(searchQuery)}</strong>"</p>
+                                <a href="/data" class="btn btn-primary">Kembali ke Pencarian</a>
+                            </div>
+                        `);
+                        return;
+                    }
+
+                    searchResultsDiv.empty();
+
+                    results.forEach(function(anggota) {
+                        const resultCard = `
+                            <div class="search-result-card">
+                                <div class="result-title">
+                                    <a href="${rooturl}/data/anggota/${anggota.id}">
+                                        ${escapeHtml(anggota.nama_perusahaan)}
+                                    </a>
+                                </div>
+                                <div class="result-info">
+                                    <strong>Penanggung Jawab:</strong> ${escapeHtml(anggota.penanggung_jawab)}
+                                </div>
+                                <div class="result-info">
+                                    <strong>Kota:</strong> ${escapeHtml(anggota.kota)}
+                                </div>
+                                <div class="result-info">
+                                    <strong>Telepon:</strong> ${escapeHtml(anggota.telepon)}
+                                </div>
+                                <div class="result-info">
+                                    <span class="result-badge badge-kualifikasi">${getKualifikasiText(anggota.kualifikasi)}</span>
+                                    ${getStatusBadge(anggota.status)}
+                                </div>
+                            </div>
+                        `;
+                        searchResultsDiv.append(resultCard);
+                    });
+
+                } else {
+                    $('#searchResults').html(`
+                        <div class="no-results">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Terjadi kesalahan saat melakukan pencarian</p>
+                            <a href="/data" class="btn btn-primary">Kembali ke Pencarian</a>
+                        </div>
+                    `);
+                }
+
+            } catch (error) {
+                console.log('Search error:', error);
+                $('#searchResults').html(`
+                    <div class="no-results">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Terjadi kesalahan saat melakukan pencarian</p>
+                        <a href="/data" class="btn btn-primary">Kembali ke Pencarian</a>
+                    </div>
+                `);
+            }
+        }
+
+        // Perform search on page ready
+        $(document).ready(function() {
+            performSearch();
+        });
+    </script>
+</body>
+</html>

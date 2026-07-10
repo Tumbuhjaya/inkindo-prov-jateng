@@ -882,15 +882,16 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
 }
 
 var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,  
+  animationEnabled: true,  
   backgroundColor: "",
-	axisY: {
+  
+  axisY: {
     // gridColor: "#ffff",
     // lineColor: "#ffff",
     // labelFontColor: "#ffff",
     labelFontWeight: "bold",
     labelFontSize: 14,
-	},
+  },
 
   axisX: {
     // gridColor: "#ffff",
@@ -898,14 +899,46 @@ var chart = new CanvasJS.Chart("chartContainer", {
     // labelFontColor: "#ffff",
     labelFontWeight: "bold",
     labelFontSize: 14,
-	},
-	data: [{
-		type: "spline",
-    // color: "#ffff",
-		dataPoints: data3.data
-	}]
+  },
+  
+  // Menambahkan properti toolTip dan legend agar grafik lebih mudah dibaca
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    cursor: "pointer",
+    itemclick: toggleDataSeries
+  },
+
+  data: [
+    {
+      type: "spline",
+      name: "Realisasi", // Nama untuk data3
+      showInLegend: true,
+      // color: "#ffff", // Buka komen jika ingin warna kustom
+      dataPoints: data3.data
+    },
+    {
+      type: "spline",
+      name: "Target", // Nama untuk data2
+      showInLegend: true,
+      // color: "#ff0000", // Berikan warna berbeda jika diperlukan
+      dataPoints:data3.data2
+    }
+  ]
 });
+
 chart.render();
+
+// Fungsi opsional: Menyembunyikan/menampilkan series saat legenda diklik
+function toggleDataSeries(e) {
+  if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+    e.dataSeries.visible = false;
+  } else {
+    e.dataSeries.visible = true;
+  }
+  e.chart.render();
+}
 
 var chart2 = new CanvasJS.Chart("chartContainer2", {
 	animationEnabled: true,

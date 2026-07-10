@@ -26,7 +26,7 @@
                     <div style="width: 100%;display: flex;justify-content: space-between;flex-wrap: wrap;">
                       <div class="card shadow" style="background-color: #ffa426;border-radius: 8px;width: 15%;">
                         <div class="card-body" style="padding:15px;">
-                          <h3 class="m-0" style="color: #fff;">000</h3>
+                          <h3 class="m-0" style="color: #fff;" id="total_anggota">000</h3>
                           <h6 class="m-0" style="font-weight: normal;color: #fff;font-size: 14px;">Total</h6>
                           <h5 class="m-0" style="font-weight: bold;color: #fff;">Anggota</h5>
                         </div>
@@ -34,7 +34,7 @@
 
                       <div class="card shadow" style="background-color: #ffa426;border-radius: 8px;width: 15%;">
                         <div class="card-body" style="padding:15px;">
-                          <h3 class="m-0" style="color: #fff;">000</h3>
+                          <h3 class="m-0" style="color: #fff;" id="kualifikasi_K">000</h3>
                           <h6 class="m-0" style="font-weight: normal;color: #fff;font-size: 14px;">Kualifikasi </h6>
                           <h5 class="m-0" style="font-weight: bold;color: #fff;">Kecil</h5>
                         </div>
@@ -42,7 +42,7 @@
 
                       <div class="card shadow" style="background-color: #ffa426;border-radius: 8px;width: 15%;">
                         <div class="card-body" style="padding:15px;">
-                          <h3 class="m-0" style="color: #fff;">000</h3>
+                          <h3 class="m-0" style="color: #fff;" id="kualifikasi_M">000</h3>
                           <h6 class="m-0" style="font-weight: normal;color: #fff;font-size: 14px;">Kualifikasi </h6>
                           <h5 class="m-0" style="font-weight: bold;color: #fff;">Menengah</h5>
                         </div>
@@ -50,7 +50,7 @@
 
                       <div class="card shadow" style="background-color: #ffa426;border-radius: 8px;width: 15%;">
                         <div class="card-body" style="padding:15px;">
-                            <h3 class="m-0" style="color: #fff;">000</h3>
+                            <h3 class="m-0" style="color: #fff;" id="kualifikasi_B">000</h3>
                           <h6 class="m-0" style="font-weight: normal;color: #fff;font-size: 14px;">Kualifikasi</h6>
                           <h5 class="m-0" style="font-weight: bold;color: #fff;">Besar</h5>
 
@@ -59,7 +59,7 @@
 
                       <div class="card shadow" style="background-color: #ffa426;border-radius: 8px;width: 15%;">
                         <div class="card-body" style="padding:15px;">
-                          <h3 class="m-0" style="color: #fff;">000</h3>
+                          <h3 class="m-0" style="color: #fff;" id="aktif">000</h3>
                           <h6 class="m-0" style="font-weight: normal;color: #fff;font-size: 14px;">Jumlah Anggota </h6>
                           <h5 class="m-0" style="font-weight: bold;color: #fff;">Aktif</h5>
                         </div>
@@ -67,7 +67,7 @@
 
                       <div class="card shadow" style="background-color: #ffa426;border-radius: 8px;width: 15%;">
                         <div class="card-body" style="padding:15px;">
-                          <h3 class="m-0" style="color: #fff;">000</h3>
+                          <h3 class="m-0" style="color: #fff;" id="non_aktif">000</h3>
                           <h6 class="m-0" style="font-weight: normal;color: #fff;font-size: 14px;">Jumlah Anggota </h6>
                           <h5 class="m-0" style="font-weight: bold;color: #fff;">Non Aktif</h5>
                         </div>
@@ -75,6 +75,96 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#advanceSearchCollapse" aria-expanded="false" aria-controls="advanceSearchCollapse">
+                      <i class="fas fa-search"></i> Advance Search
+                    </button>
+                    <button class="btn btn-secondary" type="button" onclick="resetFilters()">
+                      <i class="fas fa-redo"></i> Reset Filters
+                    </button>
+
+                    <div class="collapse mt-3" id="advanceSearchCollapse">
+                      <div class="card card-body">
+                        <div class="row">
+                          <div class="col-12 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                              <label for="searchNamaPerusahaan">Nama Perusahaan</label>
+                              <input type="text" class="form-control" id="searchNamaPerusahaan" placeholder="Ketik nama perusahaan...">
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                              <label for="searchKota">Kabupaten/Kota</label>
+                              <select name="searchKota" id="searchKota" class="form-control select2">
+                                <option value="">-- Semua Kota --</option>
+                                <option value="Semarang">Semarang</option>
+                                <option value="Solo">Solo</option>
+                                <option value="Magelang">Magelang</option>
+                                <option value="Pekalongan">Pekalongan</option>
+                                <option value="Tegal">Tegal</option>
+                                <option value="Kudus">Kudus</option>
+                                <option value="Salatiga">Salatiga</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                              <label for="searchKualifikasi">Kualifikasi</label>
+                              <select name="searchKualifikasi" id="searchKualifikasi" class="form-control select2">
+                                <option value="">-- Semua Kualifikasi --</option>
+                                <option value="A">A - Besar</option>
+                                <option value="B">B - Menengah</option>
+                                <option value="C">C - Kecil</option>
+                                <option value="D">D - Perorangan</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                              <label for="searchStatus">Status Keanggotaan</label>
+                              <select name="searchStatus" id="searchStatus" class="form-control select2">
+                                <option value="">-- Semua Status --</option>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Non Aktif">Non Aktif</option>
+                                <option value="Pending">Pending</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-lg-12 col-xl-12">
+                            <div class="form-group">
+                              <label for="searchSpesialisasi">Spesialisasi</label>
+                              <select name="searchSpesialisasi" id="searchSpesialisasi" class="form-control select2" multiple="multiple">
+                                <option value="1">Spesialisasi 1</option>
+                                <option value="2">Spesialisasi 2</option>
+                                <option value="3">Spesialisasi 3</option>
+                                <option value="4">Spesialisasi 4</option>
+                                <option value="5">Spesialisasi 5</option>
+                              </select>
+                              <small class="form-text text-muted">Pilih salah satu atau beberapa spesialisasi (OR logic)</small>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12">
+                            <button class="btn btn-success" type="button" onclick="applyFilters()">
+                              <i class="fas fa-filter"></i> Terapkan Filter
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="table-responsive">
                   <table class="table table-bordered table-striped table-hover" id="list-data">
                     <thead>
@@ -141,6 +231,18 @@
 
 <script type="text/javascript">
     var rooturl = ''
+window.onload = async function (params) {
+     let data = await $.get('/anggota/statistics/simple')
+let data2 = await $.get('/anggota/statistics/retribusi/'+new Date().getFullYear())
+$('#total_anggota').html(data.data.total_anggota)
+$('#aktif').html(data.data.aktif)
+$('#non_aktif').html(data.data.non_aktif)
+for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
+  let a = data.data.berdasarkan_kualifikasi[i]
+  $('#kualifikasi_'+a.kualifikasi).html(a.jumlah)
+  
+}
+}
     let data_table  =$('#list-data').DataTable({
       "language": {
           "sProcessing":   "Sedang memproses...",
@@ -166,7 +268,9 @@
         { "data": "penanggung_jawab"},
         { "data": "telepon"},
         { "data": "kualifikasi"},
-        { "data": null},
+        { "data": "tunggakan",render : function (params) {
+          return new Intl.NumberFormat('id-ID').format(params)
+        }},
         { "data": "status"},
         { "data": "id",render: function(data){
           let a = ''
@@ -187,6 +291,12 @@
         { "width": "40px", "targets": 0},
         { "width": "200px", "targets": 7}
       ],
+    });
+
+    // Initialize Select2 for search fields
+    $('.select2').select2({
+        theme: 'bootstrap4',
+        width: '100%'
     });
 
     data_table.on( 'draw.dt', function () {
@@ -211,6 +321,53 @@
           data_table.ajax.url(rooturl+"/anggota/list").load();
         })
       }
+    }
+
+    // Filter functions
+    function applyFilters() {
+        const namaPerusahaan = $('#searchNamaPerusahaan').val();
+        const kota = $('#searchKota').val();
+        const kualifikasi = $('#searchKualifikasi').val();
+        const status = $('#searchStatus').val();
+        const spesialisasi = $('#searchSpesialisasi').val();
+
+        // Build URL with filter parameters
+        let url = rooturl + '/anggota/list?';
+
+        if (namaPerusahaan) {
+            url += 'nama_perusahaan=' + encodeURIComponent(namaPerusahaan) + '&';
+        }
+        if (kota) {
+            url += 'kota=' + encodeURIComponent(kota) + '&';
+        }
+        if (kualifikasi) {
+            url += 'kualifikasi=' + encodeURIComponent(kualifikasi) + '&';
+        }
+        if (status) {
+            url += 'status=' + encodeURIComponent(status) + '&';
+        }
+        if (spesialisasi && spesialisasi.length > 0) {
+            spesialisasi.forEach(function(spes) {
+                url += 'spesialisasi=' + encodeURIComponent(spes) + '&';
+            });
+        }
+
+        // Remove trailing '&'
+        url = url.replace(/&$/, '');
+
+        // Reload table with new URL
+        data_table.ajax.url(url).load();
+    }
+
+    function resetFilters() {
+        $('#searchNamaPerusahaan').val('');
+        $('#searchKota').val('').trigger('change');
+        $('#searchKualifikasi').val('').trigger('change');
+        $('#searchStatus').val('').trigger('change');
+        $('#searchSpesialisasi').val('').trigger('change');
+
+        // Reload table without filters
+        data_table.ajax.url(rooturl + '/anggota/list').load();
     }
 
     async function submitImportExcel() {
