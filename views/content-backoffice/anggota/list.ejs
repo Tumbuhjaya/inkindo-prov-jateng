@@ -16,12 +16,92 @@
         <div class="row">
           <div class="col-lg-12 col-xl-12">
             <div class="card">
-              <div class="card-header">
+              <div class="card-header" style="justify-content: flex-end;">
                 <a href="/anggota/insert" class="btn btn-primary custom-btn-card-header mr-3"><i class="fas fa-plus"></i> Tambah Data</a>
                 <button class="btn btn-success custom-btn-card-header" data-toggle="modal" data-target=".modal-import-excel"><i class="fas fa-file-excel"></i> Import Excel</button>
               </div>
               <div class="card-body">
                 <div class="row">
+                  <div class="col-12">
+                    <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#advanceSearchCollapse" aria-expanded="false" aria-controls="advanceSearchCollapse">
+                      <i class="fas fa-search"></i> Filters Data
+                    </button>
+                    <button class="btn btn-secondary" type="button" onclick="resetFilters()">
+                      <i class="fas fa-redo"></i> Reset Filters
+                    </button>
+
+                    <div class="collapse" id="advanceSearchCollapse" style="margin-bottom: 0;">
+                      <div class="card card-body">
+                        <div class="row">
+                          <!-- <div class="col-12 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                              <label for="searchNamaPerusahaan">Nama Perusahaan</label>
+                              <input type="text" class="form-control" id="searchNamaPerusahaan" placeholder="Ketik nama perusahaan..." style="width: 100%;">
+                            </div>
+                          </div> -->
+
+                          <div class="col-12 col-lg-4 col-xl-4">
+                            <div class="form-group">
+                              <label for="searchKota">Kabupaten/Kota</label>
+                              <select name="searchKota" id="searchKota" class="form-control select2" style="width: 100%;">
+                                <option value="">-- Semua Kota --</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-lg-4 col-xl-4">
+                            <div class="form-group">
+                              <label for="searchKualifikasi">Kualifikasi</label>
+                              <select name="searchKualifikasi" id="searchKualifikasi" class="form-control select2" style="width: 100%;">
+                                <option value="">-- Semua Kualifikasi --</option>
+                                <option value="B">Besar</option>
+                                <option value="M">Menengah</option>
+                                <option value="K">Kecil</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-lg-4 col-xl-4">
+                            <div class="form-group">
+                              <label for="searchStatus">Status Keanggotaan</label>
+                              <select name="searchStatus" id="searchStatus" class="form-control select2" style="width: 100%;">
+                                <option value="">-- Semua Status --</option>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Non Aktif">Non Aktif</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-lg-12 col-xl-12">
+                            <div class="form-group">
+                              <label for="searchSpesialisasi">Spesialisasi</label>
+                              <select name="searchSpesialisasi" id="searchSpesialisasi" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                <option value="1">Spesialisasi 1</option>
+                                <option value="2">Spesialisasi 2</option>
+                                <option value="3">Spesialisasi 3</option>
+                                <option value="4">Spesialisasi 4</option>
+                                <option value="5">Spesialisasi 5</option>
+                              </select>
+                              <small class="form-text text-muted">Pilih salah satu atau beberapa spesialisasi yang ingin anda cari</small>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12">
+                            <button class="btn btn-dark" type="button" onclick="applyFilters()">
+                              <i class="fas fa-filter"></i> Terapkan Filter
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
                   <div class="col-lg-12 col-xl-12">
                     <div style="width: 100%;display: flex;justify-content: space-between;flex-wrap: wrap;">
                       <div class="card shadow" style="background-color: #ffa426;border-radius: 8px;width: 15%;">
@@ -76,94 +156,7 @@
                   </div>
                 </div>
 
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#advanceSearchCollapse" aria-expanded="false" aria-controls="advanceSearchCollapse">
-                      <i class="fas fa-search"></i> Advance Search
-                    </button>
-                    <button class="btn btn-secondary" type="button" onclick="resetFilters()">
-                      <i class="fas fa-redo"></i> Reset Filters
-                    </button>
-
-                    <div class="collapse mt-3" id="advanceSearchCollapse">
-                      <div class="card card-body">
-                        <div class="row">
-                          <div class="col-12 col-lg-3 col-xl-3">
-                            <div class="form-group">
-                              <label for="searchNamaPerusahaan">Nama Perusahaan</label>
-                              <input type="text" class="form-control" id="searchNamaPerusahaan" placeholder="Ketik nama perusahaan...">
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-lg-3 col-xl-3">
-                            <div class="form-group">
-                              <label for="searchKota">Kabupaten/Kota</label>
-                              <select name="searchKota" id="searchKota" class="form-control select2">
-                                <option value="">-- Semua Kota --</option>
-                                <option value="Semarang">Semarang</option>
-                                <option value="Solo">Solo</option>
-                                <option value="Magelang">Magelang</option>
-                                <option value="Pekalongan">Pekalongan</option>
-                                <option value="Tegal">Tegal</option>
-                                <option value="Kudus">Kudus</option>
-                                <option value="Salatiga">Salatiga</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-lg-3 col-xl-3">
-                            <div class="form-group">
-                              <label for="searchKualifikasi">Kualifikasi</label>
-                              <select name="searchKualifikasi" id="searchKualifikasi" class="form-control select2">
-                                <option value="">-- Semua Kualifikasi --</option>
-                                <option value="A">A - Besar</option>
-                                <option value="B">B - Menengah</option>
-                                <option value="C">C - Kecil</option>
-                                <option value="D">D - Perorangan</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-lg-3 col-xl-3">
-                            <div class="form-group">
-                              <label for="searchStatus">Status Keanggotaan</label>
-                              <select name="searchStatus" id="searchStatus" class="form-control select2">
-                                <option value="">-- Semua Status --</option>
-                                <option value="Aktif">Aktif</option>
-                                <option value="Non Aktif">Non Aktif</option>
-                                <option value="Pending">Pending</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-lg-12 col-xl-12">
-                            <div class="form-group">
-                              <label for="searchSpesialisasi">Spesialisasi</label>
-                              <select name="searchSpesialisasi" id="searchSpesialisasi" class="form-control select2" multiple="multiple">
-                                <option value="1">Spesialisasi 1</option>
-                                <option value="2">Spesialisasi 2</option>
-                                <option value="3">Spesialisasi 3</option>
-                                <option value="4">Spesialisasi 4</option>
-                                <option value="5">Spesialisasi 5</option>
-                              </select>
-                              <small class="form-text text-muted">Pilih salah satu atau beberapa spesialisasi (OR logic)</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12">
-                            <button class="btn btn-success" type="button" onclick="applyFilters()">
-                              <i class="fas fa-filter"></i> Terapkan Filter
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
 
                 <div class="table-responsive">
                   <table class="table table-bordered table-striped table-hover" id="list-data">
