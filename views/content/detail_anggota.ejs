@@ -28,19 +28,6 @@
     <!-- End Plugins This Page -->
 
     <style type="text/css">
-        .w-100{
-            width: 100%;
-        }
-
-        .w-100-flex{
-            width: 100%;
-            display: flex;
-        }
-
-        h1,h2,h3,h4,h4,h5,h6{
-            margin: 0;
-        }
-
         .detail-section {
             background-color: #ffffff;
             border-radius: 10px;
@@ -126,6 +113,76 @@
             background-color: #2851a3;
             color: white;
         }
+
+        .w-100{
+            width: 100%;
+        }
+
+        .w-100-flex{
+            width: 100%;
+            display: flex;
+        }
+
+        h1,h2,h3,h4,h4,h5,h6{
+            margin: 0;
+        }
+
+        /* Container untuk search box */
+        .search-container {
+            position: relative;
+            background-color: #ffffff;
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.4s ease;
+        }
+
+        /* Styling untuk input text (awalnya disembunyikan) */
+        .search-input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 0; /* Lebar awal 0 agar tidak terlihat */
+            padding: 0;
+            font-size: 16px;
+            color: #333;
+            transition: width 0.4s ease, padding 0.4s ease; /* Efek animasi slide */
+        }
+
+        /* Styling saat class 'active' ditambahkan lewat JavaScript */
+        .search-container.active .search-input {
+            width: 300px; /* Lebar saat terbuka */
+            padding: 0 15px; /* Menambah jarak teks ke tombol */
+        }
+
+        /* Styling untuk tombol pencarian */
+        .search-btn {
+            background-color: #3571D5;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 18px;
+        }
+
+        .search-btn:hover {
+            background-color: #3571D5;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #3571D5;
+            background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);
+            border-color: #80D0C7;
+        }
     </style>
 </head>
 
@@ -137,23 +194,29 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-5 col-lg-5">
                     <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;">
-                        <h5><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
+                        <h5 style="color: #fff;"><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
                     </div>
                 </div>
 
                 <div class="col-12 col-sm-12 col-md-7 col-lg-7">
                     <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;justify-content: flex-end;">
-                        <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="shadow">
+                        <span style="padding: 10px;border-radius: 8px;" class="">
                           <a href="/" style="text-decoration: none;">
-                            <h6 style="color: #212529;"><strong>BERANDA</strong></h6>
+                            <h6 style="color: #fff;"><strong>BERANDA</strong></h6>
                           </a>
                         </span>
-
-                        <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="ml-3 mr-3 shadow">
+                        
+                        <span style="padding: 10px;border-radius: 8px;" class="ml-3 mr-3">
                           <a href="/data" style="text-decoration: none;">
-                          <h6 style="color: #212529;"><strong>DATA ANGGOTA</strong></h6>
+                          <h6 style="color: #fff;"><strong>DATA ANGGOTA</strong></h6>
                           </a>
                         </span>
+                        <div class="search-container" id="searchContainer">
+                            <input type="text" class="search-input" id="searchInput" placeholder="Ketik pencarian...">
+                            <button class="search-btn" id="searchBtn">
+                              <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -164,138 +227,153 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <a href="/data" class="back-btn">
+                    <a href="/data" class="btn btn-primary">
                         <i class="fas fa-arrow-left"></i> Kembali ke Data Anggota
                     </a>
                 </div>
             </div>
 
-            <!-- Loading indicator -->
-            <div id="loadingIndicator" class="text-center">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-                <p>Memuat data anggota...</p>
-            </div>
-
-            <!-- Error message -->
-            <div id="errorMessage" class="alert alert-danger" style="display: none;">
-                <p>Data anggota tidak ditemukan atau terjadi kesalahan.</p>
-                <a href="/data" class="btn btn-secondary">Kembali ke Data Anggota</a>
-            </div>
-
-            <!-- Detail content -->
-            <div id="detailContent" style="display: none;">
-                <!-- Company Info Section -->
-                <div class="detail-section">
-                    <div class="detail-title">
-                        <i class="fas fa-building"></i> Informasi Perusahaan
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">No. Anggota:</div>
-                        <div class="detail-value" id="no_anggota"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Nama Perusahaan:</div>
-                        <div class="detail-value" id="nama_perusahaan"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Penanggung Jawab:</div>
-                        <div class="detail-value" id="penanggung_jawab"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Gelar PJBU:</div>
-                        <div class="detail-value" id="gelar_pjbu"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Tanggal Lahir:</div>
-                        <div class="detail-value" id="tanggal_lahir"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Alamat:</div>
-                        <div class="detail-value" id="alamat"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Kota:</div>
-                        <div class="detail-value" id="kota"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Korwil:</div>
-                        <div class="detail-value" id="korwil"></div>
-                    </div>
-                </div>
-
-                <!-- Contact Info Section -->
-                <div class="detail-section">
-                    <div class="detail-title">
-                        <i class="fas fa-phone"></i> Informasi Kontak
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Telepon:</div>
-                        <div class="detail-value" id="telepon"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Fax:</div>
-                        <div class="detail-value" id="fax"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">No. HP PJBU:</div>
-                        <div class="detail-value" id="nomor_hp_pjbu"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Email:</div>
-                        <div class="detail-value" id="email_kta"></div>
-                    </div>
-                </div>
-
-                <!-- Membership Info Section -->
-                <div class="detail-section">
-                    <div class="detail-title">
-                        <i class="fas fa-user-tie"></i> Informasi Keanggotaan
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Status Keanggotaan:</div>
-                        <div class="detail-value" id="status_keanggotaan"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Kualifikasi:</div>
-                        <div class="detail-value" id="kualifikasi"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Tahun Masuk:</div>
-                        <div class="detail-value" id="tahun_masuk"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Spesialisasi:</div>
-                        <div class="detail-value" id="spesialisasi"></div>
-                    </div>
-                    <div class="detail-row">
-                        <div class="detail-label">Jumlah Tunggakan:</div>
-                        <div class="detail-value" id="jumlah_tunggakan"></div>
-                    </div>
-                </div>
-
-                <!-- Payment History Section -->
-                <div class="detail-section">
-                    <div class="detail-title">
-                        <i class="fas fa-history"></i> Riwayat Pembayaran
-                    </div>
-                    <div id="paymentHistory">
-                        <table class="payment-table" id="paymentTable">
-                            <thead>
-                                <tr>
-                                    <th>Tahun</th>
-                                    <th>Tanggal Pembayaran</th>
-                                    <th>Nominal</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="paymentTableBody">
-                            </tbody>
-                        </table>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <!-- Loading indicator -->
+                    <div id="loadingIndicator" class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <p>Memuat data anggota...</p>
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- Error message -->
+                    <div id="errorMessage" class="alert alert-danger" style="display: none;">
+                        <p>Data anggota tidak ditemukan atau terjadi kesalahan.</p>
+                        <a href="/data" class="btn btn-secondary">Kembali ke Data Anggota</a>
+                    </div> 
+                </div>
+            </div>
+            
+
+             <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                     <img src="https://placehold.co/400" alt="" style="width: 100%;">
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <h6>Kualifikasi</h6>
+                                                    <span class="badge badge-dark" style="font-size: 16px;">Besar/Menengah/Kecil</span>
+                                                    <hr>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <h6>Status Keanggotaan</h6>
+                                                    <span class="badge badge-success" style="font-size: 16px;">Aktif</span>
+                                                    <span class="badge badge-danger" style="font-size: 16px;">Non Aktif</span>
+                                                    <hr>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <h6>No. Sertifikat</h6>
+                                                    <span class="badge badge-warning" style="font-size: 16px;"  id="no_sertifikat"></span>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <table class="table table-borderless table-sm">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 260px;">No. Anggota</td>
+                                                        <td style="width: 10px;">:</td>
+                                                        <td><span id="no_anggota"></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Nama Perusahaan</td>
+                                                        <td>:</td>
+                                                        <td id="nama_perusahaan"><span></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Penanggung Jawab BU/Direktur</td>
+                                                        <td>:</td>
+                                                        <td id="penanggung_jawab"><span></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Alamat</td>
+                                                        <td>:</td>
+                                                        <td id="alamat"><span></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Kabupaten/Kota</td>
+                                                        <td>:</td>
+                                                        <td id="kota"><span></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Korwil</td>
+                                                        <td>:</td>
+                                                        <td id="korwil"><span></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Telepon</td>
+                                                        <td>:</td>
+                                                        <td id="telepon"><span></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Fax</td>
+                                                        <td>:</td>
+                                                        <td id="fax"><span></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Email</td>
+                                                        <td>:</td>
+                                                        <td id="email_kta"><span></span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert alert-secondary" role="alert">
+                                                <h5 class="alert-heading"><strong>Spesialisasi</strong></h5>
+                                                <hr>
+                                                <span>Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
         </div>
     </section>
 
@@ -309,6 +387,35 @@
     <!-- End Plugins This Page -->
     <script type="text/javascript">
         var rooturl = '';
+        const searchContainer = document.getElementById('searchContainer');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('searchInput');
+
+        // Menambahkan event listener saat tombol diklik
+        searchBtn.addEventListener('click', () => {
+            const searchValue = searchInput.value.trim();
+
+            if (searchValue && searchContainer.classList.contains('active')) {
+                // Jika ada nilai pencarian dan container aktif, redirect ke halaman detail dengan pencarian
+                window.location.href = rooturl + '/data/search?q=' + encodeURIComponent(searchValue);
+            } else {
+                // Mengubah status class 'active' (tambah jika belum ada, hapus jika sudah ada)
+                searchContainer.classList.toggle('active');
+
+                // Jika container terbuka, fokuskan kursor ke dalam input secara otomatis
+                if (searchContainer.classList.contains('active')) {
+                    searchInput.focus();
+                }
+            }
+        });
+
+        // Event listener untuk Enter key di search input
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && searchInput.value.trim()) {
+                window.location.href = rooturl + '/data/search?q=' + encodeURIComponent(searchInput.value.trim());
+            }
+        });
+
         var anggotaId = <%= (typeof anggotaId !== 'undefined') ? anggotaId : 'null' %>;
 
         function formatRupiah(amount) {
@@ -375,6 +482,7 @@
                 $('#alamat').text(anggota.alamat || '-');
                 $('#kota').text(anggota.kota || '-');
                 $('#korwil').text(anggota.korwil || '-');
+                $('#no_sertifikat').text(anggota.no_sertifikat || '-');
 
                 // Populate contact info
                 $('#telepon').text(anggota.telepon || '-');

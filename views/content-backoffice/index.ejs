@@ -581,27 +581,27 @@ let i = 0
                   success: function (anggotaData) {
                     if (anggotaData && anggotaData.status === 200) {
                       var popupContent = "<div style='max-height:300px; overflow-y:auto;'>";
-                      popupContent += "<strong>" + (layer.feature.properties.wadmkk || 'Unknown') + "</strong><br/>";
-                      popupContent += "Kode Kota: " + kdpkab + "<br/><br/>";
+                      popupContent += "<span style='font-size:18px;font-weight:bold'>" + (layer.feature.properties.wadmkk || 'Unknown') + "</span><br/>";
+                      popupContent += "Total&nbsp;&nbsp;: " + (anggotaData.total || 0) + " anggota <br/><br/>";
 
                       // Tampilkan anggota per kualifikasi
                       if (anggotaData.data) {
                         for (var kualifikasi in anggotaData.data) {
                           var anggotas = anggotaData.data[kualifikasi];
                           if (anggotas && anggotas.length > 0) {
-                            popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
+                            // popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
 
                             // Tampilkan maksimal 5 anggota per kualifikasi
                             anggotas.slice(0, 5).forEach(function(anggota) {
-                              popupContent += "• " + (anggota.nama_perusahaan || 'Unknown');
+                              popupContent += "<h6 style='line-height:30px;font-size:14px;margin:0;'><i class='fas fa-chevron-right'></i> <strong>" + (anggota.nama_perusahaan || 'Unknown')+"</strong></h6>";
                               if (anggota.penanggung_jawab) {
-                                popupContent += " (" + anggota.penanggung_jawab + ")";
+                                popupContent += " <h6 style='font-size:12px;line-height:0px;margin-bottom:5px;margin-top:0;font-weight:300;'>&nbsp;&nbsp;&nbsp;&nbsp;(" + anggota.penanggung_jawab + ")</h6>";
                               }
-                              popupContent += "<br/>";
+                              // popupContent += "<br/>";
                             });
 
-                            if (anggotas.length > 5) {
-                              popupContent += "... dan " + (anggotas.length - 5) + " lainnya<br/>";
+                            if (anggotas.length > 10) {
+                              popupContent += "... dan " + (anggotas.length - 10) + " lainnya<br/>";
                             }
                             popupContent += "<br/>";
                           }

@@ -22,7 +22,7 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Penanggung Jawab</label>
+            <label class="col-sm-3 col-form-label">Penanggung Jawab BU/Direktur</label>
             <div class="col-sm-9">
               <input type="text" class="form-control" id="penanggung_jawab" name="penanggung_jawab" >
             </div>
@@ -40,7 +40,7 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Tanggal Lahir</label>
+            <label class="col-sm-3 col-form-label">Tanggal Lahir PJBU</label>
             <div class="col-sm-9">
               <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" >
             </div>
@@ -49,7 +49,7 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Alamat</label>
+            <label class="col-sm-3 col-form-label">Alamat (KTA)</label>
             <div class="col-sm-9">
               <textarea class="form-control" id="alamat" name="alamat" rows="3"></textarea>
             </div>
@@ -58,20 +58,23 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Kota</label>
+            <label class="col-sm-3 col-form-label">Kabupaten/Kota</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="kota" name="kota" >
+              <!-- <input type="text" class="form-control" id="kota" name="kota" > -->
+               <select name="" id="" class="form-control select2">
+                <option value="">-- Pilih --</option>
+               </select>
             </div>
           </div>
 
-          <hr>
+           <!-- <hr>
 
-          <div class="form-group row mb-0">
+         <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">Kode Kota</label>
             <div class="col-sm-9">
               <input type="text" class="form-control" id="kode_kota" name="kode_kota" >
             </div>
-          </div>
+          </div> -->
 
           <hr>
 
@@ -103,31 +106,13 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Nomor HP PJBU</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="nomor_hp_pjbu" name="nomor_hp_pjbu" >
-            </div>
-          </div>
-
-          <hr>
-
-          <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Email KTA</label>
-            <div class="col-sm-9">
-              <input type="email" class="form-control" id="email_kta" name="email_kta" >
-            </div>
-          </div>
-
-          <hr>
-
-          <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">Status Keanggotaan</label>
             <div class="col-sm-9">
               <select name="status_keanggotaan" class="form-control select2" id="status_keanggotaan">
                 <option value="">-- Pilih --</option>
                 <option value="Aktif">Aktif</option>
-                <option value="Tidak Aktif">Tidak Aktif</option>
-                <option value="Pending">Pending</option>
+                <option value="Non Aktif">Non Aktif</option>
+                <option value="P">P</option>
               </select>
             </div>
           </div>
@@ -135,25 +120,34 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Disyahkan</label>
+            <label class="col-sm-3 col-form-label">Disyahkan ?</label>
             <div class="col-sm-9">
-              <select name="disyahkan" class="form-control select2" id="disyahkan">
-                <option value="">-- Pilih --</option>
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-              </select>
+              <input type="date" class="form-control" name="disyahkan" id="disyahkan">
             </div>
           </div>
 
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Kode Etik</label>
+            <label class="col-sm-3 col-form-label">Kode Etik (PJBU)</label>
             <div class="col-sm-9">
               <select name="kode_etik" class="form-control select2" id="kode_etik">
                 <option value="">-- Pilih --</option>
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
+                <option value="BELUM">BELUM</option>
+                <option value="SUDAH">SUDAH</option>
+              </select>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group row mb-0">
+            <label class="col-sm-3 col-form-label">Kode Etik (Perusahaan)</label>
+            <div class="col-sm-9">
+              <select name="kode_etik" class="form-control select2" id="kode_etik_perusahaan">
+                <option value="">-- Pilih --</option>
+                <option value="BELUM">BELUM</option>
+                <option value="SUDAH">SUDAH</option>
               </select>
             </div>
           </div>
@@ -175,9 +169,39 @@
             </div>
           </div>
 
+
+          <hr>
+
+
+          <div class="form-group row mb-0">
+            <label class="col-sm-3 col-form-label">Nomor HP PJBU</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="nomor_hp_pjbu" name="nomor_hp_pjbu" >
+            </div>
+          </div>
+
           <hr>
 
           <div class="form-group row mb-0">
+            <label class="col-sm-3 col-form-label">Email (KTA)</label>
+            <div class="col-sm-9">
+              <input type="email" class="form-control" id="email_kta" name="email_kta" >
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group row mb-0">
+            <label class="col-sm-3 col-form-label">No. Sertifikat</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="no_sertifikat" name="no_sertifikat" >
+            </div>
+          </div>
+          
+
+          <hr>
+
+          <!-- <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">Yang Hadir</label>
             <div class="col-sm-9">
               <input type="text" class="form-control" id="yang_hadir" name="yang_hadir" >
@@ -202,16 +226,9 @@
             </div>
           </div>
 
-          <hr>
+          
 
-          <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">No. Sertifikat</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="no_sertifikat" name="no_sertifikat" >
-            </div>
-          </div>
-
-          <hr>
+          <hr> -->
 
           <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">Waktu Penataran</label>
@@ -233,7 +250,7 @@
             </div>
           </div>
 
-          <hr>
+          <!-- <hr>
 
           <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">KTA 2020</label>
@@ -244,7 +261,7 @@
                 <option value="Tidak">Tidak</option>
               </select>
             </div>
-          </div>
+          </div> -->
 
           <hr>
 
@@ -253,15 +270,14 @@
             <div class="col-sm-9">
               <select name="kualifikasi" class="form-control select2" id="kualifikasi">
                 <option value="">-- Pilih --</option>
-                <option value="A">A - Besar</option>
-                <option value="B">B - Menengah</option>
-                <option value="C">C - Kecil</option>
-                <option value="D">D - Perorangan</option>
+                <option value="B">Besar</option>
+                <option value="M">Menengah</option>
+                <option value="K">Kecil</option>
               </select>
             </div>
           </div>
 
-          <hr>
+          <!-- <hr>
 
           <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">Jumlah Tunggakan</label>
@@ -277,12 +293,12 @@
             <div class="col-sm-9">
               <textarea class="form-control" id="ket_tunggakan" name="ket_tunggakan" rows="2"></textarea>
             </div>
-          </div>
+          </div> -->
 
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Foto</label>
+            <label class="col-sm-3 col-form-label">Upload Logo Perusahaan</label>
             <div class="col-sm-9">
               <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
               <div id="lihat_foto"></div>

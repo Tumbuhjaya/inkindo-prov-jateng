@@ -98,7 +98,14 @@
         }
 
         .search-btn:hover {
-            background-color: #4338ca;
+            background-color: #3571D5;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #3571D5;
+            background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);
+            border-color: #80D0C7;
         }
     </style>
 </head>
@@ -111,21 +118,21 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-5 col-lg-5">
                     <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;">
-                        <h5><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
+                        <h5 style="color: #fff;"><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
                     </div>
                 </div>
 
                 <div class="col-12 col-sm-12 col-md-7 col-lg-7">
                     <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;justify-content: flex-end;">
-                        <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="shadow">
+                        <span style="padding: 10px;border-radius: 8px;" class="">
                           <a href="/" style="text-decoration: none;">
-                            <h6 style="color: #212529;"><strong>BERANDA</strong></h6>
+                            <h6 style="color: #fff;"><strong>BERANDA</strong></h6>
                           </a>
                         </span>
                         
-                        <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="ml-3 mr-3 shadow">
+                        <span style="padding: 10px;border-radius: 8px;" class="ml-3 mr-3">
                           <a href="/data" style="text-decoration: none;">
-                          <h6 style="color: #212529;"><strong>DATA ANGGOTA</strong></h6>
+                          <h6 style="color: #fff;"><strong>DATA ANGGOTA</strong></h6>
                           </a>
                         </span>
                         <div class="search-container" id="searchContainer">
@@ -144,22 +151,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h4 class="text-center"><strong>DATA KEANGGOTAAN INKINDO PROVINSI JAWA TENGAH</strong></h4>
+                    <h4 class="text-center" style="color: #3571D5;"><strong>DATA KEANGGOTAAN INKINDO PROVINSI JAWA TENGAH</strong></h4>
                 </div>
             </div>
 
             <div class="row mt-5">
                 <div class="col-md-12 col-lg-12">
+
+                    
                     <div class="row">
                         <div class="col-4">
-                            <div class="card">
-                                <div class="card-body">
+                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
+                                <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/002-team-1.png" alt="" style="height: 80px;">
+                                        <img src="/images/backoffice/004-business.png" alt="" style="height: 80px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;">
-                                            <h6>Total Anggota</h6>
-                                            <h4><strong id="total_anggota">0000</strong></h4>
+                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
+                                            <h6>Kualifikasi</h6>
+                                            <h5><strong>Perusahaan Kecil</strong></h5>
+                                            <h4><strong id="kualifikasi_K">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -167,15 +177,15 @@
                         </div>
 
                         <div class="col-4">
-                            <div class="card">
+                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/002-team-1.png" alt="" style="height: 80px;">
+                                        <img src="/images/backoffice/003-office-building.png" alt="" style="height: 80px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;">
-                                            <h6 style="font-size: 12px;">Jumlah Anggota</h6>
-                                            <h6>Aktif</h6>
-                                            <h4><strong id="aktif">0000</strong></h4>
+                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
+                                            <h6>Kualifikasi</h6>
+                                            <h5><strong>Perusahaan Menengah</strong></h5>
+                                            <h4><strong id="kualifikasi_M">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -183,15 +193,15 @@
                         </div>
 
                         <div class="col-4">
-                            <div class="card">
+                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/002-team-1.png" alt="" style="height: 80px;">
+                                        <img src="/images/backoffice/005-skyscraper.png" alt="" style="height: 80px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;">
-                                            <h6 style="font-size: 12px;">Jumlah Anggota</h6>
-                                            <h6>Non Aktif</h6>
-                                            <h4><strong id="non_aktif">0000</strong></h4>
+                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
+                                            <h6>Kualifikasi</h6>
+                                            <h5><strong>Perusahaan Besar</strong></h5>
+                                            <h4><strong id="kualifikasi_B">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -201,17 +211,16 @@
                 </div>
 
                 <div class="col-md-10 col-lg-10 offset-md-1 offset-lg-1 mt-3">
-                    <div class="row">
+                  <div class="row">
                         <div class="col-4">
-                            <div class="card">
-                                <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
+                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
+                                <div class="card-body">
                                     <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/004-business.png" alt="" style="height: 80px;">
+                                        <img src="/images/backoffice/002-team-1.png" alt="" style="height: 80px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;">
-                                            <h6 style="font-size: 12px;">Kualifikasi</h6>
-                                            <h6>Perusahaan Kecil</h6>
-                                            <h4><strong id="kualifikasi_K">0000</strong></h4>
+                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
+                                            <h5>Total Anggota</h5>
+                                            <h4><strong id="total_anggota">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -219,15 +228,15 @@
                         </div>
 
                         <div class="col-4">
-                            <div class="card">
+                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/003-office-building.png" alt="" style="height: 80px;">
+                                        <img src="/images/backoffice/006-register.png" alt="" style="height: 80px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;">
-                                            <h6 style="font-size: 12px;">Kualifikasi</h6>
-                                            <h6>Perusahaan Menengah</h6>
-                                            <h4><strong id="kualifikasi_M">0000</strong></h4>
+                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
+                                            <h6>Jumlah Anggota</h6>
+                                            <h5><strong>Aktif</strong></h5>
+                                            <h4><strong id="aktif">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -235,15 +244,15 @@
                         </div>
 
                         <div class="col-4">
-                            <div class="card">
+                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/005-skyscraper.png" alt="" style="height: 80px;">
+                                        <img src="/images/backoffice/006-register.png" alt="" style="height: 80px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;">
-                                            <h6 style="font-size: 12px;">Kualifikasi</h6>
-                                            <h6>Perusahaan Besar</h6>
-                                            <h4><strong id="kualifikasi_B">0000</strong></h4>
+                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
+                                            <h6>Jumlah Anggota</h6>
+                                            <h6><strong>Non Aktif</strong></h6>
+                                            <h4><strong id="non_aktif">0000</strong></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -257,7 +266,7 @@
               <div class="col-12">
                 <hr>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                  <i class="fas fa-search"></i> Advance Search
+                  <i class="fas fa-search"></i> Filters Data
                 </button>
                 <button class="btn btn-secondary" type="button" onclick="resetAdvanceFilters()">
                   <i class="fas fa-redo"></i> Reset Filters
@@ -270,7 +279,7 @@
                         <div class="form-group">
                           <label for="searchKota">Kabupaten/Kota</label>
                           <select name="searchKota" id="searchKota" class="form-control select2">
-                            <option value="">-- Semua Kota --</option>
+                            <option value="">-- Semua Kabupaten/Kota --</option>
                             <option value="Semarang">Semarang</option>
                             <option value="Solo">Solo</option>
                             <option value="Magelang">Magelang</option>
@@ -287,10 +296,9 @@
                           <label for="searchKualifikasi">Kualifikasi</label>
                           <select name="searchKualifikasi" id="searchKualifikasi" class="form-control select2">
                             <option value="">-- Semua Kualifikasi --</option>
-                            <option value="A">A - Besar</option>
-                            <option value="B">B - Menengah</option>
-                            <option value="C">C - Kecil</option>
-                            <option value="D">D - Perorangan</option>
+                            <option value="B">Besar</option>
+                            <option value="M">Menengah</option>
+                            <option value="K">Kecil</option>
                           </select>
                         </div>
                       </div>
@@ -302,26 +310,25 @@
                             <option value="">-- Semua Status --</option>
                             <option value="Aktif">Aktif</option>
                             <option value="Non Aktif">Non Aktif</option>
-                            <option value="Pending">Pending</option>
                           </select>
                         </div>
                       </div>
                     </div>
 
                     <div class="row">
-  <div class="col-12">
-    <div class="form-group">
-      <label for="searchSpesialisasi">Spesialisasi</label>
-      <select name="searchSpesialisasi" id="searchSpesialisasi" class="form-control select2" multiple="multiple">
-      </select>
-      <small class="form-text text-muted">Pilih salah satu atau beberapa spesialisasi (OR logic)</small>
-    </div>
-  </div>
-</div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label for="searchSpesialisasi">Spesialisasi</label>
+                          <select name="searchSpesialisasi" id="searchSpesialisasi" class="form-control select2" multiple="multiple">
+                          </select>
+                          <small class="form-text text-muted">Pilih salah satu atau beberapa spesialisasi perusahaan yang ingin anda cari</small>
+                        </div>
+                      </div>
+                    </div>
 
                     <div class="row">
                       <div class="col-12">
-                        <button class="btn btn-success" type="button" onclick="applyAdvanceFilters()">
+                        <button class="btn btn-primary" type="button" onclick="applyAdvanceFilters()">
                           <i class="fas fa-filter"></i> Terapkan Filter
                         </button>
                       </div>
@@ -335,7 +342,7 @@
             <div class="row">
                 <div class="col-12">
                     <table class="table table-bordered table-striped" id="data">
-                        <thead>
+                        <thead style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);color: #fff;">
                             <tr>
                                 <th>No.</th>
                                 <th>Nama Perusahaan</th>
@@ -367,11 +374,10 @@
     <!-- End Plugins This Page -->
     <script type="text/javascript">
       $(document).ready(function() {
-    $('.autocomplete').select2({
-      theme: 'bootstrap4',
-    });
-
-});
+          $('.autocomplete').select2({
+            theme: 'bootstrap4',
+          });
+      });
 
       const searchContainer = document.getElementById('searchContainer');
         const searchBtn = document.getElementById('searchBtn');
@@ -460,12 +466,12 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
             {
                 "data": "nama_perusahaan",
                 "render": function(data, type, row) {
-                    return '<a href="/data/anggota/' + row.id + '" style="text-decoration: none; font-weight: bold;">' + data + '</a>';
+                    return '<a href="/data/anggota/' + row.id + '" style="text-decoration: none; font-weight: bold;color:#3571D5">' + data + '</a>';
                 }
             },
             { "data": "penanggung_jawab"},
             { "data": "telepon"},
-            { "data": "kualifikasi"},
+            { "data": "kualifikasi",render:function(data){return data=='B'?'Besar':data=='M'?'Menengah':'Kecil'}},
             { "data": "spesialisasi"},
             { "data": "status"}
         ],
@@ -559,509 +565,7 @@ $(document).ready(function() {
         } );
       });
 
-        $(document).ready(function() {
-
-  var iht_layer = null;
-  var source = null;
-  var marker;
-  var center = 0;
-
-  var popupOptions = {
-    maxWidth : '450',
-    minWidth : '250',
-    className : 'custom',
-    closeOnClick : true
-  };
-
-  var map = L.map('map', {
-    center: [ -6.966667, 110.416664],
-    zoom: 8,
-    minZoom:2,
-    maxZoom:19,
-    fullscreenControl: true,
-    fullscreenControlOptions: {
-      position: 'topleft'
-    }
-  });
-
-  // Base layers
-  var osm               = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  });
-
-  var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri'
-  });
-
-  // Try to add Google layers, but handle errors gracefully
-  var google_roadmap = null;
-  var google_hybrid = null;
-  var google_satelit = null;
-
-  try {
-    google_roadmap = L.gridLayer.googleMutant({
-      type: 'roadmap'
-    });
-
-    google_hybrid = L.gridLayer.googleMutant({
-      type: 'hybrid'
-    });
-
-    google_satelit = L.gridLayer.googleMutant({
-      type: 'satellite'
-    });
-  } catch(e) {
-    console.log("Google Maps layer not available:", e.message);
-  }
-
-  var RBI = null;
-  try {
-    RBI = L.esri.tiledMapLayer({
-      url: "https://portal.ina-sdi.or.id/arcgis/rest/services/IGD/RupabumiIndonesia/MapServer"
-    });
-  } catch(e) {
-    console.log("RBI layer not available:", e.message);
-  }
-
-  (function(){
-    var originalInitTile = L.GridLayer.prototype._initTile
-    L.GridLayer.include({
-      _initTile: function (tile) {
-        originalInitTile.call(this, tile);
-
-        var tileSize = this.getTileSize();
-
-        tile.style.width = tileSize.x + 1 + 'px';
-        tile.style.height = tileSize.y + 1 + 'px';
-      }
-    });
-  })();
-
-  // Add default layer
-  map.addLayer(osm);
-
-  // TopoJSON support
-  L.TopoJSON = L.GeoJSON.extend({
-    addData: function(jsonData) {
-      if (jsonData.type === "Topology") {
-        for (key in jsonData.objects) {
-          geojson = topojson.feature(jsonData, jsonData.objects[key]);
-          L.GeoJSON.prototype.addData.call(this, geojson);
-        }
-      }
-      else {
-        L.GeoJSON.prototype.addData.call(this, jsonData);
-      }
-    }
-  });
-
-  // Layer inisialisasi
-  var wellmaxzoom = 13;
-  var jateng_kemendagri_layer = new L.GeoJSON();
-  var inovasi = new L.TopoJSON();
-  var inovasi_markers = L.markerClusterGroup();
-  var popup = new L.popup();
-  var cityLabels = []; // Array untuk menyimpan referensi ke label kota
-
-  // Fungsi untuk load GeoJSON inovasi
-  function loadGeoJsoninovasi(data) {
-    try {
-      if (!data || !data.objects) {
-        console.log("No inovasi data available");
-        return;
-      }
-
-      inovasi.clearLayers();
-      inovasi.addData(data);
-      inovasi.addTo(map);
-
-      var i = 0;
-      var labelnya = "";
-
-      inovasi.eachLayer(function (layer) {
-        var icon = new L.Icon.Default();
-        icon.options.shadowSize = [0,0];
-        layer.setIcon(icon);
-        inovasi_markers.addLayer(layer);
-
-        var popupContent = "Judul : <a href='inovasi/detail/"+layer.feature.properties.id+"'>"+layer.feature.properties.judul_inovasi+"</a>";
-        popupContent = popupContent+"</br>Kategori : "+layer.feature.properties.sub_kategori;
-        popupContent = popupContent+"</br>Jenis  : "+layer.feature.properties.jenisnya;
-
-        var foto = layer.feature.properties.foto1;
-        popupContent = popupContent+'<img src="/foto/'+foto+'" class="img-responsive" style="height: 100px;"> ';
-
-        i++;
-
-        layer.on("click", function (e) {
-          popup.setLatLng(layer.getLatLng());
-          popup.setContent(popupContent);
-          map.openPopup(popup);
-        });
-      });
-
-      map.removeLayer(inovasi);
-      map.addLayer(inovasi_markers);
-    } catch(e) {
-      console.log("Error loading inovasi data:", e.message);
-    }
-  }
-
-  // Fungsi untuk generate warna berdasarkan string (kdpkab)
-  function getColorFromString(str) {
-    // Buat hash dari string
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    // Generate warna HSL yang pleasant
-    const hue = Math.abs(hash % 360);
-    const saturation = 60 + (Math.abs(hash >> 8) % 20); // 60-80% untuk tidak terlalu saturated
-    const lightness = 45 + (Math.abs(hash >> 16) % 15); // 45-60% untuk good contrast
-
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-  }
-
-  // Fungsi untuk load GeoJSON jateng_kemendagri
-  function loadGeoJsonjateng_kemendagri(data) {
-    try {
-      if (!data || !data.features) {
-        console.log("No jateng_kemendagri data available");
-        return;
-      }
-
-      jateng_kemendagri_layer.clearLayers();
-      jateng_kemendagri_layer.addData(data);
-      jateng_kemendagri_layer.addTo(map);
-
-      jateng_kemendagri_layer.eachLayer(function (layer) {
-        try {
-          // Generate warna unik berdasarkan kdpkab
-          var kdpkab = layer.feature.properties.kdpkab;
-          var cityColor = getColorFromString(kdpkab || 'unknown');
-
-          var style_jateng = {
-            color: cityColor,
-            weight: 2,
-            opacity: 0.8,
-            fillColor: cityColor,
-            fillOpacity: 0.3
-          };
-
-          layer.setStyle(style_jateng);
-
-          // Simpan warna asli untuk reset saat mouseout
-          layer.originalStyle = {
-            color: cityColor,
-            weight: 2,
-            opacity: 0.8,
-            fillColor: cityColor,
-            fillOpacity: 0.3
-          };
-
-          // Event listener untuk hover
-          layer.on('mouseover', function (e) {
-            try {
-              var currentStyle = layer.options;
-              this.setStyle({
-                weight: 4,
-                color: "#ff6600",
-                fillColor: "#ff6600",
-                fillOpacity: 0.5
-              });
-
-              // Ambil data anggota berdasarkan kdpkab
-              var kdpkab = layer.feature.properties.kdpkab;
-
-              if (kdpkab) {
-                $.ajax({
-                  type: "GET",
-                  url: rooturl + "/peta/anggota_by_kota?kode_kota=" + kdpkab,
-                  dataType: 'json',
-                  success: function (anggotaData) {
-                    if (anggotaData && anggotaData.status === 200) {
-                      var popupContent = "<div style='max-height:300px; overflow-y:auto;'>";
-                      popupContent += "<strong>" + (layer.feature.properties.wadmkk || 'Unknown') + "</strong><br/>";
-                      popupContent += "Kode Kota: " + kdpkab + "<br/><br/>";
-
-                      // Tampilkan anggota per kualifikasi
-                      if (anggotaData.data) {
-                        for (var kualifikasi in anggotaData.data) {
-                          var anggotas = anggotaData.data[kualifikasi];
-                          if (anggotas && anggotas.length > 0) {
-                            popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
-
-                            // Tampilkan maksimal 5 anggota per kualifikasi
-                            anggotas.slice(0, 5).forEach(function(anggota) {
-                              popupContent += "• " + (anggota.nama_perusahaan || 'Unknown');
-                              if (anggota.penanggung_jawab) {
-                                popupContent += " (" + anggota.penanggung_jawab + ")";
-                              }
-                              popupContent += "<br/>";
-                            });
-
-                            if (anggotas.length > 5) {
-                              popupContent += "... dan " + (anggotas.length - 5) + " lainnya<br/>";
-                            }
-                            popupContent += "<br/>";
-                          }
-                        }
-                      }
-
-                      popupContent += "Total: " + (anggotaData.total || 0) + " anggota";
-                      popupContent += "</div>";
-
-                      layer.bindPopup(popupContent, {
-                        maxWidth: 350,
-                        maxHeight: 400
-                      }).openPopup();
-                    }
-                  },
-                  error: function (error) {
-                    console.log("Error fetching anggota data:", error);
-                  }
-                });
-              }
-            } catch(e) {
-              console.log("Error in mouseover handler:", e.message);
-            }
-          });
-
-          // Event listener untuk mouseout (reset style)
-          layer.on('mouseout', function (e) {
-            if (this.originalStyle) {
-              this.setStyle(this.originalStyle);
-            }
-          });
-
-          // Tambahkan label nama kota di tengah polygon
-          if (layer.feature.properties && layer.feature.properties.wadmkk) {
-            var center = layer.getBounds().getCenter();
-            var cityName = layer.feature.properties.wadmkk;
-
-            var cityLabel = L.tooltip({
-              permanent: true,
-              direction: 'center',
-              className: 'city-label',
-              opacity: 0.8
-            });
-
-            cityLabel.setContent(cityName);
-            cityLabel.setLatLng(center);
-            cityLabel.addTo(map);
-
-            // Simpan referensi ke label untuk toggle function
-            cityLabels.push({
-              label: cityLabel,
-              layer: layer
-            });
-          }
-
-          // Event listener untuk click
-          layer.on('click', function (e) {
-            var kdpkab = layer.feature.properties.kdpkab;
-
-            if (kdpkab) {
-              $.ajax({
-                type: "GET",
-                url: rooturl + "/peta/anggota_by_kota?kode_kota=" + kdpkab,
-                dataType: 'json',
-                success: function (anggotaData) {
-                  if (anggotaData && anggotaData.status === 200) {
-                    var popupContent = "<div style='max-height:400px; overflow-y:auto;'>";
-                    popupContent += "<strong>" + (layer.feature.properties.wadmkk || 'Unknown') + "</strong><br/>";
-                    popupContent += "Kode Kota: " + kdpkab + "<br/><br/>";
-
-                    // Tampilkan anggota per kualifikasi
-                    if (anggotaData.data) {
-                      for (var kualifikasi in anggotaData.data) {
-                        var anggotas = anggotaData.data[kualifikasi];
-                        if (anggotas && anggotas.length > 0) {
-                          popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
-
-                          anggotas.forEach(function(anggota) {
-                            popupContent += "• " + (anggota.nama_perusahaan || 'Unknown');
-                            if (anggota.penanggung_jawab) {
-                              popupContent += " (" + anggota.penanggung_jawab + ")";
-                            }
-                            if (anggota.nomor_hp_pjbu) {
-                              popupContent += " - " + anggota.nomor_hp_pjbu;
-                            }
-                            popupContent += "<br/>";
-                          });
-                          popupContent += "<br/>";
-                        }
-                      }
-                    }
-
-                    popupContent += "Total: " + (anggotaData.total || 0) + " anggota";
-                    popupContent += "</div>";
-
-                    layer.bindPopup(popupContent, {
-                      maxWidth: 400,
-                      maxHeight: 450
-                    }).openPopup();
-                  }
-                }
-              });
-            }
-          });
-        } catch(e) {
-          console.log("Error setting up layer events:", e.message);
-        }
-      });
-    } catch(e) {
-      console.log("Error loading jateng_kemendagri data:", e.message);
-    }
-  }
-
-  // Load data peta
-  async function get_peta(params) {
-    try {
-      // Load data inovasi
-      var geoJsonUrl = rooturl + "/peta/inovasi";
-      await  $.getJSON(geoJsonUrl)
-        .done(loadGeoJsoninovasi)
-        .fail(function(error) {
-          console.log("Error loading inovasi:", error);
-        });
-    } catch(e) {
-      console.log("Error in get_peta:", e.message);
-    }
-  }
-
-  // Fungsi untuk load data jateng_kemendagri saat map siap
-  function loadJatengKemendagri() {
-    try {
-      var geoJsonUrl = rooturl + "/peta/json_jateng_kemendagri";
-
-      $.getJSON(geoJsonUrl)
-        .done(loadGeoJsonjateng_kemendagri)
-        .fail(function(error) {
-          console.log("Error loading jateng_kemendagri:", error);
-        });
-    } catch(e) {
-      console.log("Error in loadJatengKemendagri:", e.message);
-    }
-  }
-
-  get_peta();
-
-  // Load data jateng_kemendagri setelah map siap
-  // setTimeout(loadJatengKemendagri, 1000);
-loadJatengKemendagri()
-  // Base layers - hanya tambahkan layer yang tidak null
-  var baseLayers = {
-    "Open Street Map": osm,
-    "ESRI World Imagery": Esri_WorldImagery
-  };
-
-  // Tambahkan Google layers jika tersedia
-  if (google_roadmap) baseLayers["Google Roadmap"] = google_roadmap;
-  if (google_hybrid) baseLayers["Google Hybrid"] = google_hybrid;
-  if (google_satelit) baseLayers["Google Satellite"] = google_satelit;
-  if (RBI) baseLayers["RBI"] = RBI;
-
-  // Grouped overlays - pastikan layer terinisialisasi
-  var groupedOverlays = {
-    "Administrasi": {},
-    "Layer": {}
-  };
-
-  // Tambahkan layer hanya jika sudah terinisialisasi
-  if (typeof jateng_kemendagri_layer !== 'undefined') {
-    groupedOverlays["Administrasi"]["&nbsp;&nbsp;&nbsp;&nbsp;Jateng Kemendagri"] = jateng_kemendagri_layer;
-  }
-
-  if (typeof inovasi_markers !== 'undefined') {
-    groupedOverlays["Layer"]["<span>Inovasi</span>&nbsp;&nbsp;<span style=';padding:2px 8px 2px 8px;'></span>"] = inovasi_markers;
-  }
-
-  var options = {
-    collapsed: true,
-    groupCheckboxes: false
-  };
-
-  // Hanya tambahkan kontrol jika ada overlay yang valid
-  if (Object.keys(groupedOverlays["Administrasi"]).length > 0 || Object.keys(groupedOverlays["Layer"]).length > 0) {
-    try {
-      L.control.groupedLayers(baseLayers, groupedOverlays, options).addTo(map);
-    } catch(e) {
-      console.log("Error adding grouped layers control:", e.message);
-      // Fallback ke simple layer control
-      L.control.layers(baseLayers).addTo(map);
-    }
-  } else {
-    L.control.layers(baseLayers).addTo(map);
-  }
-
-  L.control.scale({
-    position : 'bottomright',
-    metric : true,
-    imperial : false
-  }).addTo(map);
-
-  // Locate control dengan error handling
-  try {
-    var locateIcon = L.ExtraMarkers.icon({
-      icon: 'fa-map-marker',
-      markerColor: 'blue-dark',
-      prefix: 'fa',
-      iconColor: 'white',
-      shape: 'square'
-    });
-
-    var lc = L.control.locate({
-      position : 'topleft',
-      follow : true,
-      strings : {
-        title: "Lokasi Anda",
-        popup: "Anda berada di radius {distance} {unit} dari titik ini"
-      },
-      markerClass : L.marker,
-      markerStyle : {icon: locateIcon},
-      keepCurrentZoomLevel : true
-    }).addTo(map);
-
-    map
-      .on('startfollowing', function() {
-        map.on('dragstart', lc._stopFollowing, lc);
-      })
-      .on('stopfollowing', function() {
-        map.off('dragstart', lc._stopFollowing, lc);
-      });
-  } catch(e) {
-    console.log("Locate control not available:", e.message);
-  }
-
-  // Kontrol untuk toggle labels
-  var labelsVisible = true;
-
-  $('#toggleLabels').click(function() {
-    labelsVisible = !labelsVisible;
-
-    // Toggle visibility untuk semua label kota
-    cityLabels.forEach(function(cityData) {
-      if (labelsVisible) {
-        cityData.label.setOpacity(0.8);
-      } else {
-        cityData.label.setOpacity(0);
-      }
-    });
-
-    // Update button text
-    $(this).html(labelsVisible ?
-      '<i class="fas fa-tag"></i> Hide Labels' :
-      '<i class="fas fa-tag"></i> Show Labels');
-  });
-
-  // Kontrol untuk reset view
-  $('#resetView').click(function() {
-    map.setView([-6.966667, 110.416664], 8);
-  });
-
-});
+       
     </script>
 </body>
 </html>

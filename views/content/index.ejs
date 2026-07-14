@@ -217,10 +217,10 @@
 <body style="position: relative;">
     <% include ../template/header.ejs %>
     <header style="position: fixed;top:0;left:0;right:0;z-index: 1000;">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-5 col-lg-5">
-                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;">
+                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;padding-left: 60px;">
                       <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="shadow">
                         <h5><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
                       </span>
@@ -228,7 +228,7 @@
                 </div>
 
                 <div class="col-12 col-sm-12 col-md-7 col-lg-7">
-                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;justify-content: flex-end;">
+                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;justify-content: flex-end;padding-right: 60px;">
                         <span style="padding: 10px;background-color: rgba(255, 255, 255, 0.7);border-radius: 8px;" class="shadow">
                           <a href="/" style="text-decoration: none;">
                             <h6 style="color: #212529;"><strong>BERANDA</strong></h6>
@@ -362,7 +362,7 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
         } );
       });
 
-        $(document).ready(function() {
+      $(document).ready(function() {
 
   var iht_layer = null;
   var source = null;
@@ -525,7 +525,54 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
 
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   }
+const colors = [
+  // Warna-warna cerah dan berbeda
+  '#FF6B6B', // Merah cerah
+  '#4ECDC4', // Turquoise
+  '#45B7D1', // Biru langit
+  '#96CEB4', // Hijau sage
+  '#FFEAA7', // Kuning pastel
+  '#DDA0DD', // Plum
+  '#FF9FF3', // Pink
+  '#54A0FF', // Biru terang
+  '#5F27CD', // Ungu tua
+  '#FF9F43', // Orange
+  '#00D2D3', // Cyan
+  '#1DD1A1', // Hijau mint
+  '#F368E0', // Magenta
+  '#FF6B81', // Salmon
+  '#48DBFB', // Biru muda
+  '#B8E994', // Hijau muda
+  '#FFB142', // Kuning
+  '#CC8E35', // Coklat emas
+  '#A29BFE', // Lavender
+  '#FD79A8', // Pink muda
+  '#00B894', // Hijau zamrud
+  '#0984E3', // Biru laut
+  '#6C5CE7', // Ungu
+  '#FDCB6E', // Kuning madu
+  '#E17055', // Terracotta
+  '#00CEC9', // Biru hijau
+  '#A3CB38', // Hijau apel
+  '#FF7979', // Merah muda
+  '#686DE0', // Biru keunguan
+  '#FFBE76', // Orange muda
+  '#7ED6DF', // Biru pucat
+  '#E056A0', // Pink tua
+  '#F9CA24', // Kuning cerah
+  '#6AB04C', // Hijau daun
+  '#EB4D4B', // Merah tua
+  '#22A6B3', // Biru tua
+  '#4834D4', // Biru gelap
+  '#F0932B', // Orange gelap
+  '#4A4A4A', // Abu-abu gelap
+  '#B33771'  // Merah muda tua
+];
 
+// Fungsi untuk mendapatkan warna berdasarkan index
+function getColorByIndex(index) {
+  return colors[index % colors.length];
+}
   // Fungsi untuk load GeoJSON jateng_kemendagri
   function loadGeoJsonjateng_kemendagri(data) {
     try {
@@ -537,12 +584,14 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
       jateng_kemendagri_layer.clearLayers();
       jateng_kemendagri_layer.addData(data);
       jateng_kemendagri_layer.addTo(map);
-
+let i = 0
       jateng_kemendagri_layer.eachLayer(function (layer) {
         try {
+
           // Generate warna unik berdasarkan kdpkab
+          var cityColor = getColorByIndex(i)
           var kdpkab = layer.feature.properties.kdpkab;
-          var cityColor = getColorFromString(kdpkab || 'unknown');
+          // var cityColor = getColorFromString(kdpkab || 'unknown');
 
           var style_jateng = {
             color: cityColor,
@@ -551,7 +600,7 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
             fillColor: cityColor,
             fillOpacity: 0.3
           };
-
+          i++
           layer.setStyle(style_jateng);
 
           // Simpan warna asli untuk reset saat mouseout
@@ -585,27 +634,27 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
                   success: function (anggotaData) {
                     if (anggotaData && anggotaData.status === 200) {
                       var popupContent = "<div style='max-height:300px; overflow-y:auto;'>";
-                      popupContent += "<strong>" + (layer.feature.properties.wadmkk || 'Unknown') + "</strong><br/>";
-                      popupContent += "Kode Kota: " + kdpkab + "<br/><br/>";
+                      popupContent += "<span style='font-size:18px;font-weight:bold'>" + (layer.feature.properties.wadmkk || 'Unknown') + "</span><br/>";
+                      popupContent += "Total&nbsp;&nbsp;: " + (anggotaData.total || 0) + " anggota <br/><br/>";
 
                       // Tampilkan anggota per kualifikasi
                       if (anggotaData.data) {
                         for (var kualifikasi in anggotaData.data) {
                           var anggotas = anggotaData.data[kualifikasi];
                           if (anggotas && anggotas.length > 0) {
-                            popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
+                            // popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
 
                             // Tampilkan maksimal 5 anggota per kualifikasi
                             anggotas.slice(0, 5).forEach(function(anggota) {
-                              popupContent += "• " + (anggota.nama_perusahaan || 'Unknown');
+                              popupContent += "<h6 style='line-height:30px;font-size:14px;margin:0;'><i class='fas fa-chevron-right'></i> <strong>" + (anggota.nama_perusahaan || 'Unknown')+"</strong></h6>";
                               if (anggota.penanggung_jawab) {
-                                popupContent += " (" + anggota.penanggung_jawab + ")";
+                                popupContent += " <h6 style='font-size:12px;line-height:0px;margin-bottom:5px;margin-top:0;font-weight:300;'>&nbsp;&nbsp;&nbsp;&nbsp;(" + anggota.penanggung_jawab + ")</h6>";
                               }
-                              popupContent += "<br/>";
+                              // popupContent += "<br/>";
                             });
 
-                            if (anggotas.length > 5) {
-                              popupContent += "... dan " + (anggotas.length - 5) + " lainnya<br/>";
+                            if (anggotas.length > 10) {
+                              popupContent += "... dan " + (anggotas.length - 10) + " lainnya<br/>";
                             }
                             popupContent += "<br/>";
                           }
