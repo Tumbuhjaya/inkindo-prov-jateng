@@ -121,12 +121,15 @@ app.get('/backoffice', cek_login_all,async function (req, res) {
 app.get('/', function (req, res) {
   res.render('content/index')
 });
-
+app.get('/get_kab',async function (req, res) {
+  let data = await sql_enak.raw(`select jk.kdpkab ,jk.wadmkk  from jateng_kemendagri jk `)
+res.json({data:data[0]})
+});
 app.get('/get_captcha',async function(req, res) {
   var captcha = svgCaptcha.createMathExpr({mathMin:1,mathMax:9,mathOperator:'+'});
   req.session.captcha = captcha.text;
   res.json(captcha)
-})    
+}) 
 
 app.use(function (req, res, next) {
   res.render('page_not_found');

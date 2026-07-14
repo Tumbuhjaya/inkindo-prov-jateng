@@ -340,10 +340,9 @@ router.get('/pembayaran/hapus/:id', async function(req, res) {
   
 
 
-  router.post('/insert', upload.fields([{ name: 'foto', maxCount: 1 }]),async function(req, res) {
+  router.post('/insert', upload.fields([{ name: 'foto_1', maxCount: 1 }]),async function(req, res) {
 
     let post = req.body
-    console.log(post);
          try {
 
 
@@ -354,9 +353,9 @@ router.get('/pembayaran/hapus/:id', async function(req, res) {
     if (anggota_cek[0].length==0) {
 
    if (req.files) {
-    if (req.files['foto']) {
-      var nama_file = req.files['foto'][0].filename;
-      post['foto'] = nama_file;
+    if (req.files['foto_1']) {
+      var nama_file = req.files['foto_1'][0].filename;
+      post['foto_1'] = nama_file;
     }
   }
       await sql_enak.insert(post).into('anggota').then(data=>{
@@ -383,7 +382,7 @@ router.get('/pembayaran/hapus/:id', async function(req, res) {
   }
   });
 
-  router.post('/edit', upload.fields([{ name: 'foto', maxCount: 1 }]),async function(req, res) {
+  router.post('/edit', upload.fields([{ name: 'foto_1', maxCount: 1 }]),async function(req, res) {
 
     let post = req.body
 
@@ -396,16 +395,13 @@ router.get('/pembayaran/hapus/:id', async function(req, res) {
             }
     }
     if (req.files) {
-      if (req.files['foto']) {
-        var nama_file = req.files['foto'][0].filename;
-        post['foto'] = nama_file;
+      if (req.files['foto_1']) {
+        var nama_file = req.files['foto_1'][0].filename;
+        post['foto_1'] = nama_file;
       }
     }
     try {
       await sql_enak('anggota').where('id','=',post.id).update(post).then(data=>{
-
-        console.log(data);
-
         res.status(200).json({ status: 200, message: "sukses", data: data})
      })
     } catch (error) {
@@ -441,7 +437,7 @@ router.get('/pembayaran/hapus/:id', async function(req, res) {
     }
 
     if (req.query.kota) {
-        str += ' and a.kota = ?'
+        str += ' and a.kode_kota = ?'
         value.push(req.query.kota)
     }
 
@@ -494,9 +490,7 @@ let str2 = ''
                left join (select MAX(p.tahun) as max_tahun, p.anggota_id from pembayaran p where p.deleted_at is null and p.status = 1 group by p.anggota_id) d
                on d.anggota_id = a.id
                 WHERE a.deleted_at IS NULL  ${str}
-                GROUP BY a.id ${str2} `
-                console.log(sql);
-                
+                GROUP BY a.id ${str2} `                
     await sql_enak.raw(sql,value).then(data=>{
         res.status(200).json({ status: 200, message: "sukses", data: data[0]})
      })
@@ -573,11 +567,9 @@ let str2 = ''
   router.get('/statistics/retribusi/:tahun', async function(req, res) {
     try {
         let tahun = new Date().getFullYear()
-        console.log(tahun);
         if (req.params.tahun!='undefined') {
             tahun = req.params.tahun
         }
-        console.log(tahun,'tahun');
         
         const target = `select sum(mr.nominal ) as jumlah from anggota a left join master_retribusi mr on mr.kualifikasi = a.kualifikasi and mr.deleted_at is null where a.deleted_at  is null
         `;
@@ -882,15 +874,12 @@ let tahun = i+2020
 router.get('/spesialisasi/:id', cek_login, async function(req, res) {
     try {
         const anggotaId = req.params.id;
-        console.log('Loading spesialisasi for anggota ID:', anggotaId);
-
         // Get data anggota
         const anggota = await sql_enak('anggota')
             .where('id', anggotaId)
             .where('deleted_at', null)
             .first();
 
-        console.log('Anggota data:', anggota);
 
         if (!anggota) {
             console.log('Anggota not found');

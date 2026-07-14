@@ -266,7 +266,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-12">
+                                                <div class="col-12" id="foto">
                                                      <img src="https://placehold.co/400" alt="" style="width: 100%;">
                                                 </div>
                                             </div>
@@ -274,14 +274,14 @@
                                             <div class="row mt-3">
                                                 <div class="col-12">
                                                     <h6>Kualifikasi</h6>
-                                                    <span class="badge badge-dark" style="font-size: 16px;">Besar/Menengah/Kecil</span>
+                                                    <span class="badge badge-dark" style="font-size: 16px;"  id="kualifikasi">Besar/Menengah/Kecil</span>
                                                     <hr>
                                                 </div>
 
-                                                <div class="col-12">
+                                                <div class="col-12" id="status_keanggotaan">
                                                     <h6>Status Keanggotaan</h6>
-                                                    <span class="badge badge-success" style="font-size: 16px;">Aktif</span>
-                                                    <span class="badge badge-danger" style="font-size: 16px;">Non Aktif</span>
+                                                    <!-- <span class="badge badge-success" style="font-size: 16px;">Aktif</span>
+                                                    <span class="badge badge-danger" style="font-size: 16px;">Non Aktif</span> -->
                                                     <hr>
                                                 </div>
 
@@ -363,7 +363,7 @@
                                             <div class="alert alert-secondary" role="alert">
                                                 <h5 class="alert-heading"><strong>Spesialisasi</strong></h5>
                                                 <hr>
-                                                <span>Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</span>
+                                                <span id="spesialisasi">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</span>
                                             </div>
                                         </div>
                                     </div>
@@ -435,18 +435,17 @@
 
         function getKualifikasiText(kualifikasi) {
             const kualifikasiMap = {
-                'A': 'A - Besar',
-                'B': 'B - Menengah',
-                'C': 'C - Kecil',
-                'D': 'D - Perorangan'
+                'B': 'Besar',
+                'M': 'Menengah',
+                'K': 'Kecil',
             };
             return kualifikasiMap[kualifikasi] || kualifikasi || '-';
         }
 
         function getStatusBadge(status) {
-            if (status === 'Aktif') {
+            if (status === 'P') {
                 return '<span class="badge-status badge-active">Aktif</span>';
-            } else if (status === 'Non Aktif') {
+            } else if (status === 'T') {
                 return '<span class="badge-status badge-inactive">Non Aktif</span>';
             } else if (status === 'Pending') {
                 return '<span class="badge-status badge-pending">Pending</span>';
@@ -472,7 +471,11 @@
                 }
 
                 const anggota = anggotaResponse.data;
+                if (anggota.foto_1) {
+                    $('#foto').empty()
+                    $('#foto').append(`<img src="/foto/${anggota.foto_1}" alt="" style="width: 100%;">`)
 
+                }
                 // Populate company info
                 $('#no_anggota').text(anggota.no_anggota || '-');
                 $('#nama_perusahaan').text(anggota.nama_perusahaan || '-');

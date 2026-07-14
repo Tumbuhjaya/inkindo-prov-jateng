@@ -29,6 +29,13 @@
 <% include ../../template-backoffice/footer.ejs %>
 
 <script type="text/javascript">
+  window.onload = async function (params) {
+    let data4 = await $.get('/get_kab')
+data4.data.forEach(e => {
+    $('#kode_kota').append(`<option value="${e.kdpkab}">${e.wadmkk}</option>`)
+
+});
+  }
   async function submit() {
     const will_insert = await swal({
       title: "Tambah Data",

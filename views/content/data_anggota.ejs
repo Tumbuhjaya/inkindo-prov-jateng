@@ -280,13 +280,6 @@
                           <label for="searchKota">Kabupaten/Kota</label>
                           <select name="searchKota" id="searchKota" class="form-control select2">
                             <option value="">-- Semua Kabupaten/Kota --</option>
-                            <option value="Semarang">Semarang</option>
-                            <option value="Solo">Solo</option>
-                            <option value="Magelang">Magelang</option>
-                            <option value="Pekalongan">Pekalongan</option>
-                            <option value="Tegal">Tegal</option>
-                            <option value="Kudus">Kudus</option>
-                            <option value="Salatiga">Salatiga</option>
                           </select>
                         </div>
                       </div>
@@ -427,7 +420,11 @@
 let data = await $.get('/anggota/statistics/simple')
 let data2 = await $.get('/anggota/statistics/retribusi/'+new Date().getFullYear())
 let data3 = await $.get('/anggota/statistics/chart')
+let data4 = await $.get('/get_kab')
+data4.data.forEach(e => {
+    $('#searchKota').append(`<option value="${e.kdpkab}">${e.wadmkk}</option>`)
 
+});
 console.log(data,data2,data3);
 $('#total_anggota').html(data.data.total_anggota)
 $('#aktif').html(data.data.aktif)

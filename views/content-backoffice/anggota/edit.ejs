@@ -30,6 +30,11 @@
 <script type="text/javascript">
   let anggota = {}
   window.onload =async function (params) {
+        let data4 = await $.get('/get_kab')
+data4.data.forEach(e => {
+    $('#kode_kota').append(`<option value="${e.kdpkab}">${e.wadmkk}</option>`)
+
+});
     await $.get(rooturl+'/anggota/list?id=<%=id%>').then(function (data) {
       anggota = data.data[0]
       console.log(anggota);
@@ -46,6 +51,7 @@
           }
         }
       }
+     $('#kode_kota').val(anggota.kode_kota).select2()
     })
   }
   async function submit() {
