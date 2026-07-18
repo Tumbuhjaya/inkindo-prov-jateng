@@ -376,16 +376,32 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
     closeOnClick : true
   };
 
-  var map = L.map('map', {
-    center: [ -6.966667, 110.416664],
-    zoom: 8,
-    minZoom:2,
-    maxZoom:19,
+var jawaTengahBounds = L.latLngBounds(
+    [-8.3, 108.7],   // barat daya (Cilacap)
+    [-5.8, 111.3]    // timur laut (Rembang)
+);
+
+var map = L.map('map', {
+      center: [-7.0, 110.0],
+    zoom: 9,
+    minZoom: 10, 
+    maxZoom: 21,
+    maxBounds: jawaTengahBounds,
+    maxBoundsViscosity: 1.0,  // batas keras
     fullscreenControl: true,
-    fullscreenControlOptions: {
-      position: 'topleft'
-    }
-  });
+    fullscreenControlOptions: { position: 'topleft' }
+});
+map.setMaxBounds(jawaTengahBounds);
+  // var map = L.map('map', {
+  //   center: [ -6.966667, 110.416664],
+  //   zoom: 8,
+  //   minZoom:2,
+  //   maxZoom:19,
+  //   fullscreenControl: true,
+  //   fullscreenControlOptions: {
+  //     position: 'topleft'
+  //   }
+  // });
 
   // Base layers
   var osm               = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -763,6 +779,12 @@ let i = 0
           console.log("Error setting up layer events:", e.message);
         }
       });
+     var layerBounds = jateng_kemendagri_layer.getBounds();
+    if (layerBounds.isValid()) {
+        map.setMaxBounds(layerBounds);
+        // Opsional: zoom ke area tersebut
+        // map.fitBounds(layerBounds, { padding: [20, 20] });
+    }
     } catch(e) {
       console.log("Error loading jateng_kemendagri data:", e.message);
     }
