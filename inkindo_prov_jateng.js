@@ -18,6 +18,7 @@ var axios = require('axios');
 var qs = require('qs');
 var svgCaptcha = require('svg-captcha');
 var email = require('./helpper/email.js').email;
+var CronJob = require("cron").CronJob;
 
 var rooturl = ''
 var login = require('./isine/login.js').router;
@@ -114,7 +115,23 @@ app.use('/user', user);
 app.use('/anggota', anggota);
 app.use('/master', master);
 
+const job = new CronJob(
+	'* * * 1 1 *', // cronTime
+	function () {
+      connection.query(`INSERT INTO pembayaran 
+(  anggota_id , tahun , status , created_at , retribusi)
+        select a.id, ${new Date().getFullYear()}, 0, now(), mr.nominal  from anggota a 
+        left join master_retribusi mr on mr.kualifikasi = a.kualifikasi 
+         left join (select MAX(p.tahun) as max_tahun, p.anggota_id from pembayaran p where p.deleted_at is null and p.status = 1 group by p.anggota_id) d
+               on d.anggota_id = a.id
+WHERE a.deleted_at  is null and YEAR(CURRENT_DATE()) - COALESCE(d.max_tahun, 0)<5 `)
 
+	}, // onTick
+	null, // onComplete
+	true, // start
+	"Asia/Jakarta" // timeZone
+);
+job.start() 
 app.get('/backoffice', cek_login_all,async function (req, res) {
   res.render('content-backoffice/index',{user:req.user[0], });
 });

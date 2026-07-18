@@ -571,8 +571,10 @@ let str2 = ''
             tahun = req.params.tahun
         }
         
-        const target = `select sum(mr.nominal ) as jumlah from anggota a left join master_retribusi mr on mr.kualifikasi = a.kualifikasi and mr.deleted_at is null where a.deleted_at  is null
-        `;
+        const target = `
+select sum(p.retribusi ) as jumlah from anggota a 
+left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null 
+where a.deleted_at  is null and p.tahun = ?`;
         
         const realisasi = `
            select sum(p.retribusi ) as jumlah from anggota a 
@@ -582,7 +584,7 @@ where a.deleted_at  is null and p.tahun =?  `;
 left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null 
 where a.deleted_at  is null and p.status =0 and p.tahun = ?`
         const [hasil_target, hasil_realisasi , hasil_tunggakan] = await Promise.all([
-            sql_enak.raw(target),
+            sql_enak.raw(target,[tahun]),
             sql_enak.raw(realisasi,[tahun]),
             sql_enak.raw(tunggakan,[tahun])
 
@@ -620,14 +622,20 @@ left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null
 where a.deleted_at  is null and p.tahun is not null 
 group by p.tahun 
   `
+      let sql3 = ` select sum(p.retribusi ) as y , p.tahun label from anggota a 
+left join pembayaran p on p .anggota_id = a.id and p.deleted_at is null
+where a.deleted_at  is null and p.tahun is not null and status = 0
+group by p.tahun 
+  `
   try {
       let data = await sql_enak.raw(sql)
       let data2 = await sql_enak.raw(sql2)
+      let data3 = await sql_enak.raw(sql3)
 
     res.status(200).json({
             status: 200,
             message: "sukses",
-            data: data [0], data2: data2 [0]
+            data: data [0], data2: data2 [0], data3: data3 [0]
         });
 
     } catch (err) {
