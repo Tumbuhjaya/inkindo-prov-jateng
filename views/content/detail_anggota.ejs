@@ -372,7 +372,7 @@
                                             <div class="alert alert-secondary" role="alert" style="background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%)"> 
                                                 <h5 class="alert-heading" style="color: #FFF;"><strong>PENGHARGAAN HASIL KARYA</strong></h5>
                                                 <hr>
-                                                <table class="table table-bordered table-striped" id="data" style="background-color: #fff;">
+                                                <table class="table table-bordered table-striped" id="data" style="background-color: #fff;" >
                                                     <thead>
                                                         <tr>
                                                             <th class="text-center">NO.</th>
@@ -403,7 +403,25 @@
              </div>
         </div>
     </section>
-
+	<!-- Modal View Bukti Pembayaran -->
+			<div class="modal fade" id="modalViewBukti" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Bukti Pembayaran</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<img id="imageBukti" src="" alt="Bukti Pembayaran" style="max-width: 100%; max-height: 500px;">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-dark" data-dismiss="modal">Tutup</button>
+				</div>
+				</div>
+			</div>
+			</div>
     <% include ../template/footer.ejs %>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="<%= rooturl %>/javascripts/template/bootstrap.bundle.js"></script>
@@ -588,31 +606,72 @@
           }    
         },    
         "processing": true,
-        // "ajax":  `${rooturl}/anggota/list`,
-        // "columns": [
-        //     { "data": null},
-        //     {
-        //         "data": "nama_perusahaan",
-        //         "render": function(data, type, row) {
-        //             return '<a href="/data/anggota/' + row.id + '" style="text-decoration: none; font-weight: bold;color:#1F3163">' + data + '</a>';
-        //         }
-        //     },
-        //     { "data": "penanggung_jawab"},
-        //     { "data": "telepon"},
-        //     { "data": "kualifikasi",render:function(data){return data=='B'?'BESAR':data=='M'?'MENENGAH':'KECIL'}},
-        //     {
-        //         "data": "spesialisasi",
-        //         "render": function(data, type, row) {
-        //             return '<span style="text-transform:uppercase">' + data + '</span>';
-        //         }
-        //     },
-        //     { "data": "status"}
-        // ],
-        // // "columnDefs": [
-        // //   { "width": "35px", "targets": 0},
-        // //   { "width": "100px", "targets": 2}
-        // // ],
+            "ajax": {
+          "url": rooturl + '/anggota/penghargaan/' + anggotaId + '/list',
+          "dataSrc": function(json) {
+            // Check if response has data property
+            if (json && json.data) {
+              return json.data;
+            }
+            // If response is an array directly
+            if (Array.isArray(json)) {
+              return json;
+            }
+            // Return empty array if no data
+            return [];
+          },
+          "error": function(xhr, error, thrown) {
+            console.error("DataTable AJAX error:", error);
+            swal({
+              title: "Error",
+              text: "Gagal memuat data",
+              icon: "error",
+              type: "error"
+            });
+          }
+        },
+        "columns": [
+          { 
+            "data": null,
+            "defaultContent": "",
+            "searchable": false,
+            "sortable": false
+          },
+          { 
+            "data": "tahun",
+            "defaultContent": ""
+          },
+          {
+            "data": "penghargaan",
+            "defaultContent": ""
+          },
+          {
+            "data": "foto_1",
+            "defaultContent": "",
+            "render": function(data) {
+              let buttons = '<ul class="list-inline mb-0">';
+              if (data && data !== '') {
+                buttons += '<li class="list-inline-item"><button onclick="viewBukti(\'' + data + '\')" class="btn btn-info btn-sm"><i class="fas fa-receipt"></i></button></li>';
+              } else {
+                buttons += '<li class="list-inline-item"><span class="text-muted">Tidak ada</span></li>';
+              }
+              buttons += '</ul>';
+              return buttons;
+            }
+          },
+        ],
+        "columnDefs": [
+          { "width": "40px", "targets": 0 },
+          { "width": "120px", "targets": 3 },
+        ],
       });
+        function viewBukti(filename) {
+    if (filename) {
+      $('#imageBukti').attr('src', '/foto/' + filename);
+      $('#modalViewBukti').modal('show');
+    }
+  }
+
     </script>
 </body>
 </html>

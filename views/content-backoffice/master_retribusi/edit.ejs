@@ -38,11 +38,17 @@
         if (Object.hasOwnProperty.call(retribusi, i)) {
           if(i=='kualifikasi'){
             $('#'+i).val(retribusi[i]).select2()
+          }else if(i=='nominal'){
+            console.log(retribusi[i]+'');
+            
+                  $('#nominal').val(formatRupiah(retribusi[i]+''))
+
           }else{
             $('#'+i).val(retribusi[i])
           }
         }
       }
+      
     })
   }
 
@@ -61,7 +67,7 @@
     
       let formData = new FormData();
       // nama kolom db
-      let arr = ['kualifikasi', 'nominal']
+      let arr = ['kualifikasi']
 
       formData.append('id', retribusi.id);
 
@@ -70,7 +76,8 @@
           formData.append(arr[i],$('#'+arr[i]).val())
         }
       }
-
+    const nominal = getRawValue('nominal');
+          formData.append('nominal',nominal)
       $.ajax({
         type: 'POST',
         enctype: 'multipart/form-data',

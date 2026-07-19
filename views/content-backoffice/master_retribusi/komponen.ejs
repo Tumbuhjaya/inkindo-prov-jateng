@@ -20,7 +20,11 @@
           <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">Nominal</label>
             <div class="col-sm-9">
-              <input type="number" class="form-control" id="nominal" name="nominal" required>
+              <input type="text" class="form-control input-with-thousand-separator" 
+       name="nominal" id="nominal" 
+       placeholder="Contoh: 1.500.000" 
+       oninput="formatRupiah(this)" 
+       required>
             </div>
           </div>
 
@@ -38,3 +42,48 @@
     </div>
   </div>
 </div>
+<script>
+function formatRupiah(input) {
+    // Handle both input element and string value
+    let value;
+    if (typeof input === 'string') {
+        value = input;
+    } else if (input && typeof input.value !== 'undefined') {
+        value = input.value;
+    } else {
+        return '';
+    }
+    
+    // Hapus semua karakter non-digit
+    value = value.replace(/\D/g, '');
+    
+    // Jika kosong, set value kosong
+    if (value === '') {
+        return '';
+    }
+    
+    // Konversi ke number
+    let number = parseInt(value);
+    
+    // Format dengan pemisah ribuan
+    let formatted = number.toLocaleString('id-ID');
+    
+    // If input is a string, return formatted string
+    if (typeof input === 'string') {
+        return formatted;
+    }
+    
+    // If input is an element, set its value
+    input.value = formatted;
+}
+function getRawValue(inputId) {
+    const element = document.getElementById(inputId);
+    if (!element) return 0;
+    
+    // Hapus semua karakter non-digit
+    const raw = element.value.replace(/\./g, '').replace(/\D/g, '');
+    console.log(raw);
+    
+    return raw === '' ? 0 : parseInt(raw);
+}
+</script>

@@ -45,13 +45,15 @@
       
       let formData = new FormData();
       // nama kolom db
-      let arr = ['kualifikasi', 'nominal']
+      let arr = ['kualifikasi']
 
       for (let i = 0; i < arr.length; i++) {
         if ($('#'+arr[i]).val()) {
           formData.append(arr[i],$('#'+arr[i]).val())
         }
       }
+    const nominal = getRawValue('nominal');
+          formData.append('nominal',nominal)
 
       $.ajax({
         type: 'POST',

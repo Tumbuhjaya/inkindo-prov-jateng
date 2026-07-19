@@ -22,8 +22,12 @@
 	                    <div class="form-group row mb-0">
 	                      <label class="col-sm-3 col-form-label">Tahun</label>
 	                      <div class="col-sm-9">
-	                        <select name="" class="form-control select2" id="">
+	                        <select name="" class="form-control select2" id="tahun">
 	                          <option value="">-- Pilih --</option>
+                            <%for(let i = new Date().getFullYear();i > new Date().getFullYear()-10;i--){%>
+                              	                          <option value="<%=i%>">-- <%=i%> --</option>
+
+                              <%}%>
 	                        </select>
 	                      </div>
 	                    </div>
@@ -33,7 +37,7 @@
 						<div class="form-group row mb-0">
 	                      <label class="col-sm-3 col-form-label">Hasil Karya</label>
 	                      <div class="col-sm-9">
-	                        <input type="text" class="form-control" name="" id="">
+	                        <input type="text" class="form-control" name="" id="penghargaan">
 	                      </div>
 	                    </div>
 
@@ -42,7 +46,7 @@
 						<div class="form-group row mb-0">
 	                      <label class="col-sm-3 col-form-label">Upload Piagam Penghargaan</label>
 	                      <div class="col-sm-9">
-	                        <input type="file" class="form-control" name="" id="">
+	                        <input type="file" class="form-control" name="" id="foto_1">
 	                      </div>
 	                    </div>
 
@@ -66,7 +70,7 @@
 
 	                <div class="row">
 	                  <div class="col-12">
-	                    <table class="table table-bordered table-striped">
+	                    <table class="table table-bordered table-striped" id="list-penghargaan">
 	                      <thead>
 	                        <tr>
 	                          <th>No.</th>
@@ -92,7 +96,25 @@
 
     </section>
   </div>
-
+	<!-- Modal View Bukti Pembayaran -->
+			<div class="modal fade" id="modalViewBukti" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Bukti Pembayaran</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<img id="imageBukti" src="" alt="Bukti Pembayaran" style="max-width: 100%; max-height: 500px;">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-dark" data-dismiss="modal">Tutup</button>
+				</div>
+				</div>
+			</div>
+			</div>
   <footer class="main-footer">
     <div class="footer-left">
       <% include ../../template-backoffice/copyright-left.ejs %>
@@ -104,9 +126,137 @@
 
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
-  var rooturl = ''
+  var rooturl = '';
+  var anggotaId = `<%= (typeof anggotaId !== 'undefined') ? anggotaId : '' %>`;
+  var data_table;
+
+  $(document).ready(function() {
+    // Make sure the table exists before initializing DataTable
+    if ($('#list-penghargaan').length > 0) {
+      // Initialize DataTable
+      data_table = $('#list-penghargaan').DataTable({
+        "language": {
+          "sProcessing": "Sedang memproses...",
+          "sLengthMenu": "_MENU_",
+          "sZeroRecords": "Tidak ditemukan data yang sesuai",
+          "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix": "",
+          "sUrl": "",
+          "oPaginate": {
+            "sFirst": "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext": "Selanjutnya",
+            "sLast": "Terakhir"
+          }
+        },
+        "processing": true,
+        "serverSide": false,
+        "ajax": {
+          "url": rooturl + '/anggota/penghargaan/' + anggotaId + '/list',
+          "dataSrc": function(json) {
+            // Check if response has data property
+            if (json && json.data) {
+              return json.data;
+            }
+            // If response is an array directly
+            if (Array.isArray(json)) {
+              return json;
+            }
+            // Return empty array if no data
+            return [];
+          },
+          "error": function(xhr, error, thrown) {
+            console.error("DataTable AJAX error:", error);
+            swal({
+              title: "Error",
+              text: "Gagal memuat data",
+              icon: "error",
+              type: "error"
+            });
+          }
+        },
+        "columns": [
+          { 
+            "data": null,
+            "defaultContent": "",
+            "searchable": false,
+            "sortable": false
+          },
+          { 
+            "data": "tahun",
+            "defaultContent": ""
+          },
+          {
+            "data": "penghargaan",
+            "defaultContent": ""
+          },
+          {
+            "data": "foto_1",
+            "defaultContent": "",
+            "render": function(data) {
+              let buttons = '<ul class="list-inline mb-0">';
+              if (data && data !== '') {
+                buttons += '<li class="list-inline-item"><button onclick="viewBukti(\'' + data + '\')" class="btn btn-info btn-sm"><i class="fas fa-receipt"></i></button></li>';
+              } else {
+                buttons += '<li class="list-inline-item"><span class="text-muted">Tidak ada</span></li>';
+              }
+              buttons += '</ul>';
+              return buttons;
+            }
+          },
+          {
+            "data": "id",
+            "defaultContent": "",
+            "render": function(data, type, row) {
+              let buttons = '<ul class="list-inline mb-0">';
+              buttons += '<li class="list-inline-item"><button onclick="hapuspenghargaan(' + data + ')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></li>';
+              buttons += '</ul>';
+              return buttons;
+            }
+          }
+        ],
+        "columnDefs": [
+          { "width": "40px", "targets": 0 },
+          { "width": "120px", "targets": 4 },
+          { "className": "text-center", "targets": [0, 3, 4] }
+        ],
+        "order": [[1, 'desc']], // Sort by tahun descending
+        "pageLength": 10,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Semua"]]
+      });
+
+      // Add row numbers after draw
+      data_table.on('draw.dt', function() {
+        let PageInfo = data_table.page.info();
+        data_table.column(0, { page: 'current' }).nodes().each(function(cell, i) {
+          cell.innerHTML = i + 1 + PageInfo.start;
+        });
+      });
+    } else {
+      console.error("Table #list-penghargaan not found in DOM");
+    }
+
+    // Initialize Select2
+    $('.select2').select2();
+  });
 
   async function submit() {
+    // Validate required fields
+    const tahun = $('#tahun').val();
+    const penghargaan = $('#penghargaan').val();
+    
+    if (!tahun || !penghargaan) {
+      swal({
+        title: "Peringatan",
+        text: "Tahun dan Hasil Karya harus diisi",
+        icon: "warning",
+        type: "warning"
+      });
+      return;
+    }
+
     const will_insert = await swal({
       title: "Tambah Data",
       text: "Apakah anda akan menambahkan data ini?",
@@ -115,41 +265,129 @@
       buttons: ["Tidak", "Ya"],
     });
 
-    if ( will_insert) {
-      $('#button_submit').empty()
-      $('#button_submit').append('<button class="btn btn-primary btn-embossed" disabled>Simpan</button>')
+    if (will_insert) {
+      $('#button_submit').empty();
+      $('#button_submit').append('<button class="btn btn-primary btn-embossed" disabled>Menyimpan...</button>');
       
       let formData = new FormData();    
-      // nama kolom db
-      let arr = ['NamaKolomDb1', 'NamaKolomDb2', 'NamaKolomDb3']
+      let arr = ['penghargaan', 'foto_1', 'tahun'];
+      
       for (let i = 0; i < arr.length; i++) {
-        if (arr[i].substring(0,4)=='foto') {
-          if ( $(`#`+arr[i])[0].files[0]){
-            formData.append(arr[i], $(`#`+arr[i])[0].files[0]);
-          } 
-        }
-        // else if (arr[i].substring(0,3)=='ket'){        
-        //   formData.append(arr[i] ,CKEDITOR.instances[arr[i]].getData())
-        // }
-        else{
-          formData.append(arr[i],$('#'+arr[i]).val())
+        if (arr[i].substring(0, 4) === 'foto') {
+          if ($('#' + arr[i])[0] && $('#' + arr[i])[0].files[0]) {
+            formData.append(arr[i], $('#' + arr[i])[0].files[0]);
+          }
+        } else {
+          formData.append(arr[i], $('#' + arr[i]).val());
         }
       }
 
+      const url = rooturl + '/anggota/penghargaan/' + anggotaId + '/save';
+      const method = 'POST';
+
       $.ajax({
-        type: 'POST',
+        type: method,
         enctype: 'multipart/form-data',
-        url: rooturl+'/api_basic/insert',
+        url: url,
         data: formData,
         processData: false,
         contentType: false,
         success: function(data) {
-          swal({title:text_insert.title,text:text_insert.text, icon: text_insert.icon, type:text_insert.type})
-          window.location.href = rooturl+'/manajemen_basic';
-        },error: function(data) {
-          swal({title:text_error.title,text:text_error.text, icon: text_error.icon, type:text_error.type})
+          swal({
+            title: "Sukses",
+            text: "Data berhasil disimpan",
+            icon: "success",
+            type: "success"
+          });
+          // Reset form
+          $('#tahun').val('').trigger('change');
+          $('#penghargaan').val('');
+          $('#foto_1').val('');
+          // Reload datatable
+          if (data_table) {
+            data_table.ajax.reload(null, false);
+          }
+          // Reset button
+          $('#button_submit').empty();
+          $('#button_submit').append('<button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>');
+        },
+        error: function(xhr) {
+          swal({
+            title: "Error",
+            text: xhr.responseJSON?.message || "Gagal menyimpan data",
+            icon: "error",
+            type: "error"
+          });
+          // Reset button
+          $('#button_submit').empty();
+          $('#button_submit').append('<button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>');
         }
-      })      
-    } 
+      });
+    }
   }
+
+  function hapuspenghargaan(id) {
+    swal({
+      title: "Hapus Data",
+      text: "Apakah anda akan menghapus data ini?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: ["Tidak", "Ya"],
+    }).then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+          url: rooturl + '/anggota/penghargaan/hapus/' + id,
+          type: 'GET',
+          success: function(response) {
+            if (response.status === 200) {
+              swal({
+                title: "Sukses",
+                text: "Data berhasil dihapus",
+                icon: "success",
+                type: "success"
+              });
+              if (data_table) {
+                data_table.ajax.reload(null, false);
+              }
+            } else {
+              swal({
+                title: "Error",
+                text: response.message || "Gagal menghapus data",
+                icon: "error",
+                type: "error"
+              });
+            }
+          },
+          error: function() {
+            swal({
+              title: "Error",
+              text: "Gagal menghapus data",
+              icon: "error",
+              type: "error"
+            });
+          }
+        });
+      }
+    });
+  }
+
+  function viewBukti(filename) {
+    if (filename) {
+      $('#imageBukti').attr('src', '/foto/' + filename);
+      $('#modalViewBukti').modal('show');
+    }
+  }
+
+  // Preview image before upload
+  $('#foto_1').change(function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // You need to add a preview container in your HTML
+        // $('#previewFoto').html('<img src="' + e.target.result + '" style="max-width: 200px; margin-top: 10px;">');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 </script>

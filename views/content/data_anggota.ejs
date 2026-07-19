@@ -341,8 +341,7 @@
             <div class="row">
                 <div class="col-12">
                     <div style="width: 100%;position: relative;" class="table-responsive">
-                        <span style="position: absolute;top:2px;left:75px;font-size: 14px;font-weight: normal;padding: 8px 10px;" class="badge badge-warning">Hasil filter data di temukan <strong>00</strong> data</span>
-                        <table class="table table-bordered table-striped" id="data">
+<span style="position: absolute;top:2px;left:75px;font-size: 14px;font-weight: normal;padding: 8px 10px;" class="badge badge-warning" id="filterCount">Hasil filter data di temukan <strong id="filterCountNumber">00</strong> data</span>                        <table class="table table-bordered table-striped" id="data">
                             <thead style="background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);color: #fff;text-transform: uppercase;">
                                 <tr>
                                     <th class="text-center" style="text-transform: uppercase;">No.</th>
@@ -434,6 +433,7 @@ data4.data.forEach(e => {
     $('#searchKota').append(`<option value="${e.kdpkab}">${e.wadmkk}</option>`)
 
 });
+
 console.log(data,data2,data3);
 $('#total_anggota').html(data.data.total_anggota)
 $('#aktif').html(data.data.aktif)
@@ -446,6 +446,15 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
   $('#kualifikasi_'+a.kualifikasi).html(a.jumlah)
   
 }
+if ('<%=k%>') {
+              $('#searchKota').val('<%=k%>').trigger('change');
+applyAdvanceFilters()
+}
+   data_table.on('draw.dt', function () {
+        const totalRecords = data_table.page.info().recordsDisplay;
+        $('#filterCountNumber').text(totalRecords.toString().padStart(2, '0'));
+        $('#filterCount').show();
+    });
       }
          var rooturl = ''
         let data_table =   $('#data').DataTable({    
@@ -493,47 +502,59 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
       });
 
       // Advance filter functions
-      function applyAdvanceFilters() {
-          const kota = $('#searchKota').val();
-          const kualifikasi = $('#searchKualifikasi').val();
-          const status = $('#searchStatus').val();
-          const spesialisasi = $('#searchSpesialisasi').val();
+  function applyAdvanceFilters() {
+    const kota = $('#searchKota').val();
+    const kualifikasi = $('#searchKualifikasi').val();
+    const status = $('#searchStatus').val();
+    const spesialisasi = $('#searchSpesialisasi').val();
 
-          // Build URL with filter parameters
-          let url = rooturl + '/anggota/list?';
+    // Build URL with filter parameters
+    let url = rooturl + '/anggota/list?';
 
-          if (kota) {
-              url += 'kota=' + encodeURIComponent(kota) + '&';
-          }
-          if (kualifikasi) {
-              url += 'kualifikasi=' + encodeURIComponent(kualifikasi) + '&';
-          }
-          if (status) {
-              url += 'status=' + encodeURIComponent(status) + '&';
-          }
-          if (spesialisasi && spesialisasi.length > 0) {
-              spesialisasi.forEach(function(spes) {
-                  url += 'spesialisasi=' + encodeURIComponent(spes) + '&';
-              });
-          }
+    if (kota) {
+        url += 'kota=' + encodeURIComponent(kota) + '&';
+    }
+    if (kualifikasi) {
+        url += 'kualifikasi=' + encodeURIComponent(kualifikasi) + '&';
+    }
+    if (status) {
+        url += 'status=' + encodeURIComponent(status) + '&';
+    }
+    if (spesialisasi && spesialisasi.length > 0) {
+        spesialisasi.forEach(function(spes) {
+            url += 'spesialisasi=' + encodeURIComponent(spes) + '&';
+        });
+    }
 
-          // Remove trailing '&'
-          url = url.replace(/&$/, '');
+    // Remove trailing '&'
+    url = url.replace(/&$/, '');
 
-          // Reload table with new URL
-          data_table.ajax.url(url).load();
-      }
+    // Reload table with new URL
+    data_table.ajax.url(url).load(function() {
+        // Get total records after filter
+        const totalRecords = data_table.page.info().recordsDisplay;
+        // Update badge with total records
+        $('#filterCountNumber').text(totalRecords.toString().padStart(2, '0'));
+        // Show the badge
+        $('#filterCount').show();
+    });
+}
+ function resetAdvanceFilters() {
+    $('#searchKota').val('').trigger('change');
+    $('#searchKualifikasi').val('').trigger('change');
+    $('#searchStatus').val('').trigger('change');
+    $('#searchSpesialisasi').val('').trigger('change');
 
-      function resetAdvanceFilters() {
-          $('#searchKota').val('').trigger('change');
-          $('#searchKualifikasi').val('').trigger('change');
-          $('#searchStatus').val('').trigger('change');
-          $('#searchSpesialisasi').val('').trigger('change');
-
-          // Reload table without filters
-          data_table.ajax.url(rooturl + '/anggota/list').load();
-      }
-
+    // Reload table without filters
+    data_table.ajax.url(rooturl + '/anggota/list').load(function() {
+        // Get total records
+        const totalRecords = data_table.page.info().recordsDisplay;
+        // Update badge with total records
+        $('#filterCountNumber').text(totalRecords.toString().padStart(2, '0'));
+        // Show the badge
+        $('#filterCount').show();
+    });
+}
       // Load master spesialisasi data
      async function loadSpesialisasi() {
     try {

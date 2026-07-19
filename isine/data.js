@@ -58,7 +58,7 @@ var upload = multer({ storage: storage })
 
 //start-------------------------------------
 router.get('/', function(req, res) {
-  res.render('content/data_anggota');
+  res.render('content/data_anggota',{k:req.query.k});
 });
 
 // Company detail page

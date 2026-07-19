@@ -77,8 +77,13 @@
       "columns": [
         { "data": null},
         { "data": "kualifikasi"},
-        { "data": "nominal"},
-        { "data": "id",render: function(data){
+	{
+							"data": "nominal",
+							"render": function(data) {
+								if (!data) return '-';
+								return new Intl.NumberFormat('id-ID').format(data);
+							}
+						},        { "data": "id",render: function(data){
           let a = ''
           if (data) {
             a = `

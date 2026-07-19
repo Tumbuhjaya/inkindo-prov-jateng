@@ -1075,8 +1075,157 @@ router.get('/:id', async function(req, res) {
 });
 
 // penghargaan
-router.get('/penghargaan/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/anggota/penghargaan'); 
+
+router.get('/penghargaan/:id', cek_login, async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+
+        // Get data anggota
+        const anggota = await sql_enak('anggota')
+            .where('id', anggotaId)
+            .where('deleted_at', null)
+            .first();
+
+        if (!anggota) {
+            return res.status(404).render('error', { message: 'Anggota not found' });
+        }
+
+  res.render('content-backoffice/anggota/penghargaan',{
+            user: req.user[0],
+            anggota: anggota,
+            anggotaId: anggotaId
+        });
+    } catch (err) {
+        console.error('Error in pembayaran route:', err);
+        res.status(500).render('error', { message: err.message });
+    }
+})
+
+router.get('/penghargaan/:id/list', async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+
+        const data = await sql_enak('penghargaan')
+            .where('anggota_id', anggotaId)
+            .where('deleted_at', null)
+            .orderBy('tahun', 'desc');
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: data
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
 });
+router.post('/penghargaan/:id/save', upload.fields([{ name: 'foto_1', maxCount: 1 }]), async function(req, res) {
+    try {
+        const anggotaId = req.params.id;
+        let post = req.body;
+
+        // Check if penghargaan for this year already exists
+        const exists = await sql_enak('penghargaan')
+            .where('anggota_id', anggotaId)
+            .where('tahun', post.tahun)
+            .where('deleted_at', null)
+            .first();
+
+        if (exists) {
+            return res.status(201).json({
+                status: 201,
+                message: "penghargaan untuk tahun ini sudah ada",
+                data: exists
+            });
+        }
+
+        // Handle file upload
+        if (req.files && req.files['foto_1']) {
+            post['foto_1'] = req.files['foto_1'][0].filename;
+        }
+
+        // Set default values
+        post.anggota_id = anggotaId;
+        post.created_at = new Date();
+
+        // Insert penghargaan
+        const result = await sql_enak('penghargaan').insert(post);
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: result
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// API untuk update penghargaan
+router.post('/penghargaan/:id/update', upload.fields([{ name: 'foto_1', maxCount: 1 }]), async function(req, res) {
+    try {
+        const id = req.params.id;
+        let post = req.body;
+
+        // Handle file upload
+        if (req.files && req.files['foto_1']) {
+            post['foto_1'] = req.files['foto_1'][0].filename;
+        }
+
+        // Update penghargaan
+        await sql_enak('penghargaan')
+            .where('id', id)
+            .update(post);
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: "penghargaan berhasil diupdate"
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+// API untuk delete penghargaan (soft delete)
+router.get('/penghargaan/hapus/:id', async function(req, res) {
+    try {
+        const id = req.params.id;
+
+        await sql_enak('penghargaan')
+            .where('id', id)
+            .update({ deleted_at: new Date() });
+
+        res.status(200).json({
+            status: 200,
+            message: "sukses",
+            data: "penghargaan berhasil dihapus"
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 500,
+            message: "gagal",
+            data: err.message
+        });
+    }
+});
+
+  
 
 module.exports = router;

@@ -655,12 +655,20 @@ let i = 0
                   url: rooturl + "/peta/anggota_by_kota?kode_kota=" + kdpkab,
                   dataType: 'json',
                   success: function (anggotaData) {
-                    if (anggotaData && anggotaData.status === 200) {
+                    if (anggotaData && anggotaData.status === 200) {     
+                      console.log(anggotaData);
+                                       
                       var popupContent = "<div style='max-height:300px; overflow-y:auto;'>";
                       popupContent += "<span style='font-size:18px;font-weight:bold;text-transform:uppercase'>" + (layer.feature.properties.wadmkk || 'Unknown') + "</span><br/>";
                       popupContent += "<span style='font-size:14px;font-weight:bold;' class='badge badge-primary'>TERDAPAT <span >" + (anggotaData.total || 0) + "</span> ANGGOTA</span><hr/ style='margin-top:5px;margin-bottom:5px'>";
 
-                      popupContent += "<table class='table table-borderless table-sm' style='font-size:12px'><tbody><tr><td colspan='3'><strong>KUALIFIKASI PERUSAHAAN</strong></td></tr><tr><td style='width:80px'><strong>BESAR</strong></td><td style='width:5px'>:</td><td  class='badge badge-danger' style='font-size:12px;font-weight:bold'>000</td></tr><tr><td><strong>MENENGAH</strong></td><td>:</td><td  class='badge badge-success' style='font-size:12px;font-weight:bold'>000</td></tr><tr><td><strong>KECIL</strong></td><td>:</td><td  class='badge badge-warning' style='font-size:12px;font-weight:bold'>000</td></tr></tbody></table>";
+                      popupContent += `<table class='table table-borderless table-sm' style='font-size:12px'><tbody><tr><td colspan='3'>
+                        <strong>KUALIFIKASI PERUSAHAAN</strong></td></tr>
+                        <tr><td style='width:80px'><strong>BESAR</strong></td>
+                          <td style='width:5px'>:</td><td  class='badge badge-danger' style='font-size:12px;font-weight:bold'>${anggotaData.data['Kualifikasi B'].length?anggotaData.data['Kualifikasi B'].length:0}</td></tr>
+                          <tr><td><strong>MENENGAH</strong></td><td>:</td><td  class='badge badge-success' style='font-size:12px;font-weight:bold'>${anggotaData.data['Kualifikasi M'].length?anggotaData.data['Kualifikasi M'].length:0}</td>
+                            </tr><tr><td><strong>KECIL</strong></td><td>:</td><td  class='badge badge-warning' style='font-size:12px;font-weight:bold'>${anggotaData.data['Kualifikasi K'].length?anggotaData.data['Kualifikasi K'].length:0}</td>
+                              </tr></tbody></table>`
 
                       // Tampilkan anggota per kualifikasi
                       // if (anggotaData.data) {
@@ -738,51 +746,52 @@ let i = 0
           // Event listener untuk click
           layer.on('click', function (e) {
             var kdpkab = layer.feature.properties.kdpkab;
+            location.href = '/data?k='+kdpkab
+            // if (kdpkab) {
+            //   $.ajax({
+            //     type: "GET",
+            //     url: rooturl + "/peta/anggota_by_kota?kode_kota=" + kdpkab,
+            //     dataType: 'json',
+            //     success: function (anggotaData) {
+            //       if (anggotaData && anggotaData.status === 200) {
+            //         var popupContent = "<div style='max-height:400px; overflow-y:auto;'>";
+            //         popupContent += "<strong>" + (layer.feature.properties.wadmkk || 'Unknown') + "</strong><br/>";
+            //         popupContent += "Kode Kota: " + kdpkab + "<br/><br/>";
 
-            if (kdpkab) {
-              $.ajax({
-                type: "GET",
-                url: rooturl + "/peta/anggota_by_kota?kode_kota=" + kdpkab,
-                dataType: 'json',
-                success: function (anggotaData) {
-                  if (anggotaData && anggotaData.status === 200) {
-                    var popupContent = "<div style='max-height:400px; overflow-y:auto;'>";
-                    popupContent += "<strong>" + (layer.feature.properties.wadmkk || 'Unknown') + "</strong><br/>";
-                    popupContent += "Kode Kota: " + kdpkab + "<br/><br/>";
+            //         // Tampilkan anggota per kualifikasi
+            //         if (anggotaData.data) {
+            //           for (var kualifikasi in anggotaData.data) {
+            //             var anggotas = anggotaData.data[kualifikasi];
+            //             if (anggotas && anggotas.length > 0) {
+            //               popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
 
-                    // Tampilkan anggota per kualifikasi
-                    if (anggotaData.data) {
-                      for (var kualifikasi in anggotaData.data) {
-                        var anggotas = anggotaData.data[kualifikasi];
-                        if (anggotas && anggotas.length > 0) {
-                          popupContent += "<strong>" + kualifikasi + "</strong> (" + anggotas.length + ")<br/>";
+            //               anggotas.forEach(function(anggota) {
+            //                 popupContent += "• " + (anggota.nama_perusahaan || 'Unknown');
+            //                 if (anggota.penanggung_jawab) {
+            //                   popupContent += " (" + anggota.penanggung_jawab + ")";
+            //                 }
+            //                 if (anggota.nomor_hp_pjbu) {
+            //                   popupContent += " - " + anggota.nomor_hp_pjbu;
+            //                 }
+            //                 popupContent += "<br/>";
+            //               });
+            //               popupContent += "<br/>";
+            //             }
+            //           }
+            //         }
 
-                          anggotas.forEach(function(anggota) {
-                            popupContent += "• " + (anggota.nama_perusahaan || 'Unknown');
-                            if (anggota.penanggung_jawab) {
-                              popupContent += " (" + anggota.penanggung_jawab + ")";
-                            }
-                            if (anggota.nomor_hp_pjbu) {
-                              popupContent += " - " + anggota.nomor_hp_pjbu;
-                            }
-                            popupContent += "<br/>";
-                          });
-                          popupContent += "<br/>";
-                        }
-                      }
-                    }
+            //         popupContent += "Total: " + (anggotaData.total || 0) + " anggota";
+            //         popupContent += "</div>";
 
-                    popupContent += "Total: " + (anggotaData.total || 0) + " anggota";
-                    popupContent += "</div>";
-
-                    layer.bindPopup(popupContent, {
-                      maxWidth: 400,
-                      maxHeight: 450
-                    }).openPopup();
-                  }
-                }
-              });
-            }
+            //         layer.bindPopup(popupContent, {
+            //           maxWidth: 400,
+            //           maxHeight: 450
+            //         }).openPopup();
+            //       }
+            //     }
+            //   });
+            // }
+          
           });
         } catch(e) {
           console.log("Error setting up layer events:", e.message);
