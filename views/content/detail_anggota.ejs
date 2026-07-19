@@ -159,7 +159,7 @@
 
         /* Styling untuk tombol pencarian */
         .search-btn {
-            background-color: #3571D5;
+            background-color: #1F3163;
             color: white;
             border: none;
             width: 35px;
@@ -174,27 +174,25 @@
         }
 
         .search-btn:hover {
-            background-color: #3571D5;
+            background-color: #68A9C8;
         }
 
         .btn-primary {
             color: #fff;
-            background-color: #3571D5;
-            background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);
-            border-color: #80D0C7;
+            background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);
+            border-color: #68A9C8;
         }
     </style>
 </head>
 
 <body>
     <% include ../template/header.ejs %>
-    <header class="shadow-lg" style="background-color: #3571D5;
-    background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);">
+    <header class="shadow" style="background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-5 col-lg-5">
                     <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;">
-                        <h5 style="color: #fff;"><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
+                        <h5 style="color: #fff;"><strong>INKINDO JAWA TENGAH</strong></h5>
                     </div>
                 </div>
 
@@ -228,7 +226,7 @@
             <div class="row">
                 <div class="col-12">
                     <a href="/data" class="btn btn-primary">
-                        <i class="fas fa-arrow-left"></i> Kembali ke Data Anggota
+                        <i class="fas fa-arrow-left"></i> Kembali
                     </a>
                 </div>
             </div>
@@ -250,7 +248,7 @@
                     <!-- Error message -->
                     <div id="errorMessage" class="alert alert-danger" style="display: none;">
                         <p>Data anggota tidak ditemukan atau terjadi kesalahan.</p>
-                        <a href="/data" class="btn btn-secondary">Kembali ke Data Anggota</a>
+                        <a href="/data" class="btn btn-secondary">Kembali</a>
                     </div> 
                 </div>
             </div>
@@ -263,7 +261,7 @@
                             
                             <div class="row">
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                    <div class="card">
+                                    <div class="card shadow" style="background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);border: none;">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-12" id="foto">
@@ -273,20 +271,20 @@
 
                                             <div class="row mt-3">
                                                 <div class="col-12">
-                                                    <h6 class="mb-1">Kualifikasi</h6>
+                                                    <h6 class="mb-1" style="color: #fff;text-transform: uppercase;">Kualifikasi</h6>
                                                     <span class="badge badge-dark" style="font-size: 14px;"  id="kualifikasi">Besar/Menengah/Kecil</span>
                                                     <hr>
                                                 </div>
 
                                                 <div class="col-12" >
-                                                    <h6 class="mb-1">Status Keanggotaan</h6>
+                                                    <h6 class="mb-1" style="color: #fff;text-transform: uppercase;">Status Keanggotaan</h6>
                                                     <span id="status_keanggotaan" style="font-size: 14px;"></span>
                                                     <!-- <span class="badge badge-success" style="font-size: 16px;">Aktif</span>
                                                     <span class="badge badge-danger" style="font-size: 16px;">Non Aktif</span> -->
                                                     <hr>
                                                 </div>
 
-                                                <div class="col-12">
+                                                <div class="col-12" style="color: #fff;text-transform: uppercase;">
                                                     <h6>No. Sertifikat</h6>
                                                     <span class="badge badge-warning" style="font-size: 16px;"  id="no_sertifikat"></span>
                                                 </div>
@@ -302,55 +300,55 @@
                                             <table class="table table-borderless table-sm">
                                                 <tbody>
                                                     <tr>
-                                                        <td style="width: 260px;">No. Anggota</td>
+                                                        <td style="width: 200px;text-transform: uppercase;font-weight: bold;">No. Anggota</td>
                                                         <td style="width: 10px;">:</td>
-                                                        <td><span id="no_anggota"></span></td>
+                                                        <td><span id="no_anggota" style="text-transform: uppercase;"></span></td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>Nama Perusahaan</td>
+                                                        <td style="text-transform: uppercase;font-weight: bold;">Nama Perusahaan</td>
                                                         <td>:</td>
-                                                        <td id="nama_perusahaan"><span></span></td>
+                                                        <td id="nama_perusahaan" style="text-transform: uppercase;"><span></span></td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>Penanggung Jawab BU/Direktur</td>
+                                                        <td style="text-transform: uppercase;font-weight: bold;">Penanggung Jawab BU/Direktur</td>
                                                         <td>:</td>
-                                                        <td id="penanggung_jawab"><span></span></td>
+                                                        <td id="penanggung_jawab" style="text-transform: uppercase;"><span></span></td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>Alamat</td>
+                                                        <td style="text-transform: uppercase;font-weight: bold;">Alamat</td>
                                                         <td>:</td>
-                                                        <td id="alamat"><span></span></td>
+                                                        <td id="alamat" style="text-transform: uppercase;"><span></span></td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>Kabupaten/Kota</td>
+                                                        <td style="text-transform: uppercase;font-weight: bold;">Kabupaten/Kota</td>
                                                         <td>:</td>
-                                                        <td id="kota"><span></span></td>
+                                                        <td id="kota" style="text-transform: uppercase;"><span></span></td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>Korwil</td>
+                                                        <td style="text-transform: uppercase;font-weight: bold;">Korwil</td>
                                                         <td>:</td>
-                                                        <td id="korwil"><span></span></td>
+                                                        <td id="korwil" style="text-transform: uppercase;"><span></span></td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>Telepon</td>
+                                                        <td style="text-transform: uppercase;font-weight: bold;">Telepon</td>
                                                         <td>:</td>
-                                                        <td id="telepon"><span></span></td>
+                                                        <td id="telepon" style="text-transform: uppercase;"><span></span></td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>Fax</td>
+                                                        <td style="text-transform: uppercase;font-weight: bold;">Fax</td>
                                                         <td>:</td>
-                                                        <td id="fax"><span></span></td>
+                                                        <td id="fax" style="text-transform: uppercase;"><span></span></td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>Email</td>
+                                                        <td style="text-transform: uppercase;font-weight: bold;">Email</td>
                                                         <td>:</td>
                                                         <td id="email_kta"><span></span></td>
                                                     </tr>
@@ -361,10 +359,38 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="alert alert-secondary" role="alert">
-                                                <h5 class="alert-heading"><strong>Spesialisasi</strong></h5>
+                                            <div class="alert alert-light" role="alert" style="background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%)">
+                                                <h5 class="alert-heading" style="color: #FFF;"><strong>SPESIALISASI</strong></h5>
                                                 <hr>
-                                                <span id="spesialisasi">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</span>
+                                                <span id="spesialisasi" class="badge badge-light" style="padding: 5px 10px;text-transform: uppercase;">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert alert-secondary" role="alert" style="background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%)"> 
+                                                <h5 class="alert-heading" style="color: #FFF;"><strong>PENGHARGAAN HASIL KARYA</strong></h5>
+                                                <hr>
+                                                <table class="table table-bordered table-striped" id="data" style="background-color: #fff;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">NO.</th>
+                                                            <th class="text-center">TAHUN</th>
+                                                            <th class="text-center">HASIL KARYA</th>
+                                                            <th class="text-center">PIAGAM PENGHARGAAN</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1.</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -543,6 +569,50 @@
         $(document).ready(function() {
             loadAnggotaDetail();
         });
+
+        let data_table =   $('#data').DataTable({    
+        "language": {    
+          "sProcessing":   "Sedang memproses...",    
+          "sLengthMenu":   "_MENU_",    
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",    
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",    
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",    
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",    
+          "sInfoPostFix":  "",    
+          "sUrl":          "",    
+          "oPaginate": {    
+            "sFirst":    "Pertama",    
+            "sPrevious": "Sebelumnya",    
+            "sNext":     "Selanjutnya",    
+            "sLast":     "Terakhir"    
+          }    
+        },    
+        "processing": true,
+        // "ajax":  `${rooturl}/anggota/list`,
+        // "columns": [
+        //     { "data": null},
+        //     {
+        //         "data": "nama_perusahaan",
+        //         "render": function(data, type, row) {
+        //             return '<a href="/data/anggota/' + row.id + '" style="text-decoration: none; font-weight: bold;color:#1F3163">' + data + '</a>';
+        //         }
+        //     },
+        //     { "data": "penanggung_jawab"},
+        //     { "data": "telepon"},
+        //     { "data": "kualifikasi",render:function(data){return data=='B'?'BESAR':data=='M'?'MENENGAH':'KECIL'}},
+        //     {
+        //         "data": "spesialisasi",
+        //         "render": function(data, type, row) {
+        //             return '<span style="text-transform:uppercase">' + data + '</span>';
+        //         }
+        //     },
+        //     { "data": "status"}
+        // ],
+        // // "columnDefs": [
+        // //   { "width": "35px", "targets": 0},
+        // //   { "width": "100px", "targets": 2}
+        // // ],
+      });
     </script>
 </body>
 </html>

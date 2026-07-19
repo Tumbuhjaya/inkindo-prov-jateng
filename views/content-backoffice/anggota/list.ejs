@@ -20,8 +20,8 @@
                 <a href="/anggota/insert" class="btn btn-primary custom-btn-card-header mr-3"><i class="fas fa-plus"></i> Tambah Data</a>
                 <button class="btn btn-success custom-btn-card-header" data-toggle="modal" data-target=".modal-import-excel"><i class="fas fa-file-excel"></i> Import Excel</button>
               </div>
-              <!-- <div class="card-body">
-                <div class="row">
+              <div class="card-body">
+                <!-- <div class="row">
                   <div class="col-12">
                     <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#advanceSearchCollapse" aria-expanded="false" aria-controls="advanceSearchCollapse">
                       <i class="fas fa-search"></i> Filters Data
@@ -265,10 +265,13 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
                 <ul class="list-inline" style="text-align:center;margin-bottom:5px">
                   <li class="list-inline-item"><a href="${rooturl}/anggota/edit/${data}" class="btn btn-warning"><i class="fas fa-edit"></i></a></li>
                   <li class="list-inline-item"><button  onclick="hapus(${data})"  class="btn btn-danger"><i class="fa fa-trash"></i></button></li>
-                  <li class="list-inline-item"><a href="${rooturl}/anggota/spesialisasi/${data}" class="btn btn-info"><i class="fas fa-tags"></i></a></li>  
-                  <li class="list-inline-item"><a href="${rooturl}/anggota/pembayaran/${data}" class="btn btn-success"><i class="fas fa-receipt"></i></a></li>  
                   
-                </ul>`
+                  
+                </ul><ul class="list-inline" style='text-align:center;margin-bottom:0;'>
+                  <li class="list-inline-item"><a href="${rooturl}/anggota/spesialisasi/${data}" class="btn btn-info"><i class="fas fa-tags"></i></a></li>  
+                  <li class="list-inline-item"><a href="${rooturl}/anggota/penghargaan/${data}" class="btn btn-dark"><i class="fas fa-medal"></i></a></li>  
+                  <li class="list-inline-item"><a href="${rooturl}/anggota/pembayaran/${data}" class="btn btn-success"><i class="fas fa-receipt"></i></a></li>  
+                  </ul>`
           }
           return `<td><center>${a}</center></td>`
         }},

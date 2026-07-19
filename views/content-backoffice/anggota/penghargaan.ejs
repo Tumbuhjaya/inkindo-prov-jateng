@@ -1,0 +1,155 @@
+<% include ../../template-backoffice/header.ejs %>
+  <div class="main-content">
+    <section class="section">
+      <div class="w-100" style="padding: 0 30px;">
+        <div class="section-header" style="border-radius: 0.25rem;">
+          <h1 style="line-height: 25px;">Penghargaan <br/><small>Nama Perusahaan</small></h1>
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/backoffice">Dashboard</a></div>
+            <div class="breadcrumb-item active"><a href="/anggota">Data</a></div>
+            <div class="breadcrumb-item">Penghargaan</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-body">
+	        <div class="row">
+	          <div class="col-12 col-lg-12 col-xl-12">
+	            <div class="card">
+	              <div class="card-body">
+	                <div class="row">
+	                  <div class="col-12">
+	                    <div class="form-group row mb-0">
+	                      <label class="col-sm-3 col-form-label">Tahun</label>
+	                      <div class="col-sm-9">
+	                        <select name="" class="form-control select2" id="">
+	                          <option value="">-- Pilih --</option>
+	                        </select>
+	                      </div>
+	                    </div>
+
+						<hr>
+
+						<div class="form-group row mb-0">
+	                      <label class="col-sm-3 col-form-label">Hasil Karya</label>
+	                      <div class="col-sm-9">
+	                        <input type="text" class="form-control" name="" id="">
+	                      </div>
+	                    </div>
+
+						<hr>
+
+						<div class="form-group row mb-0">
+	                      <label class="col-sm-3 col-form-label">Upload Piagam Penghargaan</label>
+	                      <div class="col-sm-9">
+	                        <input type="file" class="form-control" name="" id="">
+	                      </div>
+	                    </div>
+
+						<hr>
+						
+	                    <div class="form-group row mt-3 mb-0">
+	                      <div class="col-sm-9 offset-sm-3">
+	                        <div id="button_submit">
+	                          <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>
+	                        </div>
+	                      </div>
+	                    </div>
+	                  </div>
+	                </div>
+
+	                <div class="row">
+	                  <div class="col-12">
+	                    <hr>
+	                  </div>
+	                </div>
+
+	                <div class="row">
+	                  <div class="col-12">
+	                    <table class="table table-bordered table-striped">
+	                      <thead>
+	                        <tr>
+	                          <th>No.</th>
+	                          <th>Tahun</th>
+	                          <th>Hasil Karya</th>
+	                          <th>Piagam Penghargaan</th>
+	                          <th>Option</th>
+	                        </tr>
+	                      </thead>
+
+	                      <tbody id="">
+	                        <!-- Data will be loaded here -->
+	                      </tbody>
+	                    </table>
+	                  </div>
+	                </div>
+
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+
+    </section>
+  </div>
+
+  <footer class="main-footer">
+    <div class="footer-left">
+      <% include ../../template-backoffice/copyright-left.ejs %>
+    </div>
+    <div class="footer-right">
+      <% include ../../template-backoffice/copyright-right.ejs %>
+    </div>
+  </footer>
+
+<% include ../../template-backoffice/footer.ejs %>
+<script type="text/javascript">
+  var rooturl = ''
+
+  async function submit() {
+    const will_insert = await swal({
+      title: "Tambah Data",
+      text: "Apakah anda akan menambahkan data ini?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: ["Tidak", "Ya"],
+    });
+
+    if ( will_insert) {
+      $('#button_submit').empty()
+      $('#button_submit').append('<button class="btn btn-primary btn-embossed" disabled>Simpan</button>')
+      
+      let formData = new FormData();    
+      // nama kolom db
+      let arr = ['NamaKolomDb1', 'NamaKolomDb2', 'NamaKolomDb3']
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].substring(0,4)=='foto') {
+          if ( $(`#`+arr[i])[0].files[0]){
+            formData.append(arr[i], $(`#`+arr[i])[0].files[0]);
+          } 
+        }
+        // else if (arr[i].substring(0,3)=='ket'){        
+        //   formData.append(arr[i] ,CKEDITOR.instances[arr[i]].getData())
+        // }
+        else{
+          formData.append(arr[i],$('#'+arr[i]).val())
+        }
+      }
+
+      $.ajax({
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        url: rooturl+'/api_basic/insert',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          swal({title:text_insert.title,text:text_insert.text, icon: text_insert.icon, type:text_insert.type})
+          window.location.href = rooturl+'/manajemen_basic';
+        },error: function(data) {
+          swal({title:text_error.title,text:text_error.text, icon: text_error.icon, type:text_error.type})
+        }
+      })      
+    } 
+  }
+</script>

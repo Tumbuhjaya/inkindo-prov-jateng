@@ -479,8 +479,8 @@ let str2 = ''
     let sql = `SELECT
                     a.*,b.spesialisasi,c.tunggakan,
                     CASE
-                        WHEN YEAR(CURRENT_DATE()) - COALESCE(d.max_tahun, 0) >= 5 THEN 'Non Aktif'
-                        ELSE 'Aktif'
+                        WHEN YEAR(CURRENT_DATE()) - COALESCE(d.max_tahun, 0) >= 5 THEN 'TIDAK AKTIF'
+                        ELSE 'AKTIF'
                     END as status
                 FROM anggota a
                 left join (select GROUP_CONCAT(ms.nama_spesialisasi ) as spesialisasi  , sa.anggota_id  from spesialisasi_anggota sa left join master_spesialisasi ms on ms.id = sa.spesialisasi_id and ms.deleted_at is null where sa.deleted_at is null GROUP  by sa.anggota_id )
@@ -1072,6 +1072,11 @@ router.get('/:id', async function(req, res) {
             data: err.message
         });
     }
+});
+
+// penghargaan
+router.get('/penghargaan/:id', cek_login, function(req, res) {
+  res.render('content-backoffice/anggota/penghargaan'); 
 });
 
 module.exports = router;

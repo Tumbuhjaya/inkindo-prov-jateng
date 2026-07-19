@@ -83,7 +83,7 @@
 
         /* Styling untuk tombol pencarian */
         .search-btn {
-            background-color: #3571D5;
+            background-color: #1F3163;
             color: white;
             border: none;
             width: 35px;
@@ -98,27 +98,33 @@
         }
 
         .search-btn:hover {
-            background-color: #3571D5;
+            background-color: #68A9C8;
         }
 
         .btn-primary {
             color: #fff;
-            background-color: #3571D5;
-            background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);
-            border-color: #80D0C7;
+            background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);
+            border-color: #68A9C8;
+        }
+
+        .page-item.active .page-link{
+            background-color: #1F3163;
+        }
+        
+        .table-striped tbody tr:nth-of-type(odd){
+            background-color: rgba(104, 169, 200, 0.5);
         }
     </style>
 </head>
 
 <body>
     <% include ../template/header.ejs %>
-    <header class="shadow-lg" style="background-color: #3571D5;
-    background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);">
+    <header class="shadow" style="background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-5 col-lg-5">
                     <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;">
-                        <h5 style="color: #fff;"><strong>INKINDO PROVINSI JAWA TENGAH</strong></h5>
+                        <h5 style="color: #fff;"><strong>INKINDO JAWA TENGAH</strong></h5>
                     </div>
                 </div>
 
@@ -151,7 +157,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h4 class="text-center" style="color: #3571D5;"><strong>DATA KEANGGOTAAN INKINDO PROVINSI JAWA TENGAH</strong></h4>
+                    <h4 class="text-center" style="color: #68A9C8;"><strong>DATA ANGGOTA INKINDO JAWA TENGAH</strong></h4>
                 </div>
             </div>
 
@@ -160,15 +166,15 @@
 
                     
                     <div class="row">
-                        <div class="col-4">
-                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
+                        <div class="col-12 col-lg-4">
+                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
                                         <img src="/images/backoffice/004-business.png" alt="" style="height: 80px;">
 
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6>Kualifikasi</h6>
-                                            <h5><strong>Perusahaan Kecil</strong></h5>
+                                            <h6 style="text-transform: uppercase;font-weight: 300;">Kualifikasi Perusahaan</h6>
+                                            <h5 style="text-transform: uppercase;"><strong>Kecil</strong></h5>
                                             <h4><strong id="kualifikasi_K">0000</strong></h4>
                                         </div>
                                     </div>
@@ -176,15 +182,15 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
-                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
+                        <div class="col-12 col-lg-4">
+                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
                                         <img src="/images/backoffice/003-office-building.png" alt="" style="height: 80px;">
 
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6>Kualifikasi</h6>
-                                            <h5><strong>Perusahaan Menengah</strong></h5>
+                                            <h6 style="text-transform: uppercase;font-weight: 300;">Kualifikasi Perusahaan</h6>
+                                            <h5 style="text-transform: uppercase;"><strong>Menengah</strong></h5>
                                             <h4><strong id="kualifikasi_M">0000</strong></h4>
                                         </div>
                                     </div>
@@ -192,15 +198,15 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
-                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
+                        <div class="col-12 col-lg-4">
+                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
                                         <img src="/images/backoffice/005-skyscraper.png" alt="" style="height: 80px;">
 
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6>Kualifikasi</h6>
-                                            <h5><strong>Perusahaan Besar</strong></h5>
+                                            <h6 style="text-transform: uppercase;font-weight: 300;">Kualifikasi Perusahaan</h6>
+                                            <h5 style="text-transform: uppercase;"><strong>Besar</strong></h5>
                                             <h4><strong id="kualifikasi_B">0000</strong></h4>
                                         </div>
                                     </div>
@@ -212,14 +218,14 @@
 
                 <div class="col-md-10 col-lg-10 offset-md-1 offset-lg-1 mt-3">
                   <div class="row">
-                        <div class="col-4">
-                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
+                        <div class="col-12 col-lg-4">
+                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
                                 <div class="card-body">
                                     <div class="w-100-flex" style="align-items: center;">
                                         <img src="/images/backoffice/002-team-1.png" alt="" style="height: 80px;">
 
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h5>Total Anggota</h5>
+                                            <h5 style="text-transform: uppercase;"><strong>Total Anggota</strong></h5>
                                             <h4><strong id="total_anggota">0000</strong></h4>
                                         </div>
                                     </div>
@@ -227,15 +233,15 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
-                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
+                        <div class="col-12 col-lg-4">
+                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
                                         <img src="/images/backoffice/006-register.png" alt="" style="height: 80px;">
 
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6>Jumlah Anggota</h6>
-                                            <h5><strong>Aktif</strong></h5>
+                                            <h6 style="text-transform: uppercase;font-weight: 300;">Jumlah Anggota</h6>
+                                            <h5 style="text-transform: uppercase;"><strong>Aktif</strong></h5>
                                             <h4><strong id="aktif">0000</strong></h4>
                                         </div>
                                     </div>
@@ -243,15 +249,15 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
-                            <div class="card" style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%)">
+                        <div class="col-12 col-lg-4">
+                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
                                 <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
                                     <div class="w-100-flex" style="align-items: center;">
                                         <img src="/images/backoffice/006-register.png" alt="" style="height: 80px;">
 
                                         <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6>Jumlah Anggota</h6>
-                                            <h6><strong>Non Aktif</strong></h6>
+                                            <h6 style="text-transform: uppercase;font-weight: 300;">Jumlah Anggota</h6>
+                                            <h5 style="text-transform: uppercase;"><strong>Tidak Aktif</strong></h5>
                                             <h4><strong id="non_aktif">0000</strong></h4>
                                         </div>
                                     </div>
@@ -266,10 +272,10 @@
               <div class="col-12">
                 <hr>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                  <i class="fas fa-search"></i> Filters Data
+                  <i class="fas fa-search"></i> Filter Data
                 </button>
                 <button class="btn btn-secondary" type="button" onclick="resetAdvanceFilters()">
-                  <i class="fas fa-redo"></i> Reset Filters
+                  <i class="fas fa-redo"></i> Atur Ulang 
                 </button>
 
                 <div class="collapse mt-3" id="collapseExample">
@@ -302,7 +308,7 @@
                           <select name="searchStatus" id="searchStatus" class="form-control select2">
                             <option value="">-- Semua Status --</option>
                             <option value="Aktif">Aktif</option>
-                            <option value="Non Aktif">Non Aktif</option>
+                            <option value="Non Aktif">Tidak Aktif</option>
                           </select>
                         </div>
                       </div>
@@ -334,22 +340,25 @@
 
             <div class="row">
                 <div class="col-12">
-                    <table class="table table-bordered table-striped" id="data">
-                        <thead style="background-color: #3571D5;background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);color: #fff;">
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Perusahaan</th>
-                                <th>Nama Direktur</th>
-                                <th>No. Telepon Direktur</th>
-                                <th>Kualifikasi</th>
-                                <th>Spesialisasi</th>
-                                <th>Status Keanggotaan</th>
-                            </tr>
-                        </thead>
+                    <div style="width: 100%;position: relative;" class="table-responsive">
+                        <span style="position: absolute;top:2px;left:75px;font-size: 14px;font-weight: normal;padding: 8px 10px;" class="badge badge-warning">Hasil filter data di temukan <strong>00</strong> data</span>
+                        <table class="table table-bordered table-striped" id="data">
+                            <thead style="background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);color: #fff;text-transform: uppercase;">
+                                <tr>
+                                    <th class="text-center" style="text-transform: uppercase;">No.</th>
+                                    <th class="text-center" style="text-transform: uppercase;">Nama Perusahaan</th>
+                                    <th class="text-center" style="text-transform: uppercase;">Nama Direktur</th>
+                                    <th class="text-center" style="text-transform: uppercase;">No. Telepon Direktur</th>
+                                    <th class="text-center" style="text-transform: uppercase;">Kualifikasi</th>
+                                    <th class="text-center" style="text-transform: uppercase;">Spesialisasi</th>
+                                    <th class="text-center" style="text-transform: uppercase;">Status Keanggotaan</th>
+                                </tr>
+                            </thead>
 
-                        <tbody>
-                        </tbody>
-                    </table>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -463,13 +472,18 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
             {
                 "data": "nama_perusahaan",
                 "render": function(data, type, row) {
-                    return '<a href="/data/anggota/' + row.id + '" style="text-decoration: none; font-weight: bold;color:#3571D5">' + data + '</a>';
+                    return '<a href="/data/anggota/' + row.id + '" style="text-decoration: none; font-weight: bold;color:#1F3163">' + data + '</a>';
                 }
             },
             { "data": "penanggung_jawab"},
             { "data": "telepon"},
-            { "data": "kualifikasi",render:function(data){return data=='B'?'Besar':data=='M'?'Menengah':'Kecil'}},
-            { "data": "spesialisasi"},
+            { "data": "kualifikasi",render:function(data){return data=='B'?'BESAR':data=='M'?'MENENGAH':'KECIL'}},
+            {
+                "data": "spesialisasi",
+                "render": function(data, type, row) {
+                    return '<span style="text-transform:uppercase">' + data + '</span>';
+                }
+            },
             { "data": "status"}
         ],
         // "columnDefs": [
