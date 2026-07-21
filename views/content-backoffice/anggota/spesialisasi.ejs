@@ -3,7 +3,7 @@
 	    <section class="section">
 	      <div class="w-100" style="padding: 0 30px;">
 	        <div class="section-header" style="border-radius: 0.25rem;">
-	          <h1 style="line-height: 25px;">Spesialisasi <br/><small><%= (typeof anggota !== 'undefined' && anggota) ? anggota.nama_perusahaan : 'Nama Perusahaan' %></small></h1>
+	          <h1 style="line-height: 25px;" class="text-uppercase">Spesialisasi <br/><small><%= (typeof anggota !== 'undefined' && anggota) ? anggota.nama_perusahaan : 'Nama Perusahaan' %></small></h1>
 	          <div class="section-header-breadcrumb">
 	            <div class="breadcrumb-item active"><a href="/backoffice">Dashboard</a></div>
 	            <div class="breadcrumb-item active"><a href="/anggota">Data</a></div>
@@ -20,7 +20,7 @@
 	                <div class="row">
 	                  <div class="col-12">
 	                    <div class="form-group row mb-0">
-	                      <label class="col-sm-3 col-form-label">Spesialisasi</label>
+	                      <label class="col-sm-3 col-form-label text-uppercase">Spesialisasi</label>
 	                      <div class="col-sm-9">
 	                        <select name="spesialisasi_id" class="form-control select2" id="spesialisasi_id">
 	                          <option value="">-- Pilih --</option>

@@ -4,29 +4,30 @@
       <div class="card">
         <div class="card-body">
           <div class="form-group row mb-0">
-            <label class="col-sm-2 col-form-label">Username</label>
+            <label class="col-sm-2 col-form-label text-uppercase">Username</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="username" name="username" >
             </div>
           </div>
+          <div id="div_pass">
+            <hr>
 
-          <hr>
-
-          <div class="form-group row mb-0" id="div_pass">
-            <label class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-              <div style="position: relative;background-color: ;">
-                <input type="password" class="form-control" id="pwd" name="pwd" >
-                  <i class="fa fa-eye-slash" id="iconne" aria-hidden="true" style="position: absolute;right:10px;top:12px;font-size: 16px;cursor: pointer;" onclick="myFunction()"></i>
-                </div>
-                <small id="emailHelp" class="form-text text-muted">Pastikan password Anda minimal 10 karakter dan mengandung huruf besar, huruf kecil, dan angka.</small>
+            <div class="form-group row mb-0" >
+              <label class="col-sm-2 col-form-label text-uppercase">Password</label>
+              <div class="col-sm-10">
+                <div style="position: relative;background-color: ;">
+                  <input type="password" class="form-control" id="pwd" name="pwd" >
+                    <i class="fa fa-eye-slash" id="iconne" aria-hidden="true" style="position: absolute;right:10px;top:12px;font-size: 16px;cursor: pointer;" onclick="myFunction()"></i>
+                  </div>
+                  <small id="emailHelp" class="form-text text-muted">Pastikan password Anda minimal 10 karakter dan mengandung huruf besar, huruf kecil, dan angka.</small>
+              </div>
             </div>
           </div>
 
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-2 col-form-label">Nama Lengkap</label>
+            <label class="col-sm-2 col-form-label text-uppercase">Nama Lengkap</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="fullname" name="fullname" >
             </div>
@@ -35,7 +36,7 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-2 col-form-label">NIP</label>
+            <label class="col-sm-2 col-form-label text-uppercase">NIP</label>
             <div class="col-sm-10">
              <input type="text" class="form-control" id="NIP" name="NIP" >
             </div>
@@ -44,7 +45,7 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-2 col-form-label">Email</label>
+            <label class="col-sm-2 col-form-label text-uppercase">Email</label>
             <div class="col-sm-10">
              <input type="text" class="form-control" id="email" name="email" >
             </div>
@@ -53,7 +54,7 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-2 col-form-label">No. Telepon</label>
+            <label class="col-sm-2 col-form-label text-uppercase">No. Telepon</label>
             <div class="col-sm-10">
              <input type="text" class="form-control" id="telp" name="telp" >
             </div>
@@ -62,37 +63,21 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-2 col-form-label">Role</label>
+            <label class="col-sm-2 col-form-label text-uppercase">Role</label>
             <div class="col-sm-10">
              <select name="is_admin" class="form-control select2" id="is_admin">
               <option value="">-- Pilih --</option>
                 <option value="1">Administrator</option>
-                <option value="2">UPTD</option>
+                <!-- <option value="2">UPTD</option> -->
               </select>
             </div>
           </div>
-
-          <div id="rusun">
-          <hr>
-
-          <div class="form-group row mb-0" >
-            <label class="col-sm-2 col-form-label">Hunian</label>
-            <div class="col-sm-10">
-             <select name="" class="form-control select2" id="rusun_id" style="width: 100%;" >
-                <option value="">-- Pilih --</option>
-                <option>Rusun A</option>
-              </select>
-            </div>
-          </div>
-
           
-          </div>
-
           <hr>
           
           <div class="form-group row mb-0">
             <div class="col-sm-10 offset-sm-2">
-              <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>
+              <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Simpan</button>
             </div>
           </div>
         </div>

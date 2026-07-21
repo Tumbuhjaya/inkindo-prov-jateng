@@ -3,10 +3,10 @@
 		    <section class="section">
 		      <div class="w-100" style="padding: 0 30px;">
 		        <div class="section-header" style="border-radius: 0.25rem;">
-		          <h1 style="line-height: 25px;">Pembayaran Iuran <br/><small><%= (typeof anggota !== 'undefined' && anggota) ? anggota.nama_perusahaan : 'Nama Perusahaan' %></small></h1>
+		          <h1 style="line-height: 25px;" class="text-uppercase">Pembayaran Iuran <br/><small><%= (typeof anggota !== 'undefined' && anggota) ? anggota.nama_perusahaan : 'Nama Perusahaan' %></small></h1>
 		          <div class="section-header-breadcrumb">
 		            <div class="breadcrumb-item active"><a href="/backoffice">Dashboard</a></div>
-		            <div class="breadcrumb-item active"><a href="/anggota">Data Anggota</a></div>
+		            <div class="breadcrumb-item active"><a href="/anggota">Data</a></div>
 		            <div class="breadcrumb-item">Pembayaran Iuran</div>
 		          </div>
 		        </div>
@@ -17,20 +17,20 @@
 		          <div class="col-12 col-lg-12 col-xl-12">
 		            <div class="card">
 		              <div class="card-header">
-		                <button class="btn btn-primary" data-toggle="modal" data-target="#modalPembayaran" onclick="resetForm();"><i class="fas fa-plus"></i> Tambah Data Pembayaran</button>
-		                <a href="/anggota" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</a>
+		                <button class="btn btn-primary custom-btn-card-header" data-toggle="modal" data-target="#modalPembayaran" onclick="resetForm();"><i class="fas fa-plus"></i> Tambah Data Pembayaran</button>
+		                <!-- <a href="/anggota" class="btn btn-secondary custom-btn-card-header"><i class="fas fa-arrow-left"></i> Kembali</a> -->
 		              </div>
 		              <div class="card-body">
 		                <div class="table-responsive">
 	                  <table class="table table-bordered table-striped table-hover" id="list-pembayaran">
 	                    <thead>
 	                    <tr>
-	                      <th style="width: 40px;">No.</th>
-	                      <th>Tahun</th>
-	                      <th>Tanggal Pembayaran</th>
-	                      <th>Nominal (Rp)</th>
-	                      <th>Status</th>
-	                      <th style="width: 120px;">Option</th>
+	                      <th  class="text-center text-uppercase" style="width: 40px;">No.</th>
+	                      <th class="text-center text-uppercase">Tahun</th>
+	                      <th class="text-center text-uppercase">Tanggal Pembayaran</th>
+	                      <th class="text-center text-uppercase">Nominal (Rp)</th>
+	                      <th class="text-center text-uppercase">Status</th>
+	                      <th class="text-center text-uppercase"  style="width: 120px;">Option</th>
 	                    </tr>
 	                  </thead>
 
@@ -73,9 +73,9 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-12">
 								<div class="form-group row mb-0">
-		                      <label class="col-sm-3 col-form-label">Tahun <span class="text-danger">*</span></label>
+		                      <label class="col-sm-3 col-form-label text-uppercase">Tahun <span class="text-danger">*</span></label>
 		                      <div class="col-sm-9">
-		                        <select class="form-control select2" id="tahun" name="tahun" required>
+		                        <select class="form-control select2" id="tahun" name="tahun" required style="width: 100%;">
 		                          <option value="">-- Pilih Tahun --</option>
 		                          <option value="2020">2020</option>
 		                          <option value="2021">2021</option>
@@ -95,7 +95,7 @@
 							<hr>
 
 							<div class="form-group row mb-0">
-		                      <label class="col-sm-3 col-form-label">Tanggal Pembayaran <span class="text-danger">*</span></label>
+		                      <label class="col-sm-3 col-form-label text-uppercase">Tanggal Pembayaran <span class="text-danger">*</span></label>
 		                      <div class="col-sm-9">
 		                        <input type="date" class="form-control" name="tanggal_pembayaran" id="tanggal_pembayaran" required>
 		                      </div>
@@ -104,26 +104,26 @@
 							<hr>
 
 							<div class="form-group row mb-0">
-		                      <label class="col-sm-3 col-form-label">Nominal Retribusi (Rp) <span class="text-danger">*</span></label>
+		                      <label class="col-sm-3 col-form-label text-uppercase">Nominal Retribusi (Rp) <span class="text-danger">*</span></label>
 		                      <div class="col-sm-9">
 		                        <!-- <input type="number" class="form-control" name="retribusi" style="text-align: right" id="retribusi" placeholder="Contoh: 1500000" required> -->
-<input type="text" class="form-control input-with-thousand-separator" 
-       name="retribusi" id="retribusi" 
-       placeholder="Contoh: 1.500.000" 
-       oninput="formatRupiah(this)" 
-       required>
+								<input type="text" class="form-control input-with-thousand-separator" 
+									name="retribusi" id="retribusi" 
+									placeholder="Contoh: 1.500.000" 
+									oninput="formatRupiah(this)" 
+									required>
 								</div>
 		                    </div>
 
 							<hr>
 
 							<div class="form-group row mb-0">
-		                      <label class="col-sm-3 col-form-label">Status Pembayaran <span class="text-danger">*</span></label>
+		                      <label class="col-sm-3 col-form-label text-uppercase">Status Pembayaran <span class="text-danger">*</span></label>
 		                      <div class="col-sm-9">
 		                        <select class="form-control select2" id="status" name="status" required>
 		                          <option value="">-- Pilih Status --</option>
-		                          <option value="0">Belum Lunas</option>
-		                          <option value="1">Lunas</option>
+		                          <option value="0">BELUM LUNAS</option>
+		                          <option value="1">LUNAS</option>
 		                        </select>
 		                      </div>
 		                    </div>
@@ -131,7 +131,7 @@
 							<hr>
 
 							<div class="form-group row mb-0">
-		                      <label class="col-sm-3 col-form-label">Upload Bukti Pembayaran</label>
+		                      <label class="col-sm-3 col-form-label text-uppercase">Upload Bukti Pembayaran</label>
 		                      <div class="col-sm-9">
 		                        <input type="file" class="form-control" name="foto_1" id="foto_1" accept="image/*">
 		                        <small class="form-text text-muted">Format: JPG, PNG, JPEG. Maksimal 2MB.</small>
@@ -180,6 +180,8 @@
 				// Initialize DataTable
 				data_table = $('#list-pembayaran').DataTable({
 					"language": {
+						 "sSearch": "Cari:", // <-- Tambahkan baris ini untuk label search
+          				"sSearchPlaceholder": "Ketik kata kunci...", // (Opsional) Teks placeholder di dalam kotak input
 						"sProcessing": "Sedang memproses...",
 						"sLengthMenu": "_MENU_",
 						"sZeroRecords": "Tidak ditemukan data yang sesuai",
@@ -224,28 +226,30 @@
 							"data": "status",
 							"render": function(data) {
 								if (data == 1) {
-									return '<span class="badge badge-success">Lunas</span>';
+									return '<center><span class="badge badge-success">LUNAS</span></center>';
 								} else {
-									return '<span class="badge badge-danger">Belum Lunas</span>';
+									return '<center><span class="badge badge-danger">BELUM LUNAS</span></center>';
 								}
 							}
 						},
 						{
 							"data": "id",
 							"render": function(data, type, row) {
-								let buttons = '<ul class="list-inline mb-0">';
+								let buttons = '<ul class="list-inline mb-0 text-center">';
 
 								// Edit button
-								buttons += '<li class="list-inline-item"><button onclick="editPembayaran(' + data + ')" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button></li>';
+								buttons += '<li class="list-inline-item"><button onclick="editPembayaran(' + data + ')" class="btn btn-warning"><i class="fas fa-edit"></i></button></li>';
 
-								// View proof button if photo exists
-								if (row.foto_1) {
-									buttons += '<li class="list-inline-item"><button onclick="viewBukti(\'' + row.foto_1 + '\')" class="btn btn-info btn-sm"><i class="fas fa-receipt"></i></button></li>';
-								}
+								
+								
 
 								// Delete button
-								buttons += '<li class="list-inline-item"><button onclick="hapusPembayaran(' + data + ')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></li>';
-
+								buttons += '<li class="list-inline-item"><button onclick="hapusPembayaran(' + data + ')" class="btn btn-danger"><i class="fas fa-trash"></i></button></li>';
+								
+								// View proof button if photo exists
+								if (row.foto_1) {
+									buttons += '<li class="list-inline-item"><button onclick="viewBukti(\'' + row.foto_1 + '\')" class="btn btn-info"><i class="fas fa-receipt"></i></button></li>';
+								}
 								buttons += '</ul>';
 								return buttons;
 							}

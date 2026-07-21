@@ -4,13 +4,13 @@
       <div class="card">
         <div class="card-body">
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Kualifikasi</label>
+            <label class="col-sm-3 col-form-label text-uppercase" >Kualifikasi</label>
             <div class="col-sm-9">
               <select name="kualifikasi" class="form-control select2" id="kualifikasi" required>
                 <option value="">-- Pilih --</option>
-                <option value="B">Besar (B)</option>
-                <option value="M">Menengah (M)</option>
-                <option value="K">Kecil (K)</option>
+                <option value="B">BESAR</option>
+                <option value="M">MENENGAH</option>
+                <option value="K">KECIL</option>
               </select>
             </div>
           </div>
@@ -18,11 +18,11 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Nominal</label>
+            <label class="col-sm-3 col-form-label text-uppercase">Nominal</label>
             <div class="col-sm-9">
               <input type="text" class="form-control input-with-thousand-separator" 
        name="nominal" id="nominal" 
-       placeholder="Contoh: 1.500.000" 
+       placeholder="Contoh : 1.500.000" 
        oninput="formatRupiah(this)" 
        required>
             </div>
@@ -33,7 +33,7 @@
           <div class="form-group row mb-0">
             <div class="col-sm-9 offset-sm-3">
               <div id="button_submit">
-                <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>
+                <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Simpan</button>
               </div>
             </div>
           </div>

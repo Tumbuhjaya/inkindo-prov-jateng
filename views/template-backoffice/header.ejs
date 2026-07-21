@@ -91,9 +91,43 @@
 
   <style>
     .navbar-bg{
-      background-color: #3571D5;
-            background-image: linear-gradient(160deg, #3571D5 0%, #80D0C7 100%);
+      background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);
     }
+
+    .main-sidebar{
+      background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);
+      border-right: 2px solid #fff;
+    }
+
+    .main-sidebar .sidebar-menu li a{
+      color: #fff;
+    }
+
+    .main-sidebar .sidebar-menu li a:hover{
+      color: #1F3163;
+    }
+
+    .text-upper{
+      text-transform: uppercase;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd){
+      background-color: rgba(104, 169, 200, 0.5);
+    }
+
+    .table.table-bordered thead{
+      background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);
+    }
+
+    .table.table-bordered th{
+      background-color: transparent !important;
+    }
+
+    .table:not(.table-sm) thead th{
+      color: #fff;
+    }
+
+   
   </style>
 </head>
 
@@ -324,7 +358,7 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="/backoffice">Administrator Panel</a>
+            <a href="/backoffice" style="color:#fff">Administrator Panel</a>
           </div>
           <div class="sidebar-brand sidebar-brand-sm">
             <a href="/backoffice">A P</a>
@@ -347,16 +381,16 @@
                 <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
               </ul>
             </li> -->
-            <li><a class="nav-link" href="/backoffice"><i class="fas fa-th-large"></i> <span>Dashboard</span></a></li>
+            <li><a class="nav-link text-uppercase" href="/backoffice"><i class="fas fa-th-large"></i> <span>Dashboard</span></a></li>
             <li class="menu-header">MASTER</li>
-            <li><a class="nav-link" href="/master/retribusi"><i class="fas fa-user"></i> <span>Retribusi</span></a></li>
-            <li><a class="nav-link" href="/master/spesialisasi"><i class="fas fa-user"></i> <span>Spesialisasi</span></a></li>
+            <li><a class="nav-link text-uppercase" href="/master/retribusi"><i class="fas fa-user"></i> <span>Retribusi</span></a></li>
+            <li><a class="nav-link text-uppercase" href="/master/spesialisasi"><i class="fas fa-user"></i> <span>Spesialisasi</span></a></li>
 
             <li class="menu-header">DATA</li>
-            <li><a class="nav-link" href="/anggota"><i class="fas fa-user"></i> <span>Anggota</span></a></li>
+            <li><a class="nav-link text-uppercase" href="/anggota"><i class="fas fa-user"></i> <span>Anggota</span></a></li>
 
             <li class="menu-header">KREDENSIAL</li>
-            <li><a class="nav-link" href="/manajemen_users"><i class="fas fa-user"></i> <span>User</span></a></li>
+            <li><a class="nav-link text-uppercase" href="/manajemen_users"><i class="fas fa-user"></i> <span>User</span></a></li>
           </ul>       
         </aside>
       </div>

@@ -31,20 +31,22 @@
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Gelar PJBU</label>
+            <label class="col-sm-3 col-form-label">Tanggal Lahir PJBU</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="gelar_pjbu" name="gelar_pjbu" >
+              <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" >
             </div>
           </div>
 
           <hr>
 
           <div class="form-group row mb-0">
-            <label class="col-sm-3 col-form-label">Tanggal Lahir PJBU</label>
+            <label class="col-sm-3 col-form-label">Gelar PJBU</label>
             <div class="col-sm-9">
-              <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" >
+              <input type="text" class="form-control" id="gelar_pjbu" name="gelar_pjbu" >
             </div>
           </div>
+
+          
 
           <hr>
 
@@ -111,8 +113,7 @@
               <select name="status_keanggotaan" class="form-control select2" id="status_keanggotaan">
                 <option value="">-- Pilih --</option>
                 <option value="Aktif">Aktif</option>
-                <option value="Non Aktif">Non Aktif</option>
-                <option value="P">P</option>
+                <option value="Tidak Aktif">Tidak Aktif</option>
               </select>
             </div>
           </div>
@@ -155,6 +156,15 @@
           <hr>
 
           <div class="form-group row mb-0">
+            <label class="col-sm-3 col-form-label">Yang Hadir</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="yang_hadir" name="yang_hadir" >
+            </div>
+          </div>
+
+          <!-- <hr>
+
+          <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">Tahun Masuk</label>
             <div class="col-sm-9">
               <select name="tahun_masuk" class="form-control select2" id="tahun_masuk">
@@ -167,11 +177,10 @@
                 <option value="2026">2026</option>
               </select>
             </div>
-          </div>
+          </div> -->
 
 
           <hr>
-
 
           <div class="form-group row mb-0">
             <label class="col-sm-3 col-form-label">Nomor HP PJBU</label>
@@ -244,8 +253,12 @@
             <div class="col-sm-9">
               <select name="memiliki_sertifikat_kode_etik" class="form-control select2" id="memiliki_sertifikat_kode_etik">
                 <option value="">-- Pilih --</option>
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
+                <option value="Direksi">Direksi</option>
+                <option value="STAF">STAF</option>
+                <option value="PJBTH">PJBTH</option>
+                <option value="PJBU">PJBU</option>
+                <option value="TA">TA</option>
+                
               </select>
             </div>
           </div>
@@ -310,7 +323,7 @@
           <div class="form-group row mb-0">
             <div class="col-sm-9 offset-sm-3">
               <div id="button_submit">
-                <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Submit</button>
+                <button class="btn btn-primary mb-0 btn-lg" onclick="submit()">Simpan</button>
               </div>
             </div>
           </div>
