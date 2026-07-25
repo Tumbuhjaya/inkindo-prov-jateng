@@ -212,6 +212,12 @@
         .search-btn:hover {
             background-color: #68A9C8;
         }
+
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip{
+          background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%)
+        }
+
+        
     </style>
 </head>
 
@@ -221,10 +227,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-5 col-lg-5">
-                    <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;padding-left: 60px;">
-                      <span style="padding: 10px 15px;background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);border-radius: 8px;" class="shadow">
-                        <h5 style="color: #fff;"><strong>INKINDO JAWA TENGAH</strong></h5>
-                      </span>
+                    <div class="" style="width:fit-content;height: 70px;display:flex;align-items: center;background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%);border-radius: 8px;margin-left: 50px;margin-top: 13px;padding-left: 15px;padding-right: 15px;">
+                      <img src="/images/template/logo-inkindo.png" alt="" style="height: 50px;">
+                      <h5 style="color: #fff;margin-left: 10px;"><strong>INKINDO JAWA TENGAH</strong></h5>
                     </div>
                 </div>
 
@@ -548,54 +553,54 @@ map.setMaxBounds(jawaTengahBounds);
 
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   }
-const colors = [
-  // Warna-warna cerah dan berbeda
-  '#FF6B6B', // Merah cerah
-  '#4ECDC4', // Turquoise
-  '#45B7D1', // Biru langit
-  '#96CEB4', // Hijau sage
-  '#FFEAA7', // Kuning pastel
-  '#DDA0DD', // Plum
-  '#FF9FF3', // Pink
-  '#54A0FF', // Biru terang
-  '#5F27CD', // Ungu tua
-  '#FF9F43', // Orange
-  '#00D2D3', // Cyan
-  '#1DD1A1', // Hijau mint
-  '#F368E0', // Magenta
-  '#FF6B81', // Salmon
-  '#48DBFB', // Biru muda
-  '#B8E994', // Hijau muda
-  '#FFB142', // Kuning
-  '#CC8E35', // Coklat emas
-  '#A29BFE', // Lavender
-  '#FD79A8', // Pink muda
-  '#00B894', // Hijau zamrud
-  '#0984E3', // Biru laut
-  '#6C5CE7', // Ungu
-  '#FDCB6E', // Kuning madu
-  '#E17055', // Terracotta
-  '#00CEC9', // Biru hijau
-  '#A3CB38', // Hijau apel
-  '#FF7979', // Merah muda
-  '#686DE0', // Biru keunguan
-  '#FFBE76', // Orange muda
-  '#7ED6DF', // Biru pucat
-  '#E056A0', // Pink tua
-  '#F9CA24', // Kuning cerah
-  '#6AB04C', // Hijau daun
-  '#EB4D4B', // Merah tua
-  '#22A6B3', // Biru tua
-  '#4834D4', // Biru gelap
-  '#F0932B', // Orange gelap
-  '#4A4A4A', // Abu-abu gelap
-  '#B33771'  // Merah muda tua
-];
+  const colors = [
+    // Warna-warna cerah dan berbeda
+    '#FF6B6B', // Merah cerah
+    '#4ECDC4', // Turquoise
+    '#45B7D1', // Biru langit
+    '#96CEB4', // Hijau sage
+    '#FFEAA7', // Kuning pastel
+    '#DDA0DD', // Plum
+    '#FF9FF3', // Pink
+    '#54A0FF', // Biru terang
+    '#5F27CD', // Ungu tua
+    '#FF9F43', // Orange
+    '#00D2D3', // Cyan
+    '#1DD1A1', // Hijau mint
+    '#F368E0', // Magenta
+    '#FF6B81', // Salmon
+    '#48DBFB', // Biru muda
+    '#B8E994', // Hijau muda
+    '#FFB142', // Kuning
+    '#CC8E35', // Coklat emas
+    '#A29BFE', // Lavender
+    '#FD79A8', // Pink muda
+    '#00B894', // Hijau zamrud
+    '#0984E3', // Biru laut
+    '#6C5CE7', // Ungu
+    '#FDCB6E', // Kuning madu
+    '#E17055', // Terracotta
+    '#00CEC9', // Biru hijau
+    '#A3CB38', // Hijau apel
+    '#FF7979', // Merah muda
+    '#686DE0', // Biru keunguan
+    '#FFBE76', // Orange muda
+    '#7ED6DF', // Biru pucat
+    '#E056A0', // Pink tua
+    '#F9CA24', // Kuning cerah
+    '#6AB04C', // Hijau daun
+    '#EB4D4B', // Merah tua
+    '#22A6B3', // Biru tua
+    '#4834D4', // Biru gelap
+    '#F0932B', // Orange gelap
+    '#4A4A4A', // Abu-abu gelap
+    '#B33771'  // Merah muda tua
+  ];
 
-// Fungsi untuk mendapatkan warna berdasarkan index
-function getColorByIndex(index) {
-  return colors[index % colors.length];
-}
+  // Fungsi untuk mendapatkan warna berdasarkan index
+  function getColorByIndex(index) {
+    return colors[index % colors.length];
+  }
   // Fungsi untuk load GeoJSON jateng_kemendagri
   function loadGeoJsonjateng_kemendagri(data) {
     try {
@@ -607,7 +612,7 @@ function getColorByIndex(index) {
       jateng_kemendagri_layer.clearLayers();
       jateng_kemendagri_layer.addData(data);
       jateng_kemendagri_layer.addTo(map);
-let i = 0
+  let i = 0
       jateng_kemendagri_layer.eachLayer(function (layer) {
         try {
 
@@ -659,10 +664,11 @@ let i = 0
                       console.log(anggotaData);
                                        
                       var popupContent = "<div style='max-height:300px; overflow-y:auto;'>";
-                      popupContent += "<span style='font-size:18px;font-weight:bold;text-transform:uppercase'>" + (layer.feature.properties.wadmkk || 'Unknown') + "</span><br/>";
-                      popupContent += "<span style='font-size:14px;font-weight:bold;' class='badge badge-primary'>TERDAPAT <span >" + (anggotaData.total || 0) + "</span> ANGGOTA</span><hr/ style='margin-top:5px;margin-bottom:5px'>";
+                      popupContent += "<span style='font-size:18px;font-weight:bold;text-transform:uppercase;color:#fff'>" + (layer.feature.properties.wadmkk || 'Unknown') + "</span><br/>";
+                      popupContent += "<span style='font-size:14px;font-weight:bold;' class='badge badge-light'>TERDAPAT <span >" + (anggotaData.total || 0) + "</span> ANGGOTA</span>";
+                      popupContent += "<div style='width:100%;height:2px;background-color:#fff;margin-top:5px'></div>";
 
-                      popupContent += `<table class='table table-borderless table-sm' style='font-size:12px'><tbody><tr><td colspan='3'>
+                      popupContent += `<table class='table table-borderless table-sm' style='font-size:12px;color:#fff'><tbody><tr><td colspan='3'>
                         <strong>KUALIFIKASI PERUSAHAAN</strong></td></tr>
                         <tr><td style='width:80px'><strong>BESAR</strong></td>
                           <td style='width:5px'>:</td><td  class='badge badge-danger' style='font-size:12px;font-weight:bold'>${anggotaData.data['Kualifikasi B'].length?anggotaData.data['Kualifikasi B'].length:0}</td></tr>
@@ -842,7 +848,7 @@ let i = 0
 
   // Load data jateng_kemendagri setelah map siap
   // setTimeout(loadJatengKemendagri, 1000);
-loadJatengKemendagri()
+  loadJatengKemendagri()
   // Base layers - hanya tambahkan layer yang tidak null
   var baseLayers = {
     "Open Street Map": osm,

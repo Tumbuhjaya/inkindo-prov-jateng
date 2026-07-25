@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Administrator Panel </title>
+  <title>Administrator Panel Database Inkindo Jawa Tengah</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="<%= rooturl %>/plugins/bootstrap/css/bootstrap.min.css">
@@ -127,7 +127,33 @@
       color: #fff;
     }
 
-   
+    .gradient-text {
+      /* 1. Buat background dengan warna gradasi */
+      background: linear-gradient(135deg, #1F3163 15%, #68A9C8 100%);
+
+      /* 2. Potong background mengikuti bentuk karakter teks */
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      /* 3. Buat warna teks bawaan menjadi transparan agar gradasi terlihat */
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip{
+          background-image: linear-gradient(160deg, #1F3163 30%, #68A9C8 100%)
+        }
+
+        .btn-primary {
+                color: #fff;
+                background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);
+                border-color: #68A9C8;
+                box-shadow: none;
+            }
+
+   /* .card{
+    background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);
+   } */
   </style>
 </head>
 

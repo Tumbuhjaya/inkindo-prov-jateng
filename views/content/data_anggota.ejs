@@ -114,6 +114,19 @@
         .table-striped tbody tr:nth-of-type(odd){
             background-color: rgba(104, 169, 200, 0.5);
         }
+
+        .gradient-text {
+          /* 1. Buat background dengan warna gradasi */
+          background: linear-gradient(135deg, #1F3163 15%, #68A9C8 100%);
+
+          /* 2. Potong background mengikuti bentuk karakter teks */
+          -webkit-background-clip: text;
+          background-clip: text;
+
+          /* 3. Buat warna teks bawaan menjadi transparan agar gradasi terlihat */
+          -webkit-text-fill-color: transparent;
+          color: transparent;
+        }
     </style>
 </head>
 
@@ -124,7 +137,8 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-5 col-lg-5">
                     <div class="w-100-flex" style="height: 70px;align-items: center;background-color: ;">
-                        <h5 style="color: #fff;"><strong>INKINDO JAWA TENGAH</strong></h5>
+                         <img src="/images/template/logo-inkindo.png" alt="" style="height: 50px;">
+                        <h5 style="color: #fff;margin-left: 10px;"><strong>INKINDO JAWA TENGAH</strong></h5>
                     </div>
                 </div>
 
@@ -157,112 +171,71 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h4 class="text-center" style="color: #68A9C8;"><strong>DATA ANGGOTA INKINDO JAWA TENGAH</strong></h4>
+                    <h4 class="text-center gradient-text"><strong>DATA ANGGOTA INKINDO JAWA TENGAH</strong></h4>
                 </div>
             </div>
 
-            <div class="row mt-5">
-                <div class="col-md-12 col-lg-12">
+            <div class="row" style="margin-top: 90px;">
+                <div class="col-12">
+                    <div style="width: 100%;display: flex;justify-content: center;">
+                        <div style="width: 16%;display: flex;justify-content: center;align-items: center;flex-direction: column;height: 160px;position: relative;background-color: ;overflow: visible;">
+                            <img src="/images/template/blob-2-edit.png" alt="" style="width: 100%;position: absolute;left:0;right:0;top:0;bottom:0;z-index: -1;margin: auto;">
+                            <img src="/images/backoffice/004-business.png" alt="" style="height: 75px;position: absolute;top:-40px;">
 
-                    
-                    <div class="row">
-                        <div class="col-12 col-lg-4">
-                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
-                                <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
-                                    <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/004-business.png" alt="" style="height: 80px;">
-
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6 style="text-transform: uppercase;font-weight: 300;">Kualifikasi Perusahaan</h6>
-                                            <h5 style="text-transform: uppercase;"><strong>Kecil</strong></h5>
-                                            <h4><strong id="kualifikasi_K">0000</strong></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;margin-top: 15px;font-size: 14px;">Kualifikasi </h6>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;font-size: 14px;">Perusahaan </h6>
+                            <h5 style="text-transform: uppercase;color: #fff;font-size: 18px;"><strong>Kecil</strong></h5>
+                            <h5 style="color: #fff;font-size: 24px;" class="mt-1"><strong id="kualifikasi_K">0000</strong></h5>
                         </div>
 
-                        <div class="col-12 col-lg-4">
-                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
-                                <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
-                                    <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/003-office-building.png" alt="" style="height: 80px;">
+                        <div style="width: 16%;display: flex;justify-content: center;align-items: center;flex-direction: column;height: 160px;position: relative;background-color: ;overflow: visible;">
+                            <img src="/images/template/blob-2-edit.png" alt="" style="width: 100%;position: absolute;left:0;right:0;top:0;bottom:0;z-index: -1;margin: auto;">
+                            <img src="/images/backoffice/003-office-building.png" alt="" style="height: 75px;position: absolute;top:-40px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6 style="text-transform: uppercase;font-weight: 300;">Kualifikasi Perusahaan</h6>
-                                            <h5 style="text-transform: uppercase;"><strong>Menengah</strong></h5>
-                                            <h4><strong id="kualifikasi_M">0000</strong></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;margin-top: 15px;font-size: 14px;">Kualifikasi </h6>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;font-size: 14px;">Perusahaan </h6>
+                            <h5 style="text-transform: uppercase;color: #fff;font-size: 18px;"><strong>Menengah</strong></h5>
+                            <h5 style="color: #fff;font-size: 24px;" class="mt-1"><strong id="kualifikasi_M">0000</strong></h5>
                         </div>
 
-                        <div class="col-12 col-lg-4">
-                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
-                                <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
-                                    <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/005-skyscraper.png" alt="" style="height: 80px;">
+                        <div style="width: 16%;display: flex;justify-content: center;align-items: center;flex-direction: column;height: 160px;position: relative;background-color: ;overflow: visible;">
+                            <img src="/images/template/blob-2-edit.png" alt="" style="width: 100%;position: absolute;left:0;right:0;top:0;bottom:0;z-index: -1;margin: auto;">
+                            <img src="/images/backoffice/005-skyscraper.png" alt="" style="height: 75px;position: absolute;top:-40px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6 style="text-transform: uppercase;font-weight: 300;">Kualifikasi Perusahaan</h6>
-                                            <h5 style="text-transform: uppercase;"><strong>Besar</strong></h5>
-                                            <h4><strong id="kualifikasi_B">0000</strong></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-10 col-lg-10 offset-md-1 offset-lg-1 mt-3">
-                  <div class="row">
-                        <div class="col-12 col-lg-4">
-                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
-                                <div class="card-body">
-                                    <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/002-team-1.png" alt="" style="height: 80px;">
-
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h5 style="text-transform: uppercase;"><strong>Total Anggota</strong></h5>
-                                            <h4><strong id="total_anggota">0000</strong></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;margin-top: 15px;font-size: 14px;">Kualifikasi </h6>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;font-size: 14px;">Perusahaan </h6>
+                            <h5 style="text-transform: uppercase;color: #fff;font-size: 18px;"><strong>Besar</strong></h5>
+                            <h5 style="color: #fff;font-size: 24px;" class="mt-1"><strong id="kualifikasi_B">0000</strong></h5>
                         </div>
 
-                        <div class="col-12 col-lg-4">
-                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
-                                <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
-                                    <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/006-register.png" alt="" style="height: 80px;">
+                        <div style="width: 16%;display: flex;justify-content: center;align-items: center;flex-direction: column;height: 160px;position: relative;background-color: ;overflow: visible;">
+                            <img src="/images/template/blob-2-edit.png" alt="" style="width: 100%;position: absolute;left:0;right:0;top:0;bottom:0;z-index: -1;margin: auto;">
+                            <img src="/images/backoffice/002-team-1.png" alt="" style="height: 85px;position: absolute;top:-40px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6 style="text-transform: uppercase;font-weight: 300;">Jumlah Anggota</h6>
-                                            <h5 style="text-transform: uppercase;"><strong>Aktif</strong></h5>
-                                            <h4><strong id="aktif">0000</strong></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
+                            <h5 style="text-transform: uppercase;color: #fff;font-size: 18px;"><strong>Total</strong></h5>
+                            <h5 style="text-transform: uppercase;color: #fff;font-size: 18px;"><strong>Anggota</strong></h5>
+                            <h5 style="color: #fff;font-size: 24px;" class="mt-1"><strong id="total_anggota">0000</strong></h5>
                         </div>
 
-                        <div class="col-12 col-lg-4">
-                            <div class="card" style="background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);border:none">
-                                <div class="card-body" style="padding-left: 10px;padding-right: 10px;">
-                                    <div class="w-100-flex" style="align-items: center;">
-                                        <img src="/images/backoffice/006-register.png" alt="" style="height: 80px;">
+                        <div style="width: 16%;display: flex;justify-content: center;align-items: center;flex-direction: column;height: 160px;position: relative;background-color: ;overflow: visible;">
+                            <img src="/images/template/blob-2-edit.png" alt="" style="width: 100%;position: absolute;left:0;right:0;top:0;bottom:0;z-index: -1;margin: auto;">
+                            <img src="/images/template/aktif-green.png" alt="" style="height: 85px;position: absolute;top:-40px;">
 
-                                        <div style="display: flex;flex-direction: column;margin-left: 10px;color: #fff;">
-                                            <h6 style="text-transform: uppercase;font-weight: 300;">Jumlah Anggota</h6>
-                                            <h5 style="text-transform: uppercase;"><strong>Tidak Aktif</strong></h5>
-                                            <h4><strong id="non_aktif">0000</strong></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;margin-top: 15px;font-size: 14px;">Jumlah </h6>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;font-size: 14px;">Anggota </h6>
+                            <h5 style="text-transform: uppercase;color: #fff;font-size: 18px;"><strong>Aktif</strong></h5>
+                            <h5 style="color: #fff;font-size: 24px;" class="mt-1"><strong id="aktif">0000</strong></h5>
+                        </div>
+
+                        <div style="width: 16%;display: flex;justify-content: center;align-items: center;flex-direction: column;height: 160px;position: relative;background-color: ;overflow: visible;">
+                            <img src="/images/template/blob-2-edit.png" alt="" style="width: 100%;position: absolute;left:0;right:0;top:0;bottom:0;z-index: -1;margin: auto;">
+                            <img src="/images/template/tidak-aktif-red.png" alt="" style="height: 85px;position: absolute;top:-40px;">
+
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;margin-top: 15px;font-size: 14px;">Jumlah </h6>
+                            <h6 style="text-transform: uppercase;font-weight: 300;color: #fff;font-size: 14px;">Anggota </h6>
+                            <h5 style="text-transform: uppercase;color: #fff;font-size: 18px;"><strong>Tidak Aktif</strong></h5>
+                            <h5 style="color: #fff;font-size: 24px;" class="mt-1"><strong id="non_aktif">0000</strong></h5>
                         </div>
                     </div>
                 </div>

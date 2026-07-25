@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-        <title>Administrator Panel</title>
+        <title>Administrator Panel Database Inkindo Jawa Tengah</title>
 
         <!-- General CSS Files -->
         <link rel="stylesheet" href="<%= rooturl %>/plugins/bootstrap/css/bootstrap.min.css">
@@ -17,8 +17,38 @@
         <link rel="stylesheet" href="<%= rooturl %>/stylesheets/backoffice/css/style.css">
         <link rel="stylesheet" href="<%= rooturl %>/stylesheets/backoffice/css/components.css">
         <link rel="stylesheet" href="<%= rooturl %>/stylesheets/backoffice/css/custom.css">
+
+        <style>
+            body{
+                background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            .gradient-text {
+                /* 1. Buat background dengan warna gradasi */
+                background: linear-gradient(135deg, #1F3163 15%, #68A9C8 100%);
+
+                /* 2. Potong background mengikuti bentuk karakter teks */
+                -webkit-background-clip: text;
+                background-clip: text;
+
+                /* 3. Buat warna teks bawaan menjadi transparan agar gradasi terlihat */
+                -webkit-text-fill-color: transparent;
+                color: transparent;
+            }
+            /* html,body{
+                background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%)
+            } */
+
+            .btn-primary {
+                color: #fff;
+                background-image: linear-gradient(160deg, #1F3163 25%, #68A9C8 100%);
+                border-color: #68A9C8;
+            }
+        </style>
     </head>
-<body>
+<body >
   <div id="app">
     <section class="section">
       <div class="container mt-5">
@@ -37,6 +67,10 @@
                 </div> -->
 
                 <div class="card-body">
+                    <h6 class="m-0 text-uppercase gradient-text">Login</h6>
+                    <h4 class="m-0 text-uppercase gradient-text">Database Inkindo</h4>
+                    <h4 class="m-0 text-uppercase gradient-text">Jawa Tengah</h4>
+                    <hr>
                     <form method="POST" action="<%= rooturl %>/autentifikasi/login" class="needs-validation" novalidate="">
                     <h6 style="text-align: center;font-weight: normal;font-size: 14px;color: #fc544b;"><%=pesan%></h6>
                         <div class="form-group">
@@ -81,7 +115,7 @@
                     </form>
                 </div>
             </div>
-            <div class="simple-footer">
+            <div class="simple-footer" style="color: #fff;margin-top: 0;">
                 Copyright &copy; 2026
             </div>
           </div>
