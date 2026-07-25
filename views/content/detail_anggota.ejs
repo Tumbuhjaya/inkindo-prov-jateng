@@ -488,11 +488,11 @@
         }
 
         function getStatusBadge(status) {
-            if (status === 'P') {
+            if (status === 'A') {
                 return '<span class="badge-status badge-active">Aktif</span>';
             } else if (status === 'T') {
-                return '<span class="badge-status badge-inactive">Non Aktif</span>';
-            } else if (status === 'Pending') {
+                return '<span class="badge-status badge-inactive">Tidak Aktif</span>';
+            } else if (status === 'P') {
                 return '<span class="badge-status badge-pending">Pending</span>';
             }
             return status || '-';

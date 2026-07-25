@@ -1,6 +1,7 @@
+
 <% include ../../template-backoffice/header.ejs %>
   <!-- Main Content -->
-  <div class="main-content">
+  <div class="main-content" id="anggota">
     <section class="section">
       <div class="w-100" style="padding: 0 30px;">
         <div class="section-header">
@@ -264,8 +265,8 @@ for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
           let a = ''
           if (data) {
             a = `
-                <ul class="list-inline" style="text-align:center;margin-bottom:5px">
-                  <li class="list-inline-item"><a href="${rooturl}/anggota/edit/${data}" class="btn btn-warning"><i class="fas fa-edit"></i></a></li>
+                <ul class="list-inline" style='text-align:center;margin-bottom:5px'>
+                  <li class='list-inline-item'><a href='${rooturl}/anggota/edit/${data}' class='btn btn-warning'><i class='fas fa-edit'></i></a></li>
                   <li class="list-inline-item"><button  onclick="hapus(${data})"  class="btn btn-danger"><i class="fa fa-trash"></i></button></li>
                   
                   
