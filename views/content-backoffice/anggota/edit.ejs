@@ -44,7 +44,7 @@ data4.data.forEach(e => {
             if (anggota[i]) {
               $('#lihat_'+i).append(`<a href="${rooturl}/foto/${anggota[i]}" target="_blank">Lihat Foto</a>`)
             }
-          }else if(i=='status_keanggotaan' || i=='disyahkan' || i=='kode_etik' || i=='memiliki_sertifikat_kode_etik' || i=='kta_2020' || i=='kualifikasi' || i=='tahun_masuk'){
+          }else if(i=='status_keanggotaan' || i=='kode_etik'|| i=='kode_etik_perusahaan'  || i=='memiliki_sertifikat_kode_etik' || i=='kta_2020' || i=='kualifikasi' || i=='tahun_masuk'){
             $('#'+i).val(anggota[i]).select2()
           }else{
             $('#'+i).val(anggota[i])

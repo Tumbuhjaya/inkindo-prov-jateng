@@ -469,7 +469,10 @@ let str2 = ''
     }
 
     let sql = `SELECT
-                    a.*,b.spesialisasi,c.tunggakan,
+                    a.*, DATE_FORMAT(a.tanggal_lahir,'%Y-%m-%d') tanggal_lahir ,  DATE_FORMAT(a.tanggal_lahir,'%d-%m-%Y') tanggal_lahir2 , 
+                     DATE_FORMAT(a.disyahkan,'%Y-%m-%d') disyahkan ,  DATE_FORMAT(a.disyahkan,'%d-%m-%Y') disyahkan2 , 
+                      DATE_FORMAT(a.waktu_penataran,'%Y-%m-%d') waktu_penataran ,  DATE_FORMAT(a.waktu_penataran,'%d-%m-%Y') waktu_penataran2 , 
+                    b.spesialisasi,c.tunggakan,
                     CASE
                         WHEN YEAR(CURRENT_DATE()) - COALESCE(d.max_tahun, 0) >= 5 THEN 'TIDAK AKTIF'
                         ELSE 'AKTIF'
