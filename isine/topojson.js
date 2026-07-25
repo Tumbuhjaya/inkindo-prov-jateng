@@ -29,17 +29,8 @@ router.use(function timeLog(req, res, next) {
 
 
       router.get('/json_kec', function(req, res){
-  //connection.connect();
-  //console.log(req.query)
   connection.query("SELECT x(centroid(a.the_geom)) as x, y(centroid(a.the_geom)) as y, a.nama_kecamatan as kec FROM master_kecamatan a" , function(err, rows, fields) {
     if (err) throw err;
-
-   //console.log("SELECT asWkt(admin_kec.the_geom) as geometry FROM admin_kec WHERE MBRContains(GeomFromText( 'POLYGON(("+req.query.kiri_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kiri_lat+"))' ),admin_kec.the_geom");
-
-  //res.end(JSON.stringify(rows))
-
-    // MySQL query...
-  //ambil geojson
   res.send(JSON.stringify(rows))
   });
 
@@ -48,8 +39,6 @@ router.use(function timeLog(req, res, next) {
   router.get('/detail_jembatan/:id',async function(req, res){
    let data = await sql_enak.raw(`SELECT *, x(centroid(mj.SHAPE)) as x, y(centroid(mj.SHAPE)) as y,asWkt(SHAPE) as geometry FROM master_jembatan mj left join data_umum du on du.master_jembatan_id =mj.master_jembatan_id 
  WHERE  mj.master_jembatan_id = ?  and mj.SHAPE is not null `,[req.params.id])
-    // MySQL query...
-  //ambil geojson
     dbgeo.parse({
     "data": data[0],
     "outputFormat": "topojson",
@@ -59,14 +48,10 @@ router.use(function timeLog(req, res, next) {
     if (error) {
       return console.log(error);
     }
-    // This will log a valid GeoJSON object
-   // console.log(result)  
     res.send(JSON.stringify(result))
   }); 
   })
    router.get('/topojson_kec', function(req, res){
- //connection.connect();
- //console.log(req.query)
  if(req.query.id_kec){
    var tambahan = "where id_kec= '"+req.query.id_kec+"'";
  }else{
@@ -75,13 +60,6 @@ router.use(function timeLog(req, res, next) {
  }
  connection.query("SELECT asWkt(the_geom) as geometry,  nama_kec as kabupaten FROM kecamatan "+tambahan, function(err, rows, fields) {
    if (err) throw err;
-
-  //console.log("SELECT asWkt(admin_kec.the_geom) as geometry FROM admin_kec WHERE MBRContains(GeomFromText( 'POLYGON(("+req.query.kiri_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kiri_lat+"))' ),admin_kec.the_geom");
-
- //res.end(JSON.stringify(rows))
-
-   // MySQL query...
- //ambil geojson
    dbgeo.parse({
    "data": rows,
    "outputFormat": "topojson",
@@ -90,9 +68,7 @@ router.use(function timeLog(req, res, next) {
  },function(error, result) {
    if (error) {
      return console.log(error);
-   }
-   // This will log a valid GeoJSON object
-  // console.log(result)  
+   }  
    res.send(JSON.stringify(result))
  });
  });
@@ -101,17 +77,8 @@ router.use(function timeLog(req, res, next) {
  })
 
    router.get('/topojson_desa', function(req, res){
-//connection.connect();
-//console.log(req.query)
 connection.query("SELECT asWkt(a.the_geom) as geometry, a.nama_kelurahan as desa, a.id_kelurahan FROM master_kelurahan a  WHERE mbrIntersects(a.the_geom,  GeomFromText('POLYGON(("+req.query.kiri_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kiri_lat+"))', 1))", function(err, rows, fields) {
   if (err) throw err;
-
- //console.log("SELECT asWkt(admin_kec.the_geom) as geometry FROM admin_kec WHERE MBRContains(GeomFromText( 'POLYGON(("+req.query.kiri_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kiri_lat+"))' ),admin_kec.the_geom");
-
-//res.end(JSON.stringify(rows))
-
-  // MySQL query...
-//ambil geojson
   dbgeo.parse({
   "data": rows,
   "outputFormat": "topojson",
@@ -121,50 +88,11 @@ connection.query("SELECT asWkt(a.the_geom) as geometry, a.nama_kelurahan as desa
   if (error) {
     return console.log(error);
   }
-  // This will log a valid GeoJSON object
- // console.log(result)  
   res.send(JSON.stringify(result))
 });
 });
-
-//connection.end();
 })
- // router.get('/bencana', function(req, res){
- // //connection.connect();
- // //console.log(req.query)
- // var tambahan = "where deleted=0";
- // if(req.query.id_kec){
- //    tambahan = tambahan+" and id_desa= '"+req.query.id_kec+"'";
- // }
- // connection.query("SELECT asWkt(a.SHAPE) as geometry, id  FROM angin_puting_beliung_dan_hujan_deras a "+tambahan, function(err, rows, fields) {
- //   if (err) throw err;
-
- //  //console.log("SELECT asWkt(admin_kec.the_geom) as geometry FROM admin_kec WHERE MBRContains(GeomFromText( 'POLYGON(("+req.query.kiri_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kiri_lat+"))' ),admin_kec.the_geom");
-
- // //res.end(JSON.stringify(rows))
-
- //   // MySQL query...
- // //ambil geojson
- //   dbgeo.parse({
- //   "data": rows,
- //   "outputFormat": "topojson",
- //   "geometryColumn": "geometry",
- //   "geometryType": "wkt"
- // },function(error, result) {
- //   if (error) {
- //     return console.log(error);
- //   }
- //   // This will log a valid GeoJSON object
- //  // console.log(result)  
- //   res.send(JSON.stringify(result))
- // });
- // });
-
- // //connection.end();
- // })
 router.post('/jalan_radius', function (req, res) {
-  //connection.connect();
-  //console.log(req.query)
   var tambahan = "";
   let long =110.42042833988218;
   let lat = -7.080342556193872;
@@ -180,9 +108,7 @@ router.post('/jalan_radius', function (req, res) {
   if(req.query.jarak){
       jarak = req.query.jarak;
   }
-  //  console.log(tambahan)
-// let setup = `(ST_Distance_Sphere(ST_GeomFromText('POINT(${long} ${lat})', 1), ST_StartPoint(a.SHAPE)) < ${jarak} or ST_Distance_Sphere(ST_GeomFromText('POINT(${long} ${lat})', 1), ST_EndPoint(a.SHAPE)) < ${jarak})`
-let setup = `MBRIntersects(ST_GeomFromGeoJSON('${JSON.stringify(req.body.geojsonpoint)}', 1, 1), a.SHAPE) = 1`  
+  let setup = `MBRIntersects(ST_GeomFromGeoJSON('${JSON.stringify(req.body.geojsonpoint)}', 1, 1), a.SHAPE) = 1`  
 if (req.query.id_jln) {
   setup =    `(MBRIntersects(ST_GeomFromGeoJSON('${JSON.stringify(req.body.geojsonpoint)}', 1, 1), a.SHAPE) = 1`+" or a.id_jln='" + req.query.id_jln + "')";
 }
@@ -204,12 +130,6 @@ connection.query(`SELECT asWkt(a.SHAPE) as geometry, a.id_jln, a.km_awal, a.km_a
       }
       
     }
-    //console.log("SELECT asWkt(admin_kec.the_geom) as geometry FROM admin_kec WHERE MBRContains(GeomFromText( 'POLYGON(("+req.query.kiri_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kiri_lat+"))' ),admin_kec.the_geom");
-
-    //res.end(JSON.stringify(rows))
-
-    // MySQL query...
-    //ambil geojson
     dbgeo.parse({
       "data": rows,
       "outputFormat": "geojson",
@@ -218,37 +138,21 @@ connection.query(`SELECT asWkt(a.SHAPE) as geometry, a.id_jln, a.km_awal, a.km_a
     }, function (error, result) {
       if (error) {
         return console.log(error);
-      }
-      // This will log a valid GeoJSON object
-      // console.log(result)  
+      } 
       res.send(JSON.stringify(result))
     });
   });
-
-
-  //connection.end();
 })
  router.get('/pola_ruang', function(req, res){
- //connection.connect();
- //console.log(req.query)
  var tambahan = "";
  if(req.query.id_kab){
     tambahan += " and prs.kdpkab= '"+req.query.id_kab+"'";
  }
  if (req.query.s) {
   tambahan += ` and ST_Intersects(SHAPE,GeomFromText('${req.query.s}', 1)) `
- }
- console.log(tambahan);
- 
+ } 
  connection.query("SELECT asWkt(prs.SHAPE) as geometry, `namobj`, `kdpkab`, wpr.hex as waarna FROM `pola_ruang_sample` prs join warna_pola_ruang wpr on prs.namobj = wpr.ket_warna WHERE 1 "+tambahan, function(err, rows, fields) {
    if (err) throw err;
-
-  //console.log("SELECT asWkt(admin_kec.the_geom) as geometry FROM admin_kec WHERE MBRContains(GeomFromText( 'POLYGON(("+req.query.kiri_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kanan_lat+","+req.query.kanan_lng+" "+req.query.kiri_lat+","+req.query.kiri_lng+" "+req.query.kiri_lat+"))' ),admin_kec.the_geom");
-
- //res.end(JSON.stringify(rows))
-
-   // MySQL query...
- //ambil geojson
    dbgeo.parse({
    "data": rows,
    "outputFormat": "topojson",
@@ -258,8 +162,6 @@ connection.query(`SELECT asWkt(a.SHAPE) as geometry, a.id_jln, a.km_awal, a.km_a
    if (error) {
      return console.log(error);
    }
-   // This will log a valid GeoJSON object
-  // console.log(result)  
    res.send(JSON.stringify(result))
  });
  });
@@ -314,8 +216,6 @@ if (req.query.id_jalan) {
   });
   })
            router.get('/list_polaruang', function(req, res){
-    //connection.connect();
-   // console.log(req.query.kode_kab)
     var a = '';
     if(req.query.x != undefined && req.query.y != undefined){
       a = "where ST_Within(GeomFromText('POINT("+req.query.x+" "+req.query.y+")'),a.SHAPE);";
@@ -332,10 +232,7 @@ if (req.query.id_jalan) {
 
     
     router.get('/kabupaten', function(req, res){
-      //connection.connect();
-     // console.log(req.query.kode_kab)
       var a = '';
-   
       connection.query("SELECT x(ST_Centroid(SHAPE)) as xe ,y(ST_Centroid(SHAPE)) as ye, kdpkab, wadmkk  FROM `kabupaten_kota` WHERE 1 "+a , function(err, rows, fields) {
         if (err) throw err;
   
@@ -344,26 +241,12 @@ if (req.query.id_jalan) {
       //connection.end();
       })
       router.get('/get_administrasi',async function(req, res){
-        //connection.connect();
-       // console.log(req.query.kode_kab)
         var a = '';
-        let count = await sql_enak.raw("SELECT wadmkk   FROM `kabupaten_kota` WHERE 1 and  ST_Intersects(SHAPE,GeomFromText(?, 1)) "+a ,[req.query.wkt])
-        console.log([count[0],1]);
-        
+        let count = await sql_enak.raw("SELECT wadmkk   FROM `kabupaten_kota` WHERE 1 and  ST_Intersects(SHAPE,GeomFromText(?, 1)) "+a ,[req.query.wkt])        
       let rows = await sql_enak.raw("SELECT kdpkab, wadmkk as kabupaten ,judul_rencana_tata_ruang , tahun_legalisir_RTR , nomor_peraturan_RTR FROM `kabupaten_kota` WHERE 1 and  ST_Contains(SHAPE,ST_Centroid(GeomFromText(?, 1))) "+a ,[req.query.wkt])
-          // if (err) throw err;
-          console.log([rows[0],2]);
-
       let rowss =  await   sql_enak.raw("SELECT wadmkd, wadmkc, kdpkab, kdcpum, kdepum  FROM `desa_kelurahan` WHERE 1 and  ST_Contains(SHAPE,ST_Centroid(GeomFromText(?, 1))) "+a ,[req.query.wkt])
-      console.log([rowss[0],3]);
-
       let rowsss =  await   sql_enak.raw("SELECT namobj FROM `pola_ruang_sample` WHERE 1 and  ST_Contains(SHAPE,ST_Centroid(GeomFromText(?, 1))) "+a ,[req.query.wkt])
-      console.log([rowsss[0],4]);
-
       let das =  await   sql_enak.raw("SELECT nama_das FROM `das` WHERE 1 and  ST_Contains(SHAPE,ST_Centroid(GeomFromText(?, 1))) "+a ,[req.query.wkt])
-      // if (errr) throw errr;
-      console.log([das[0],5]);
-
             if (rowss[0].length > 0) {
               rows[0][0].status_lintas_kab = count[0].length
               rows[0][0].lintas_kab = ''
@@ -414,15 +297,10 @@ if (req.query.id_jalan) {
 router.get('/json_jateng_kemendagri', function (req, res) {
   let str = ''
   let val = []
-
   if (req.query.kdpkab) {
     str += ' and kdpkab=?'
     val.push(req.query.kdpkab)
   }
-
-  console.log('Fetching jateng_kemendagri data...');
-
-  // Use connection with proper timeout
   connection.query({
     sql: `SELECT OGR_FID, asWkt(SHAPE) as geometry, objectid, kdpkab, wadmkk, shape_leng, shape_area FROM jateng_kemendagri WHERE 1=1 ` + str,
     values: val,
@@ -490,9 +368,7 @@ console.log('anggota_by_kota');
       WHERE kode_kota = ? AND deleted_at IS NULL `,
     values: [kode_kota],
     timeout: 30000 // 30 seconds timeout
-  }, function (err, anggota) {
-    console.log(anggota,'anggota');
-    
+  }, function (err, anggota) {    
     if (err) {
       console.log('Database query error for anggota:', err);
       return res.status(500).json({
@@ -524,11 +400,8 @@ console.log('anggota_by_kota');
       'Kualifikasi M': [],
       'Kualifikasi B': []
     };
-    console.log(anggota,'anggota');
 
-    anggota.forEach(function(item) {
-      console.log(item,'item');
-      
+    anggota.forEach(function(item) {      
       let kualifikasi = item.kualifikasi || ' lainnya';
       if (kualifikasi_groups['Kualifikasi ' + kualifikasi]) {
         kualifikasi_groups['Kualifikasi ' + kualifikasi].push(item);

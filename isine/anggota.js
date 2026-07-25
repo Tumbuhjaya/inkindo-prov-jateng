@@ -362,21 +362,17 @@ router.get('/pembayaran/hapus/:id', async function(req, res) {
       res.status(200).json({ status: 200, message: "sukses", data: data})
    })
    .catch(err=>{
-    console.log(err,'err');
+    console.log(err);
+    
       res.status(500).json({ status: 500, message: "gagal", data: err})
    })
 
   }else{
-        console.log('error else');
-
     res.status(201).json({ status: 201, message: "gagal", data: 'No Anggota Telah Terpakai'})
-
   }
   } catch (error) {
-    console.log('error_chatch');
-
-        console.log(error,'error');
-
+    console.log(error);
+    
           res.status(500).json({ status: 500, message: "gagal", data: error})
 
   }
@@ -405,10 +401,6 @@ router.get('/pembayaran/hapus/:id', async function(req, res) {
         res.status(200).json({ status: 200, message: "sukses", data: data})
      })
     } catch (error) {
-      console.log('error');
-
-      console.log(error);
-
       res.status(500).json({ status: 500, message: "gagal", data: error})
     }
 
@@ -495,7 +487,6 @@ let str2 = ''
         res.status(200).json({ status: 200, message: "sukses", data: data[0]})
      })
      .catch(err=>{
-      console.log(err);
         res.status(500).json({ status: 500, message: "gagal", data: err})
      })
   })
@@ -864,9 +855,6 @@ let tahun = i+2020
         });
 
     } catch (err) {
-
-        console.log(err);
-
         res.json({
             status: 500,
             message: err.message
@@ -890,7 +878,6 @@ router.get('/spesialisasi/:id', cek_login, async function(req, res) {
 
 
         if (!anggota) {
-            console.log('Anggota not found');
             return res.status(404).render('error', { message: 'Anggota not found' });
         }
 

@@ -119,7 +119,7 @@
                                 
                                 <!-- <h6 style="color: #fff;font-weight: 300;font-size: 14px;" class="m-0">Tahun 2026</h6> -->
                                 <h6 style="color: #fff;font-weight: 300;" class="m-0 text-uppercase">Total Target Iuran</h6>
-                                <h4 class="m-0" style="color: #fff;" ><strong id="">Rp 0,-</strong></h4>
+                                <h4 class="m-0" style="color: #fff;" ><strong id="total_target">Rp 0,-</strong></h4>
                                 
                               </div>
                             </div>
@@ -133,7 +133,7 @@
                             <div class="row">
                               <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <h6 style="color: #fff;font-weight: 300;" class="m-0 text-uppercase">Total Realisasi Iuran</h6>
-                                <h4 class="m-0" style="color: #fff;" ><strong id="">Rp 0,-</strong></h4>
+                                <h4 class="m-0" style="color: #fff;" ><strong id="total_masuk">Rp 0,-</strong></h4>
                               </div>
                             </div>
                           </div>
@@ -146,7 +146,7 @@
                             <div class="row">
                               <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <h6 style="color: #fff;font-weight: 300;" class="m-0 text-uppercase">Total Tunggakan Iuran</h6>
-                                <h4 class="m-0" style="color: #fff;" ><strong id="">Rp 0,-</strong></h4>
+                                <h4 class="m-0" style="color: #fff;" ><strong id="total_tunggak">Rp 0,-</strong></h4>
                               </div>
                             </div>
                           </div>
@@ -188,12 +188,16 @@
                         <div class="form-group row">
                           <label for="inputEmail3" class="col-sm-1 col-form-label">Tahun</label>
                           <div class="col-sm-10">
-                            <select name="" id="" class="form-control">
+                            <select name="" id="tahun" class="form-control">
                               <option value="">-- Pilih --</option>
+                              <%for(let i = new Date().getFullYear() ;i>new Date().getFullYear()-10 ; i--){%>
+                                                              <option value="<%=i%>">-- <%=i%> --</option>
+
+                                <%}%>
                             </select>
                           </div>
                           <div class="col-sm-1">
-                            <button class="btn btn-primary btn-block mt-1">Cari</button>
+                            <button class="btn btn-primary btn-block mt-1" onclick="cari()">Cari</button>
                           </div>
                         </div>
                       </div>
@@ -201,7 +205,7 @@
 
                     <div class="row">
                       <div class="col-12">
-                        <h5 class="gradient-text text-center">REKAP DATA IURAN TAHUN 2026</h5>
+                        <h5 class="gradient-text text-center">REKAP DATA IURAN TAHUN <span id="tahun_card2">2026</span></h5>
                       </div>
                     </div>
                     <div class="row mt-3">
@@ -252,7 +256,7 @@
                           <div class="card-body" style="padding:15px;">
                             <div class="row">
                               <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <h5 class="text-center gradient-text">GRAFIK IURAN KEANGGOTAAN PERBULAN TAHUN 2026</h5>
+                                <h5 class="text-center gradient-text">GRAFIK IURAN KEANGGOTAAN PERBULAN TAHUN <span id="tahun_chart2">2026</span></h5>
                                 <hr>
                               </div>
                             </div>
@@ -951,20 +955,136 @@ map.setMaxBounds(jawaTengahBounds);
   });
 
 });
+async function get_chart_tahunan(params) {
+  let tahun=$('#tahun').val()||new Date().getFullYear()
+let data7 = await $.post('/api/chart_tagihan',{tahun})
+$('#tahun_chart2').html(tahun)
+console.log(data7);
+// Fungsi untuk mengkonversi data API ke format yang dibutuhkan CanvasJS
+function prepareChartData(dataArray, months = 12) {
+    // Inisialisasi array dengan 12 bulan (nilai default 0)
+    let chartData = Array.from({length: months}, (_, index) => ({
+        label: getMonthName(index + 1),
+        y: 0
+    }));
 
-// chart
-window.onload =async function () {
-let data = await $.get('/anggota/statistics/simple')
-let data2 = await $.get('/anggota/statistics/retribusi/'+new Date().getFullYear())
-let data3 = await $.get('/anggota/statistics/chart')
+    // Isi data dari API jika ada
+    if (dataArray && dataArray.length > 0) {
+        dataArray.forEach(item => {
+            if (item.label && item.label >= 1 && item.label <= 12) {
+                chartData[item.label - 1].y = item.y || 0;
+            }
+        });
+    }
 
-console.log(data,data2,data3);
-$('#total_anggota').html(data.data.total_anggota)
-$('#aktif').html(data.data.aktif)
-$('#non_aktif').html(data.data.non_aktif)
+    return chartData;
+}
+
+// Fungsi untuk mendapatkan nama bulan
+function getMonthName(monthNumber) {
+    const months = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+    return months[monthNumber - 1] || monthNumber;
+}
+
+// Siapkan data untuk chart
+let dataB = prepareChartData(data7.dataB);
+let dataM = prepareChartData(data7.dataM);
+let dataK = prepareChartData(data7.dataK);
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+    animationEnabled: true,
+    backgroundColor: "",
+    axisY: {
+        labelFontWeight: "bold",
+        labelFontSize: 14,
+        // Format angka dengan pemisah ribuan
+        labelFormatter: function(e) {
+            return e.value.toLocaleString('id-ID');
+        }
+    },
+    axisX: {
+        labelFontWeight: "bold",
+        labelFontSize: 14,
+    },
+    toolTip: {
+        shared: true,
+        content: function(e) {
+            let content = "<span style='font-weight:bold;'>" + e.entries[0].dataPoint.label + "</span><br/>";
+            e.entries.forEach(entry => {
+                content += "<span style='color:" + entry.dataSeries.color + ";'>●</span> " + 
+                          entry.dataSeries.name + ": Rp " + entry.dataPoint.y.toLocaleString('id-ID') + "<br/>";
+            });
+            return content;
+        }
+    },
+    legend: {
+        cursor: "pointer",
+        itemclick: toggleDataSeries
+    },
+    data: [{
+        type: "column",
+        name: "Kecil",
+        color: "#ffa426",
+        showInLegend: true,
+        dataPoints: dataK // Data untuk Kecil (K)
+    },
+    {
+        type: "column",
+        name: "Menengah",
+        color: "#63ed7a",
+        showInLegend: true,
+        dataPoints: dataM // Data untuk Menengah (M)
+    },
+    {
+        type: "column",
+        name: "Besar",
+        color: "#fc544b",
+        showInLegend: true,
+        dataPoints: dataB // Data untuk Besar (B)
+    }]
+});
+
+// Fungsi toggle legend (perlu didefinisikan)
+function toggleDataSeries(e) {
+    if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+    } else {
+        e.dataSeries.visible = true;
+    }
+    chart2.render();
+}
+
+chart2.render();
+}
+async function total_retribusi(params) {
+  let tahun=$('#tahun').val()||new Date().getFullYear()
+  $('#tahun_card2').html(tahun)
+  let data2 = await $.get('/anggota/statistics/retribusi/'+tahun)
 $('#data_realisasi').html(formatRupiah(data2.data.data_realisasi.jumlah))
 $('#data_target').html(formatRupiah(data2.data.data_target.jumlah))
 $('#data_tunggakan').html(formatRupiah(data2.data.data_tunggakan.jumlah))
+}
+// chart
+window.onload =async function () {
+let data = await $.get('/anggota/statistics/simple')
+
+let data3 = await $.get('/anggota/statistics/chart')
+let data4 = await $.post('/api/tagihan',{})
+let data5 = await $.post('/api/tagihan',{s:1})
+let data6 = await $.post('/api/tagihan',{s:0})
+get_chart_tahunan()
+total_retribusi()
+$('#total_target').html(formatRupiah(data4.data[0].y))
+$('#total_masuk').html(formatRupiah(data5.data[0].y))
+$('#total_tunggak').html(formatRupiah(data6.data[0].y))
+
+$('#total_anggota').html(data.data.total_anggota)
+$('#aktif').html(data.data.aktif)
+$('#non_aktif').html(data.data.non_aktif)
+
 for (let i = 0; i < data.data.berdasarkan_kualifikasi.length; i++) {
   let a = data.data.berdasarkan_kualifikasi[i]
   $('#kualifikasi_'+a.kualifikasi).html(a.jumlah)
@@ -1030,76 +1150,6 @@ function toggleDataSeries(e) {
   e.chart.render();
 }
 
-var chart2 = new CanvasJS.Chart("chartContainer2", {
-	animationEnabled: true,
-  backgroundColor: "",
-	axisY: {
-    // gridColor: "#ffff",
-    // lineColor: "#ffff",
-    // labelFontColor: "#ffff",
-    labelFontWeight: "bold",
-    labelFontSize: 14,
-	},
-
-  axisX: {
-    // gridColor: "#ffff",
-    // lineColor: "#ffff",
-    // labelFontColor: "#ffff",
-    labelFontWeight: "bold",
-    labelFontSize: 14,
-	},	
-	toolTip: {
-		shared: true
-	},
-	legend: {
-		cursor:"pointer",
-		itemclick: toggleDataSeries
-	},
-	data: [{
-		type: "column",
-		name: "Kecil",
-    color:"#ffa426",
-		showInLegend: true, 
-		dataPoints:[
-			{ label: "Januari", y: 266.21 },
-			{ label: "Februari", y: 302.25 },
-			{ label: "Maret", y: 157.20 },
-			{ label: "April", y: 148.77 },
-			{ label: "Mei", y: 101.50 },
-			{ label: "Juni", y: 197.8 }
-		]
-	},
-	{
-		type: "column",	
-		name: "Menengah",
-    color: "#63ed7a",
-		showInLegend: true,
-		dataPoints:[
-			{ label: "Januari", y: 10.46 },
-			{ label: "Februari", y: 2.27 },
-			{ label: "Maret", y: 3.99 },
-			{ label: "April", y: 4.45 },
-			{ label: "Mei", y: 2.92 },
-			{ label: "Juni", y: 13.1 }
-		]
-	},
-  {
-		type: "column",	
-		name: "Besar",
-    color:"#fc544b",
-		showInLegend: true,
-		dataPoints:[
-			{ label: "Januari", y: 110.46 },
-			{ label: "Februari", y: 22.27 },
-			{ label: "Maret", y: 13.99 },
-			{ label: "April", y: 24.45 },
-			{ label: "Mei", y: 12.92 },
-			{ label: "Juni", y: 113.1 }
-		]
-	}]
-});
-chart2.render();
-
 function toggleDataSeries(e) {
 	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
 		e.dataSeries.visible = false;
@@ -1109,5 +1159,9 @@ function toggleDataSeries(e) {
 	}
 	chart.render();
 }
+}
+function cari(params) {
+  get_chart_tahunan()
+  total_retribusi()
 }
 </script>
